@@ -69,4 +69,10 @@ $route['master/pelanggan.php']      = 'admin/daftar_pelanggan';
 $route['master/supplier.php']           = 'gudang/daftar_supplier';
 $route['master/tambah_supplier.php']    = 'gudang/prosess_tambah_supplier';
 $route['master/edit_supplier/(:any)']   = 'gudang/edit_supplier/$1';
+$route['master/edit_supplier.php']      = 'gudang/prosess_edit_supplier';
 $route['master/delete_supplier/(:any)'] = 'gudang/delete_supplier/$1';
+
+//Menu Pelanggan
+    //Daftar Kendaraan
+    $route['kendaraan.php']           = 'pelanggan/daftar_kendaraan';
+    $route['tambah_kendaraan.php']    = 'pelanggan/proses_tambah_kendaraan';

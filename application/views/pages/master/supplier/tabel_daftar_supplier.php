@@ -23,7 +23,7 @@
                 <?php $i=1; foreach ($daftar_supplier->result() as $key => $value){?>
                     <tr>
                         <td class="text-center"><?=$i++?></td>
-                        <td><?=capitalize_each_first($value->kode_supplier.' '.$value->nama_supplier);?></td>
+                        <td><?=$value->kode_supplier.' - '.$value->nama_supplier;?></td>
                         <td><?=capitalize_each_first($value->alamat_supplier);?></td>
                         <td><?=capitalize_each_first($value->telp_supplier);?></td>
                         <td class="text-center">
@@ -52,8 +52,8 @@
     //function untuk delete data
     function delete_supplier($id) {
         swal({
-            title: 'Delete Data Supplier?',
-            html: '<h5>Yakin akan delete data ini?</h5>',
+            title: 'Konfirmasi!',
+            html: '<h5>Yakin akan delete supplier '+ $id +' ?</h5>',
             type: 'info',
             showCancelButton: true,
             allowOutsideClick: false,

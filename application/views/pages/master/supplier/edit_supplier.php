@@ -18,14 +18,14 @@
                 <div class="form-group">
                     <div class="col-sm-12">
                         <label >Kode <?=capitalize_each_first($subtitle);?></label>
-                        <input type="text" class="form-control" name="kode" required="required" value="<?=$supplier->kode_supplier?>">
+                        <input type="text" readonly="readonly" class="form-control" name="kode" required="required" value="<?=$supplier->kode_supplier?>">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-12">
                         <label >Nama <?=capitalize_each_first($subtitle);?></label>
-                        <input type="text" class="form-control" name="nama_supplier" id="nama" required="required" value="<?=capitalize_each_first($supplier->nama_supplier);?>">
+                        <input type="text" class="form-control" name="nama" id="nama" required="required" value="<?=capitalize_each_first($supplier->nama_supplier);?>">
                     </div>
                 </div>
                 <div class="form-group">
@@ -68,7 +68,7 @@
     //function Edit delete data
     function edit_supplier() {
         $.ajax({
-            url : '<?=site_url('master/edit_supplier.do')?>',
+            url : '<?=site_url('master/edit_supplier.php')?>',
             data: $('#form_edit_supplier').serialize(),
             type: 'POST',
             success: function (data) {

@@ -17,7 +17,7 @@
 
             <li>
                 <a  href="<?=site_url('dashboard')?>">
-                    <i class="fa fa-calendar"></i> <span>Dashboard</span>
+                    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
 
@@ -105,19 +105,29 @@
 
 <!--                gudang-->
             <?php }elseif ($this->session->userdata('level')=='3'){?>
-                <li>
-                    <a  href="<?=site_url('master/barang')?>">
-                        <i class="fa fa-calendar"></i> <span>Input Spare Part Masuk</span>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa  fa-cart-arrow-down"></i> <span>Pembelian Spare Part</span>
+                        <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
                     </a>
+                    <ul class="treeview-menu">
+                        <li><a href="<?= site_url('master/jenis_spare_part.php')?>"><i class="fa fa-circle-o"></i> Tambah Pembelian</a></li>
+                        <li><a href="<?= site_url('master/spare_part.php')?>"><i class="fa fa-circle-o"></i> List Pembelian</a></li>
+                    </ul>
                 </li>
+
                 <li>
                     <a  href="<?=site_url('master/barang')?>">
                         <i class="fa fa-calendar"></i> <span>Cek Stok Spare Part</span>
                     </a>
                 </li>
+
                 <li>
                     <a  href="<?=site_url('master/barang')?>">
-                        <i class="fa fa-calendar"></i> <span>Request Order Spare Part</span>
+                        <i class="fa fa-upload"></i> <span>List Penjualan Spare Part</span>
                     </a>
                 </li>
 
@@ -162,8 +172,8 @@
 
                 <li class="header">INFO</li>
                 <li>
-                    <a  href="<?=site_url('master/barang')?>">
-                        <i class="fa fa-calendar"></i> <span>Kendaraan Anda</span>
+                    <a  href="<?=site_url('kendaraan.php')?>">
+                        <i class="fa fa-car"></i> <span>Kendaraan Anda</span>
                     </a>
                 </li>
                 <li>

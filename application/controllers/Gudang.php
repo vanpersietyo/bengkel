@@ -58,7 +58,7 @@ class Gudang extends CI_Controller
                     $( document ).ready(function() {
                         swal({
                             title: 'Berhasil',
-                            html: '<h4>Data Berhasil Ditambahkan</h4>',
+                            html: '<h5>Supplier {$data['kode_supplier']} Berhasil Ditambahkan</h5>',
                             type: 'success',
                             showCancelButton: false,
                         }).then((result) => {
@@ -90,9 +90,75 @@ class Gudang extends CI_Controller
             'title'             => 'Daftar',
             'subtitle'          => 'Supplier',
             'action'            => 'edit',
-            'supplier'          => $this->admin_model->select_data('supplier', 'entry_time', 'ASC')->row(),
-            'daftar_supplier'   => $this->admin_model->cek_data("kode_supplier = '{$kode_supplier}'", 'supplier', 'entry_time', 'ASC')];
+            'daftar_supplier'   => $this->admin_model->select_data('supplier', 'entry_time', 'ASC'),
+            'supplier'          => $this->admin_model->cek_data("kode_supplier = '{$kode_supplier}'", 'supplier', 'entry_time', 'ASC')->row()
+        ];
         $this->load->view('templates/layout', $data);
+    }
+
+    public function prosess_edit_supplier()
+    {
+        $kode_supplier = $this->input->post('kode');
+        $data = [
+            'nama_supplier'         => $this->input->post('nama'),
+            'alamat_supplier'       => $this->input->post('alamat'),
+            'telp_supplier'         => $this->input->post('telepon'),
+            'keterangan_supplier'   => $this->input->post('keterangan'),
+        ];
+
+        $no_change = $this->admin_model->cek_data($data,'supplier')->num_rows();        //cek ada perubahan atau tidak
+        if ($no_change==1){//            tidak ada perubahan
+            //set notif
+            echo "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            type    : 'error',
+                            title   : 'Gagal',
+                            html    : '<h4>Tidak Ada Perubahan!</h4>',
+                            allowOutsideClick: false,
+                            focusConfirm: true,
+                        })
+                    });
+                </script>";
+        }else {//ada perubahan
+            //cek nama yang di update sudah ada atau belum
+            $exist = $this->admin_model->cek_data("nama_supplier='{$data['nama_supplier']}' and kode_supplier !='{$kode_supplier}'",'supplier')->num_rows();
+            if($exist==0){
+                //lakukan update
+                $data['changed_by']= $this->session->userdata('username');
+                $this->admin_model->update_data('kode_supplier',$kode_supplier,'supplier',$data);
+                //echo 'data sukses';
+                echo "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            title: 'Berhasil',
+                            html: '<h4>Supplier {$kode_supplier} Berhasil Diubah </h4>',
+                            type: 'success',
+                            showCancelButton: false,
+                        }).then((result) => {
+                                location.reload();//refresh halaman
+                        });
+                    });
+                </script>";
+            } else { //data supplier sudah ada
+                //set notif
+                echo "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            type    : 'error',
+                            title   : 'Gagal',
+                            html    : '<h4>Data Sudah Ada</h4>',
+                            allowOutsideClick: false,
+                            focusConfirm: true,
+                        })
+                    });
+                </script>";
+            }
+        }
+
+
+
+
     }
 
     public function delete_supplier($kode_supplier)
@@ -105,7 +171,7 @@ class Gudang extends CI_Controller
                         swal({
                             type    : 'success',
                             title   : 'Deleted!',
-                            html    : '<h5>Data Sudah Berhasil Dihapus!</h5>',
+                            html    : '<h5>Supplier {$kode_supplier} Sudah Berhasil Dihapus!</h5>',
                             focusConfirm: true,
                         })
                     });
@@ -115,6 +181,8 @@ class Gudang extends CI_Controller
         //redirect ke halaman daftar kendaraan dengan membawa notif
         redirect(site_url('master/supplier.php'));
     }
+
+
 //end master supplier
 #TODO - create insert dan update master supplier
 }

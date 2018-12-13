@@ -14,11 +14,23 @@ class Conversion {
         $this->CI =& get_instance();
     }
 
-    function hak_akses_admin()
+    function hak_akses_admin() // hak akses level 1 = superadmin ; 2=admin ; 3=gudang
     {
         $level = $this->CI->session->userdata('level');
         if ($level==1 or $level==2 or $level==3){
             $this->CI->load->model('admin_model');
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+
+    }
+
+    function hak_akses_pelanggan() // hak akses level 5 = pelanggan
+    {
+        $level = $this->CI->session->userdata('level');
+        if ($level==5){
+            $this->CI->load->model('pelanggan_model');
             return TRUE;
         } else {
             return FALSE;
