@@ -4,7 +4,9 @@
  * User: Adhitya
  * Date: 09/12/2018
  * Time: 6:39
+ *
  */
+
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Admin_model extends CI_Model {
@@ -119,6 +121,26 @@ class Admin_model extends CI_Model {
         $this->db->order_by('entry_time','ASC');
         $query = $this->db->get();
         return $query;
+    }
+
+    function get_kode_supplier()
+    {
+        $this->db->select_max(" RIGHT(kode_supplier,4)", 'kd_max');//select
+        $query = $this->db->get('supplier');
+        $kd = "";
+        if($query->num_rows()>0)
+        {
+            foreach($query->result() as $k)
+            {
+                $tmp = ((int)$k->kd_max)+1;
+                $kd = sprintf("%04s", $tmp);
+            }
+        }
+        else
+        {
+            $kd = "0001";
+        }
+        return 'SPL'.$kd;
     }
 }
 ?>

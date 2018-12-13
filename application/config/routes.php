@@ -63,4 +63,10 @@ $route['master/edit_kendaraan.do']      = 'admin/proses_edit_kendaraan';
     $route['master/hapus_spare_part/(:any)']    = 'admin/delete_barang/spare_part/$1';
 
 //master pelanggan
-$route['master/pelanggan.php']    = 'admin/daftar_pelanggan';
+$route['master/pelanggan.php']      = 'admin/daftar_pelanggan';
+
+//master supplier
+$route['master/supplier.php']           = 'gudang/daftar_supplier';
+$route['master/tambah_supplier.php']    = 'gudang/prosess_tambah_supplier';
+$route['master/edit_supplier/(:any)']   = 'gudang/edit_supplier/$1';
+$route['master/delete_supplier/(:any)'] = 'gudang/delete_supplier/$1';

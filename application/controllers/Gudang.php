@@ -1,0 +1,121 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: tipk
+ * Date: 24/10/2018
+ * Time: 14:29
+ */
+?>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+* @property CI_Session      $session                Security Class, xss, csrf, etc...
+* Start custom libraries / models here
+* @property admin_model     $admin_model
+* @property conversion      $conversion
+* @property CI_Input        $input
+*/
+class Gudang extends CI_Controller
+{
+
+    public function __construct()
+    {
+        parent::__construct();
+        if ($this->conversion->hak_akses_admin() == FALSE) {
+            redirect('');
+        }
+    }
+
+//master supplier
+    public function daftar_supplier()
+    {
+        $data = [
+            'page'              => 'pages/master/supplier/daftar_supplier',
+            'title'             => 'Daftar',
+            'subtitle'          => 'Supplier',
+            'action'            => 'input',
+            'kode_supplier'     => $this->admin_model->get_kode_supplier(),
+            'daftar_supplier'   => $this->admin_model->select_data('supplier', 'entry_time', 'ASC')];
+        $this->load->view('templates/layout', $data);
+    }
+
+    public function prosess_tambah_supplier()
+    {
+        $data = [
+            'kode_supplier'         => $this->admin_model->get_kode_supplier(),
+            'nama_supplier'         => $this->input->post('nama'),
+            'alamat_supplier'       => $this->input->post('alamat'),
+            'telp_supplier'         => $this->input->post('telepon'),
+            'keterangan_supplier'   => $this->input->post('keterangan'),
+            'add_by'                => $this->session->userdata('username')
+        ];
+        $exist = $this->admin_model->cek_data("nama_supplier='{$data['nama_supplier']}'",'supplier')->num_rows();
+        if($exist==0){
+            $this->admin_model->insert_data('supplier',$data);
+            //echo 'data sukses';
+            echo "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            title: 'Berhasil',
+                            html: '<h4>Data Berhasil Ditambahkan</h4>',
+                            type: 'success',
+                            showCancelButton: false,
+                        }).then((result) => {
+                                location.reload();//refresh halaman
+                        });
+                    });
+                </script>";
+        } else { //data supplier sudah ada
+            //set notif
+            echo "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            type    : 'error',
+                            title   : 'Gagal',
+                            html    : '<h4>Data Sudah Ada</h4>',
+                            allowOutsideClick: false,
+                            focusConfirm: true,
+                        })
+                    });
+                </script>";
+        }
+
+    }
+
+    public function edit_supplier($kode_supplier)
+    {
+        $data = [
+            'page'              => 'pages/master/supplier/daftar_supplier',
+            'title'             => 'Daftar',
+            'subtitle'          => 'Supplier',
+            'action'            => 'edit',
+            'supplier'          => $this->admin_model->select_data('supplier', 'entry_time', 'ASC')->row(),
+            'daftar_supplier'   => $this->admin_model->cek_data("kode_supplier = '{$kode_supplier}'", 'supplier', 'entry_time', 'ASC')];
+        $this->load->view('templates/layout', $data);
+    }
+
+    public function delete_supplier($kode_supplier)
+    {
+        //delete data dari database
+        $this->admin_model->delete_data('kode_supplier', $kode_supplier, 'supplier');
+        //set isi notif untuk ditampilkan
+        $notif = "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            type    : 'success',
+                            title   : 'Deleted!',
+                            html    : '<h5>Data Sudah Berhasil Dihapus!</h5>',
+                            focusConfirm: true,
+                        })
+                    });
+                </script>";
+        //set kedalam flash data
+        $this->session->set_flashdata('notif', $notif);
+        //redirect ke halaman daftar kendaraan dengan membawa notif
+        redirect(site_url('master/supplier.php'));
+    }
+//end master supplier
+#TODO - create insert dan update master supplier
+}
+

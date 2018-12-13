@@ -20,7 +20,7 @@ class User extends CI_Controller {
     }
 
     public function index(){
-        $level=get_level($this->session->userdata('level'));
+        $level=$this->conversion->get_level();
             $data=array(
                 'page'=>'pages/dashboard/'.$level,//untuk set path halaman view yang di load
                 'title'=>'Dashboard', // untuk set title halaman

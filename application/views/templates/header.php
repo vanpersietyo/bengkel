@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Blank Page</title>
+    <title><?=$title.' '.$subtitle?></title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -83,7 +83,6 @@
                             <!-- User image -->
                             <li class="user-header">
                                 <img src="<?=base_url('assets/adminlte/')?>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
                                 <p>
                                     <?=$this->session->userdata('username')?> - <?=$level->nama_level?>
                                     <?php

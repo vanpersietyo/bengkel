@@ -60,7 +60,7 @@ if ( ! function_exists('get_level'))
         }elseif($lvl==2){
             return 'admin';
         }elseif($lvl==3){
-            return 'warehouse';
+            return 'gudang';
         }elseif($lvl==5){
             return 'pelanggan';
         }elseif($lvl==6){

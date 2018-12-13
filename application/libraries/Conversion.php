@@ -1,0 +1,53 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Adhitya
+ * Date: 12/12/2018
+ * Time: 15:27
+ */
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Conversion {
+
+    public function __construct()
+    {
+        $this->CI =& get_instance();
+    }
+
+    function hak_akses_admin()
+    {
+        $level = $this->CI->session->userdata('level');
+        if ($level==1 or $level==2 or $level==3){
+            $this->CI->load->model('admin_model');
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+
+    }
+    function get_level($level_id = null)
+    {
+        if ($level_id == null){
+            $level = $this->CI->session->userdata('level');
+        } else {
+            $level = $level_id;
+        }
+
+        if ($level==1){
+            return 'superadmin';
+        }elseif ($level==2){
+            return 'admin';
+        }elseif ($level==3){
+            return 'gudang';
+        }elseif ($level==4){
+            return 'montir'; //no use
+        }elseif ($level==5){
+            return 'pelanggan';
+        }elseif ($level==1){
+            return 'pemilik';
+        }else{
+            return false;
+        }
+    }
+
+}

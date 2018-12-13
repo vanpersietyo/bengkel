@@ -11,28 +11,7 @@
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-        <!-- Sidebar user panel -->
-<!--        <div class="user-panel">-->
-<!--            <div class="pull-left image">-->
-<!--                <img src="--><?//=base_url('assets/adminlte/')?><!--dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">-->
-<!--            </div>-->
-<!--            <div class="pull-left info">-->
-<!--                <p>Alexander Pierce</p>-->
-<!--                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>-->
-<!--            </div>-->
-<!--        </div>-->
-        <!-- search form -->
-<!--        <form action="#" method="get" class="sidebar-form">-->
-<!--            <div class="input-group">-->
-<!--                <input type="text" name="q" class="form-control" placeholder="Search...">-->
-<!--                <span class="input-group-btn">-->
-<!--                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>-->
-<!--                </button>-->
-<!--              </span>-->
-<!--            </div>-->
-<!--        </form>-->
-        <!-- /.search form -->
-        <!-- sidebar menu: : style can be found in sidebar.less -->
+
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
 
@@ -66,6 +45,11 @@
                         <i class="fa fa-calendar"></i> <span>Transaksi Servis</span>
                     </a>
                 </li>
+                <li>
+                    <a  href="<?=site_url('master/barang')?>">
+                        <i class="fa fa-calendar"></i> <span>Cek Stok Spare Part</span>
+                    </a>
+                </li>
 
                 <li class="header">DATA MASTER</li>
                 <li>
@@ -84,19 +68,6 @@
                     <ul class="treeview-menu">
                         <li><a href="<?= site_url('master/jenis_layanan.php')?>"><i class="fa fa-circle-o"></i> Jenis Layanan</a></li>
                         <li><a href="<?= site_url('master/layanan.php')?>"><i class="fa fa-circle-o"></i> Daftar Layanan</a></li>
-                    </ul>
-                </li>
-
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-cubes"></i> <span>Spare Part</span>
-                        <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="<?= site_url('master/jenis_spare_part.php')?>"><i class="fa fa-circle-o"></i> Jenis Spare Part</a></li>
-                        <li><a href="<?= site_url('master/spare_part.php')?>"><i class="fa fa-circle-o"></i> Daftar Spare Part</a></li>
                     </ul>
                 </li>
 
@@ -132,35 +103,42 @@
 <!--                    </a>-->
 <!--                </li>-->
 
+<!--                gudang-->
             <?php }elseif ($this->session->userdata('level')=='3'){?>
                 <li>
                     <a  href="<?=site_url('master/barang')?>">
-                        <i class="fa fa-calendar"></i> <span><Master></Master>Input Spare Part Masuk</span>
+                        <i class="fa fa-calendar"></i> <span>Input Spare Part Masuk</span>
                     </a>
                 </li>
                 <li>
                     <a  href="<?=site_url('master/barang')?>">
-                        <i class="fa fa-calendar"></i> <span><Master></Master>Cek Stok Spare Part</span>
+                        <i class="fa fa-calendar"></i> <span>Cek Stok Spare Part</span>
                     </a>
                 </li>
                 <li>
                     <a  href="<?=site_url('master/barang')?>">
-                        <i class="fa fa-calendar"></i> <span><Master></Master>Request Order Spare Part</span>
+                        <i class="fa fa-calendar"></i> <span>Request Order Spare Part</span>
                     </a>
                 </li>
 
                 <li class="header">DATA MASTER</li>
 
                 <li>
-                    <a  href="<?=site_url('master/supplier')?>">
+                    <a  href="<?=site_url('master/supplier.php')?>">
                         <i class="fa fa-truck"></i> <span>Supplier</span>
                     </a>
                 </li>
-
-                <li>
-                    <a  href="<?=site_url('master/barang')?>">
-                        <i class="fa fa-calendar"></i> <span>Spare Part</span>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-cubes"></i> <span>Spare Part</span>
+                        <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
                     </a>
+                    <ul class="treeview-menu">
+                        <li><a href="<?= site_url('master/jenis_spare_part.php')?>"><i class="fa fa-circle-o"></i> Jenis Spare Part</a></li>
+                        <li><a href="<?= site_url('master/spare_part.php')?>"><i class="fa fa-circle-o"></i> Daftar Spare Part</a></li>
+                    </ul>
                 </li>
                 <li class="header">Laporan</li>
                 <li>

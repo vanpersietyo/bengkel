@@ -6,10 +6,9 @@ class Admin extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        if (show_session("level")!='2'){
+        if ($this->conversion->hak_akses_admin()==FALSE){
             redirect('');
         }
-        $this->load->model('admin_model');
     }
 
 //  start master kendaraan
@@ -460,7 +459,7 @@ class Admin extends CI_Controller {
 
     }
 
-    public function proses_edit_barang($jenis){
+    public function proses_edit_barang($jenis){ //TODO -- Tambahkan proses edit barang, ini masih copas edit kategori barang
         $kode_kategori              = $this->input->post('kode');
         $data = array(
             'nama_kategori'          => $this->input->post('nama'),
@@ -517,4 +516,5 @@ class Admin extends CI_Controller {
         );
         $this->load->view('templates/layout',$data);
     }
+
 }
