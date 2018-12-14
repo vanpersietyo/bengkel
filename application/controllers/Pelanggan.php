@@ -17,6 +17,7 @@ class Pelanggan extends CI_Controller {
         }
     }
 
+    #TODO -- lanjutkan edit dan delete layanan
     public function daftar_layanan()
     {
         $data = [
@@ -27,6 +28,7 @@ class Pelanggan extends CI_Controller {
         ];
         $this->load->view('templates/layout', $data);
     }
+
 
     public function daftar_kendaraan()
     {
@@ -148,7 +150,7 @@ class Pelanggan extends CI_Controller {
                 </script>";
         }else{//ada, lanjutkan proses
             // cek apakah kendaraan baru yang di masukkan, sudah ada di user nya atau belum
-            $exist_id  = $this->pelanggan_model->cek_data("id_kendaraan='{$data['id_kendaraan']}' and 'kode_user'='{$data['kode_user']}' and kode_kendaraan !='{$kode_kendaraan}'",'kendaraan_user');
+            $exist_id  = $this->pelanggan_model->cek_data("id_kendaraan='{$data['id_kendaraan']}' and kode_user='{$data['kode_user']}' and nopol_kendaraan='{$data['nopol_kendaraan']}' and kode_kendaraan!='{$kode_kendaraan}'",'kendaraan_user');
             if ($exist_id->num_rows()==0){//tidak ada data yang kembar, lanjutkan
                 $this->pelanggan_model->update_data('kode_kendaraan',$kode_kendaraan,'kendaraan_user',$data);
                 //echo 'update data sukses';
@@ -180,8 +182,6 @@ class Pelanggan extends CI_Controller {
 
         }
     }
-
-    #TODO -- lanjutkan edit dan delete
 
     public function delete_kendaraan($kode_kendaraan){
 

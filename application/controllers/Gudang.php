@@ -10,8 +10,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
-* @property CI_Session      $session                Security Class, xss, csrf, etc...
-* Start custom libraries / models here
+* @property CI_Session      $session
 * @property admin_model     $admin_model
 * @property conversion      $conversion
 * @property CI_Input        $input
@@ -181,9 +180,22 @@ class Gudang extends CI_Controller
         //redirect ke halaman daftar kendaraan dengan membawa notif
         redirect(site_url('master/supplier.php'));
     }
-
-
 //end master supplier
+
+// start transaksi
+    public function add_pembelian()
+    {
+        $data = [
+            'page'              => 'pages/pembelian/form_add_pembelian',
+            'title'             => 'Tambah Pembelian',
+            'subtitle'          => 'Spare Part',
+            'action'            => 'input',
+            'daftar_supplier'   => $this->admin_model->select_data('supplier', 'entry_time', 'ASC')
+        ];
+        $this->load->view('templates/layout', $data);
+    }
+// end transaksi
+
 #TODO - create insert dan update master supplier
 }
 

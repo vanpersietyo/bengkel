@@ -80,3 +80,8 @@ $route['master/delete_supplier/(:any)'] = 'gudang/delete_supplier/$1';
     $route['edit_kendaraan/(:any)']   = 'pelanggan/form_edit_kendaraan/$1';
     $route['edit_kendaraan.do/(:any)']= 'pelanggan/proses_edit_kendaraan/$1';
 
+//Menu Gudang
+    //pembelian
+    $route['add_pembelian.php']         = 'gudang/add_pembelian';
+
+
