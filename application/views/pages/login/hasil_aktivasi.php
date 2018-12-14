@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Adhitya
+ * User: Candra Dewi
  * Date: 26/10/2018
  * Time: 20:05
  */
@@ -9,7 +9,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: tipk
+ * User: Candra Dewi
  * Date: 23/10/2018
  * Time: 12:00
  */

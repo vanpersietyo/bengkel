@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: tipk
+ * User: Candra Dewi
  * Date: 13/12/2018
  * Time: 17:09
  */
@@ -104,6 +104,15 @@ class Pelanggan_model extends CI_Model {
         $this->db->from('kendaraan_user a');
         $this->db->join('kendaraan b', 'a.id_kendaraan= b.id');
         $this->db->where('a.kode_user',$kode_user);
+        $query = $this->db->get();
+        return $query;
+    }
+
+    function get_kendaraan_user_by_kode($kode_kendaraan){
+        $this->db->select('a.*,b.merk as merk,b.tipe as tipe');
+        $this->db->from('kendaraan_user a');
+        $this->db->join('kendaraan b', 'a.id_kendaraan= b.id');
+        $this->db->where('a.kode_kendaraan',$kode_kendaraan);
         $query = $this->db->get();
         return $query;
     }

@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: tipk
+ * User: Candra Dewi
  * Date: 13/12/2018
  * Time: 17:19
  */
@@ -27,8 +27,8 @@
                     <td><?=capitalize_each_first($value->nopol_kendaraan);?></td>
                     <td><?=capitalize_each_first($value->keterangan_kendaraan);?></td>
                     <td class="text-center">
-                        <a title="edit data kendaraan" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('master/edit_kendaraan/').$value->kode_kendaraan?>"><i class="fa fa-edit"></i></a>
-                        <a title="hapus data kendaraan" class="btn btn-flat btn-danger btn-xs" onclick="delete_kendaraan(<?=$value->kode_kendaraan?>)" href="javascript:void(0)"><i class="fa fa-close"></i></a>
+                        <a title="edit data kendaraan" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('edit_kendaraan/').$value->kode_kendaraan?>"><i class="fa fa-edit"></i></a>
+                        <a title="hapus data kendaraan" class="btn btn-flat btn-danger btn-xs" onclick="delete_kendaraan('<?=$value->kode_kendaraan?>')" href="javascript:void(0)"><i class="fa fa-close"></i></a>
                     </td>
                 </tr>
             <?php }?>
@@ -49,4 +49,23 @@
             'autoWidth'   : false
         })
     });
+
+    //function untuk delete data
+    function delete_kendaraan($id) {
+        swal({
+            title: 'Konfirmasi!',
+            html: '<h5>Yakin akan delete data kendaraan ?</h5>',
+            type: 'info',
+            showCancelButton: true,
+            allowOutsideClick: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Tidak',
+            confirmButtonText: 'Ya'
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = '<?= site_url('delete_kendaraan/')?>'+$id;
+            }
+        })
+    }
 </script>

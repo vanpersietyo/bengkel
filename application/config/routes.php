@@ -76,3 +76,7 @@ $route['master/delete_supplier/(:any)'] = 'gudang/delete_supplier/$1';
     //Daftar Kendaraan
     $route['kendaraan.php']           = 'pelanggan/daftar_kendaraan';
     $route['tambah_kendaraan.php']    = 'pelanggan/proses_tambah_kendaraan';
+    $route['delete_kendaraan/(:any)'] = 'pelanggan/delete_kendaraan/$1';
+    $route['edit_kendaraan/(:any)']   = 'pelanggan/form_edit_kendaraan/$1';
+    $route['edit_kendaraan.do/(:any)']= 'pelanggan/proses_edit_kendaraan/$1';
+

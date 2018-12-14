@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: tipk
+ * User: Candra Dewi
  * Date: 13/12/2018
  * Time: 17:17
  */
 ?>
-
+<?php echo $this->session->flashdata('notif');?>
 <div class="row">
     <div class="col-md-4">
         <?php
@@ -22,4 +22,3 @@
 </div>
 
 <div class="result_content"></div>
-<?php echo $this->session->flashdata('notif');?>
