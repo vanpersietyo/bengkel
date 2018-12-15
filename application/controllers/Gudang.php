@@ -21,13 +21,14 @@ class Gudang extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        date_default_timezone_set("Asia/Bangkok");
         if ($this->conversion->hak_akses_admin() == FALSE) {
             redirect('');
         }
     }
 
 //master supplier
-    public function daftar_supplier()
+    public function daftar_supplier($from_add_pembelian=null)
     {
         $data = [
             'page'              => 'pages/master/supplier/daftar_supplier',
@@ -35,11 +36,13 @@ class Gudang extends CI_Controller
             'subtitle'          => 'Supplier',
             'action'            => 'input',
             'kode_supplier'     => $this->admin_model->get_kode_supplier(),
-            'daftar_supplier'   => $this->admin_model->select_data('supplier', 'entry_time', 'ASC')];
+            'daftar_supplier'   => $this->admin_model->select_data('supplier', 'entry_time', 'ASC'),
+            'from_add_pembelian'=> $from_add_pembelian
+        ];
         $this->load->view('templates/layout', $data);
     }
 
-    public function prosess_tambah_supplier()
+    public function prosess_tambah_supplier($from_add_pembelian=null)
     {
         $data = [
             'kode_supplier'         => $this->admin_model->get_kode_supplier(),
@@ -53,18 +56,35 @@ class Gudang extends CI_Controller
         if($exist==0){
             $this->admin_model->insert_data('supplier',$data);
             //echo 'data sukses';
-            echo "<script type='text/javascript'>
+
+            if ($from_add_pembelian==null){
+                echo "<script type='text/javascript'>
                     $( document ).ready(function() {
                         swal({
                             title: 'Berhasil',
                             html: '<h5>Supplier {$data['kode_supplier']} Berhasil Ditambahkan</h5>',
                             type: 'success',
                             showCancelButton: false,
-                        }).then((result) => {
+                        }).then(() => {
                                 location.reload();//refresh halaman
                         });
                     });
                 </script>";
+            } else {
+                echo "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            title: 'Berhasil',
+                            html: '<h5>Supplier {$data['kode_supplier']} Berhasil Ditambahkan</h5>',
+                            type: 'success',
+                            showCancelButton: false,
+                        }).then(() => {
+                                location.href = '". site_url('add_pembelian.php')."';
+                        });
+                    });
+                </script>";
+            }
+
         } else { //data supplier sudah ada
             //set notif
             echo "<script type='text/javascript'>
@@ -134,7 +154,7 @@ class Gudang extends CI_Controller
                             html: '<h4>Supplier {$kode_supplier} Berhasil Diubah </h4>',
                             type: 'success',
                             showCancelButton: false,
-                        }).then((result) => {
+                        }).then(() => {
                                 location.reload();//refresh halaman
                         });
                     });
@@ -154,10 +174,6 @@ class Gudang extends CI_Controller
                 </script>";
             }
         }
-
-
-
-
     }
 
     public function delete_supplier($kode_supplier)
@@ -185,12 +201,14 @@ class Gudang extends CI_Controller
 // start transaksi
     public function add_pembelian()
     {
-        $data = [
+        $where  = ['jenis' => 'spare_part'];
+        $data   = [
             'page'              => 'pages/pembelian/form_add_pembelian',
             'title'             => 'Tambah Pembelian',
             'subtitle'          => 'Spare Part',
             'action'            => 'input',
-            'daftar_supplier'   => $this->admin_model->select_data('supplier', 'entry_time', 'ASC')
+            'daftar_supplier'   => $this->admin_model->select_data('supplier', 'entry_time', 'ASC'),
+            'daftar_barang'     => $this->admin_model->cek_data($where,'barang', 'entry_time', 'ASC')
         ];
         $this->load->view('templates/layout', $data);
     }

@@ -38,6 +38,9 @@
     $(document).ready(function () {
         $('.sidebar-menu').tree()
     })
+    function push_menu(){
+        $( "#push-menu" ).click();
+    }
 </script>
 </body>
 </html>

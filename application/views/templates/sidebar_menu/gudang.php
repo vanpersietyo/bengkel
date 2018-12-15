@@ -14,8 +14,8 @@
                 </span>
     </a>
     <ul class="treeview-menu">
-        <li><a href="<?= site_url('master/jenis_spare_part.php')?>"><i class="fa fa-circle-o"></i> Tambah Pembelian</a></li>
-        <li><a href="<?= site_url('master/spare_part.php')?>"><i class="fa fa-circle-o"></i> List Pembelian</a></li>
+        <li><a href="<?= site_url('add_pembelian.php')?>"><i class="fa fa-circle-o"></i> Tambah Pembelian</a></li>
+        <li><a href="<?= site_url('list_pembelian.php')?>"><i class="fa fa-circle-o"></i> List Pembelian</a></li>
     </ul>
 </li>
 

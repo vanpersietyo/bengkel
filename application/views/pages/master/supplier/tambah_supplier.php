@@ -69,7 +69,7 @@
     //function tambah delete data
     function tambah_supplier() {
         $.ajax({
-            url : '<?=site_url('master/tambah_supplier.php')?>',
+            url : '<?=site_url('master/tambah_supplier.php/'.$from_add_pembelian)?>',
             data: $('#form_add_supplier').serialize(),
             type: 'POST',
             success: function (data) {

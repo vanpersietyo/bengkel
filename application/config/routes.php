@@ -67,6 +67,8 @@ $route['master/pelanggan.php']      = 'admin/daftar_pelanggan';
 
 //master supplier
 $route['master/supplier.php']           = 'gudang/daftar_supplier';
+$route['master/add_supplier.php']       = 'gudang/daftar_supplier/1';//pparameter untuk penunjuk akses halaman dari add pembelian
+$route['master/tambah_supplier.php/(:any)']= 'gudang/prosess_tambah_supplier/1';//pparameter untuk penunjuk akses halaman dari add pembelian
 $route['master/tambah_supplier.php']    = 'gudang/prosess_tambah_supplier';
 $route['master/edit_supplier/(:any)']   = 'gudang/edit_supplier/$1';
 $route['master/edit_supplier.php']      = 'gudang/prosess_edit_supplier';
@@ -83,5 +85,6 @@ $route['master/delete_supplier/(:any)'] = 'gudang/delete_supplier/$1';
 //Menu Gudang
     //pembelian
     $route['add_pembelian.php']         = 'gudang/add_pembelian';
+    $route['list_pembelian.php']        = 'gudang/daftar_pembelian';
 
 

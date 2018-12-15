@@ -100,7 +100,7 @@ if ( ! function_exists('spell')) {
 
 
 if ( ! function_exists('dateIndo')) {
-    function dateIndo($tanggal, $jenis = 0)
+    function dateIndo($tanggal, $jenis = 0,$day = 0)
     {
         $iMonth = date('n', strtotime($tanggal));
         if ($jenis) {
@@ -108,11 +108,12 @@ if ( ! function_exists('dateIndo')) {
         } else {
             $bulan = array('', 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nop', 'Des');
         }
-        $hari = date('d', strtotime($tanggal));
-        $bln = $bulan[$iMonth];
-        $tahun = date('Y', strtotime($tanggal));
+        $hari   = date('d', strtotime($tanggal));
+        $bln    = $bulan[$iMonth];
+        $tahun  = date('Y', strtotime($tanggal));
+        $day_spell = array('', 'Senin, ', 'Selasa, ', 'Rabu, ', 'Kamis, ', 'Jumat, ', 'Sabtu, ', 'Minggu, ');
 
-        return $hari . " " . $bln . " " . $tahun;
+        return $day_spell[$day].$hari . " " . $bln . " " . $tahun;
     }
 }
 

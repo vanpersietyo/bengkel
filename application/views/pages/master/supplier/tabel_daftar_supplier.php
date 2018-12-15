@@ -53,7 +53,7 @@
     function delete_supplier($id) {
         swal({
             title: 'Konfirmasi!',
-            html: '<h5>Yakin akan delete supplier '+ $id +' ?</h5>',
+            html: '<h5>Yakin akan delete supplier ?</h5>',
             type: 'info',
             showCancelButton: true,
             allowOutsideClick: false,

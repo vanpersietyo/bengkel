@@ -23,7 +23,6 @@ class Conversion {
         } else {
             return FALSE;
         }
-
     }
 
     function hak_akses_pelanggan() // hak akses level 5 = pelanggan
