@@ -84,7 +84,20 @@ $route['master/delete_supplier/(:any)'] = 'gudang/delete_supplier/$1';
 
 //Menu Gudang
     //pembelian
-    $route['add_pembelian.php']         = 'gudang/add_pembelian';
-    $route['list_pembelian.php']        = 'gudang/daftar_pembelian';
+    $route['order_pembelian.php']          = 'gudang/daftar_order_pembelian';
+    $route['invoice_pembelian.php']        = 'gudang/daftar_invoice_pembelian';
+    $route['cari_barang_pembelian.php']    = 'gudang/cari_barang_pembelian';
+
+    $route['add_pembelian.php']                     = 'gudang/add_pembelian';
+    $route['add_supplier_pembelian.php']            = 'gudang/proses_tambah_supplier_pembelian';
+    $route['add_pembelian_barang/(:any)']           = 'gudang/add_pembelian_barang/$1';
+    $route['add_pembelian_barang.do/(:any)']        = 'gudang/proses_add_pembelian_barang/$1';
+    $route['edit_pembelian_barang/(:any)/(:any)']   = 'gudang/form_edit_pembelian_barang/$1/$2';
+    $route['delete_pembelian_barang/(:any)/(:any)'] = 'gudang/delete_pembelian_barang/$1/$2';
+    $route['simpan_pembelian_barang/(:any)']        = 'gudang/simpan_pembelian_barang/$1';
+    $route['bayar_pembelian_barang/(:any)']         = 'gudang/bayar_pembelian_barang/$1';
+
+    $route['delete_order_pembelian/(:any)']     = 'gudang/delete_pembelian/order/$1';
+    $route['delete_invoice_pembelian/(:any)']   = 'gudang/delete_pembelian/invoice/$1';
 
 

@@ -41,6 +41,13 @@
     <!--    select 2-->
     <link rel="stylesheet"  href="<?=base_url('assets/adminlte/').'bower_components/select2/dist/css/select2.min.css'?>">
 </head>
+<style>
+    .padding_right{padding-right: 5px !important;}
+    .padding_left{padding-left: 5px !important;}
+    .padding_top{padding-top: 5px !important;}
+    .padding_bottom{padding-bottom: 5px !important;}
+    .padding_both{padding-right: 5px !important;padding-left: 5px !important;}
+</style>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">

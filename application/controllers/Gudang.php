@@ -5,15 +5,11 @@
  * Date: 24/10/2018
  * Time: 14:29
  */
-?>
-<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
-* @property CI_Session      $session
-* @property admin_model     $admin_model
-* @property conversion      $conversion
-* @property CI_Input        $input
+* @property Admin_model     $admin_model
+* @property Conversion      $conversion
 */
 class Gudang extends CI_Controller
 {
@@ -28,6 +24,9 @@ class Gudang extends CI_Controller
     }
 
 //master supplier
+
+    //tampilkan list daftar supplier
+    // jika parameter di isi, berarti dia di akses dari menu tambah pembelian
     public function daftar_supplier($from_add_pembelian=null)
     {
         $data = [
@@ -42,6 +41,8 @@ class Gudang extends CI_Controller
         $this->load->view('templates/layout', $data);
     }
 
+    //proses input data supplier ke database
+    //jika parameter di isi, berarti dia di akses dari menu tambah pembelian, sehingga akan kembali ke halaman transaksi setelah simpan
     public function prosess_tambah_supplier($from_add_pembelian=null)
     {
         $data = [
@@ -56,7 +57,6 @@ class Gudang extends CI_Controller
         if($exist==0){
             $this->admin_model->insert_data('supplier',$data);
             //echo 'data sukses';
-
             if ($from_add_pembelian==null){
                 echo "<script type='text/javascript'>
                     $( document ).ready(function() {
@@ -102,6 +102,7 @@ class Gudang extends CI_Controller
 
     }
 
+    //tampilkan halaman edit supplier by kode supplier
     public function edit_supplier($kode_supplier)
     {
         $data = [
@@ -115,6 +116,7 @@ class Gudang extends CI_Controller
         $this->load->view('templates/layout', $data);
     }
 
+    //proses ubah data di database
     public function prosess_edit_supplier()
     {
         $kode_supplier = $this->input->post('kode');
@@ -176,6 +178,7 @@ class Gudang extends CI_Controller
         }
     }
 
+    //proses hapus data di database
     public function delete_supplier($kode_supplier)
     {
         //delete data dari database
@@ -196,24 +199,280 @@ class Gudang extends CI_Controller
         //redirect ke halaman daftar kendaraan dengan membawa notif
         redirect(site_url('master/supplier.php'));
     }
+
 //end master supplier
 
 // start transaksi
-    public function add_pembelian()
+
+    //tampilkan list menu order pembelian
+    public function daftar_order_pembelian()
     {
-        $where  = ['jenis' => 'spare_part'];
-        $data   = [
-            'page'              => 'pages/pembelian/form_add_pembelian',
-            'title'             => 'Tambah Pembelian',
+        $data       = [
+            'page'              => 'pages/pembelian/daftar_order_pembelian',
+            'title'             => 'Daftar Order Pembelian',
             'subtitle'          => 'Spare Part',
-            'action'            => 'input',
-            'daftar_supplier'   => $this->admin_model->select_data('supplier', 'entry_time', 'ASC'),
-            'daftar_barang'     => $this->admin_model->cek_data($where,'barang', 'entry_time', 'ASC')
+            'daftar_pembelian'  => $this->admin_model->get_list_pembelian("status_pembelian in ('input','belum_lunas') "),
         ];
         $this->load->view('templates/layout', $data);
     }
-// end transaksi
 
-#TODO - create insert dan update master supplier
+    //tampilkan list menu invoice pembelian
+    public function daftar_invoice_pembelian()
+    {
+        $data       = [
+            'page'              => 'pages/pembelian/daftar_invoice_pembelian',
+            'title'             => 'Daftar Invoice Pembelian',
+            'subtitle'          => 'Spare Part',
+            'daftar_pembelian'  => $this->admin_model->cek_data(['status_pembelian'=>'lunas'],'pembelian')
+        ];
+        $this->load->view('templates/layout', $data);
+    }
+
+    //    Header
+        //header pembelian : tampilkan form header pembelian barang
+        public function add_pembelian()
+        {
+            $data   = array(
+                'page'              => 'pages/pembelian/form_add_pembelian',
+                'title'             => 'Tambah Pembelian',
+                'subtitle'          => 'Spare Part',
+                'kode_pembelian'    => $this->admin_model->get_kode_pembelian(),
+                'daftar_supplier'   => $this->admin_model->select_data('supplier', 'entry_time', 'ASC'),
+            );
+            $this->load->view('templates/layout', $data);
+        }
+
+        //header pembelian : simpan header pembelian barang
+        public function proses_tambah_supplier_pembelian()
+        {
+            $item       = [
+                'kode_pembelian'        => $this->input->post('kode_pembelian'),
+                'kode_supplier'         => $this->input->post('kode_supplier'),
+                'keterangan_pembelian'  => $this->input->post('keterangan_pembelian'),
+                'tgl_pembelian'         => date('Y-m-d').' '.$this->input->post('waktu'),
+                'kode_user'             => $this->session->userdata('kode_user'),
+                'status_pembelian'      => 'input'
+            ];
+            $exist  = $this->admin_model->cek_data(['kode_pembelian'=>$item['kode_pembelian']],'pembelian');
+            if($exist->num_rows()==0){//cek kode pembelian, jika belum ada, lanjut
+                $this->admin_model->insert_data('pembelian',$item);
+                //echo 'data sukses';
+                echo "<script type='text/javascript'>
+                        $( document ).ready(function() {
+                            swal({
+                                title: 'Berhasil',
+                                html: '<h5>Header Pembelian ".$item['kode_pembelian']." Berhasil Ditambahkan. Silahkan Lanjut Isi Barang </h5>',
+                                type: 'success',
+                                showCancelButton: false,
+                            }).then(() => {
+                                    location.href = '".site_url('add_pembelian_barang/').$item['kode_pembelian']."';
+                            });
+                        });
+                    </script>";
+            } else { //sudah ada, munculkan notif error
+                echo "<script type='text/javascript'>
+                        $( document ).ready(function() {
+                            swal({
+                                type    : 'error',
+                                title   : 'Gagal',
+                                html    : '<h4>Kode Pembelian Sudah Ada!</h4>',
+                                allowOutsideClick: false,
+                                focusConfirm: true,
+                            })
+                        });
+                    </script>";
+            }
+        }
+
+        //header pembelian = delete transaksi pembelian
+        public function delete_pembelian($status,$kode_pembelian)
+        {
+            //delete data dari database
+            $this->admin_model->delete_data('kode_pembelian', $kode_pembelian, 'pembelian');
+            //set isi notif untuk ditampilkan
+            $notif = "<script type='text/javascript'>
+                        $( document ).ready(function() {
+                            swal({
+                                type    : 'success',
+                                title   : 'Deleted!',
+                                html    : '<h5>Transaksi No. {$kode_pembelian} Sudah Berhasil Dihapus!</h5>',
+                                focusConfirm: true,
+                            })
+                        });
+                    </script>";
+            //set kedalam flash data
+            $this->session->set_flashdata('notif', $notif);
+            //redirect ke halaman daftar kendaraan dengan membawa notif
+            if ($status=='order'){
+                redirect(site_url('order_pembelian.php'));
+            }elseif ($status=='invoice'){
+                redirect(site_url('invoice_pembelian.php'));
+            }else {
+                show_404();
+            }
+
+        }
+
+    //    end of header
+
+    //  start detail
+        //detail pembelian = insert barang
+        public function add_pembelian_barang($kode_pembelian)
+        {
+            $pembelian  = $this->admin_model->cek_data(['kode_pembelian' => $kode_pembelian],'pembelian')->row();
+            $data       = [
+                'page'              => 'pages/pembelian/form_add_pembelian_barang',
+                'title'             => 'Tambah Pembelian',
+                'subtitle'          => 'Spare Part',
+                'kode_pembelian'    => $kode_pembelian,
+                'daftar_barang'     => $this->admin_model->cek_data(['jenis' => 'spare_part'],'barang', 'entry_time', 'ASC'),
+                'pembelian'         => $pembelian,
+                'supplier'          => $this->admin_model->cek_data(['kode_supplier'=>$pembelian->kode_supplier],'supplier')->row(),
+                'pembelian_barang'  => $this->admin_model->get_list_barang_pembelian($kode_pembelian),
+            ];
+            $this->load->view('templates/layout', $data);
+        }
+
+        //detail pembelian = cari barang
+        public function cari_barang_pembelian()
+        {
+            $kode_barang= $this->input->post('kode_barang');
+            $exist      = $this->admin_model->cek_data(['kode' => $kode_barang],'barang');
+            if ($exist->num_rows()==1){
+                echo "<script type='text/javascript'>
+                        $( document ).ready(function() {
+                            $('#harga').val({$exist->row()->harga});
+                            $('#satuan').val('{$exist->row()->satuan}');
+                            $('#qty').focus();
+                        });
+                    </script>";
+            }
+        }
+
+        //detail pembelian = insert barang
+        public function proses_add_pembelian_barang($kode_pembelian)
+        {
+            $qty        = numberFormat($this->input->post('qty'),3);
+            $harga      = numberFormat($this->input->post('harga'),3) ;
+            $item       = [
+                'kode_pembelian'    => $kode_pembelian,
+                'kode_barang'       => $this->input->post('kode_barang'),
+                'qty'               => $qty,
+                'harga'             => $harga,
+                'subtotal'          => $qty* $harga,
+            ];
+
+            if ($item['kode_barang']=='' || $qty<=0 || $harga<=0){ //jika belum pilih barang
+                echo "<script type='text/javascript'>
+                        $( document ).ready(function() {
+                            swal({
+                                type    : 'error',
+                                title   : 'Gagal',
+                                html    : '<h5>Silahkan Isi Data Spare Part Dahulu</h5>',
+                                allowOutsideClick: false,
+                                focusConfirm: true,
+                            })
+                        });
+                    </script>";
+            }else{
+                $exist  = $this->admin_model->cek_data(
+                    [
+                        'kode_barang'   => $item['kode_barang'],
+                        'kode_pembelian'=> $kode_pembelian
+                    ],'pembelian_detail');
+                if ($exist->num_rows()==0){//data belum ada
+                    $this->admin_model->insert_data('pembelian_detail',$item);
+                    $this->admin_model->sum_total_pembelian_barang($kode_pembelian);
+                    echo "<script type='text/javascript'>
+                        $( document ).ready(function() {                                
+                            location.reload();//refresh halaman
+                        });
+                    </script>";
+                } else {
+                    //data sudah ada
+                    echo "<script type='text/javascript'>
+                        $( document ).ready(function() {
+                            swal({
+                                type    : 'error',
+                                title   : 'Gagal',
+                                html    : '<h5>Data Spare Part ".$item['kode_barang']." Sudah Ada!<br>Silahkan Edit Data.</h5>',
+                                allowOutsideClick: false,
+                                focusConfirm: true,
+                            })
+                        });
+                    </script>";
+                }
+            }
+
+
+
+        }
+
+        public function form_edit_pembelian_barang($kode_pembelian,$kode_barang)
+        {
+            echo "edit $kode_pembelian $kode_barang";
+        }
+
+        public function delete_pembelian_barang($kode_pembelian,$kode_barang)
+        {
+            $exist  = $this->admin_model->cek_data(['kode_pembelian'=>$kode_pembelian,'kode_barang'=>$kode_barang],'pembelian_detail');
+            if ($exist->num_rows()==1){
+                //delete data dari database
+                $this->admin_model->delete_data('id', $exist->row()->id, 'pembelian_detail');
+                $this->admin_model->sum_total_pembelian_barang($kode_pembelian);
+                //redirect kembali
+                redirect(site_url('add_pembelian_barang/'.$kode_pembelian));
+            }
+        }
+
+        //header pembelian = delete transaksi pembelian
+        public function simpan_pembelian_barang($kode_pembelian)
+        {
+
+            $simpan  = ['status_pemesanan'=>'belum_lunas'];
+            $this->admin_model->update_data('kode_pembelian',$kode_pembelian,'pembelian',$simpan);
+            $notif = "<script type='text/javascript'>
+                                $( document ).ready(function() {
+                                    swal({
+                                        type    : 'success',
+                                        title   : 'Berhasil!',
+                                        html    : '<h5>Transaksi No. {$kode_pembelian} Berhasil Disimpan!</h5>',
+                                        focusConfirm: true,
+                                    })
+                                });
+                            </script>";
+            //set kedalam flash data
+            $this->session->set_flashdata('notif', $notif);
+            redirect(site_url('order_pembelian.php'));
+        }
+
+        //header pembelian = delete transaksi pembelian
+        public function bayar_pembelian_barang($kode_pembelian)
+        {
+            $bayar  = [
+                'status_pembelian'      => 'lunas',
+                'tgl_pembayaran'        => date('Y-m-d H:i:s'),
+                'no_invoice_pembayaran' => 'tes' #TODO - create fungsi generate invoice
+            ];
+            $this->admin_model->update_data('kode_pembelian',$kode_pembelian,'pembelian',$bayar);
+            $notif = "<script type='text/javascript'>
+                            $( document ).ready(function() {
+                                swal({
+                                    type    : 'success',
+                                    title   : 'Berhasil!',
+                                    html    : '<h5>Transaksi No. {$kode_pembelian} Berhasil Di Bayar Dan Masuk ke list Invoice!</h5>',
+                                    focusConfirm: true,
+                                })
+                            });
+                        </script>";
+            //set kedalam flash data
+            $this->session->set_flashdata('notif', $notif);
+            redirect(site_url('order_pembelian.php'));
+        }
+    //  end of detail
+
+    #TODO - create fungsi edit pembelian barang
+
+// end transaksi
 }
 

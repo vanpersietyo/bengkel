@@ -15,20 +15,9 @@
     </a>
     <ul class="treeview-menu">
         <li><a href="<?= site_url('add_pembelian.php')?>"><i class="fa fa-circle-o"></i> Tambah Pembelian</a></li>
-        <li><a href="<?= site_url('list_pembelian.php')?>"><i class="fa fa-circle-o"></i> List Pembelian</a></li>
+        <li><a href="<?= site_url('order_pembelian.php')?>"><i class="fa fa-circle-o"></i>List Order Pembelian</a></li>
+        <li><a href="<?= site_url('invoice_pembelian.php')?>"><i class="fa fa-circle-o"></i>List Invoice Pembelian</a></li>
     </ul>
-</li>
-
-<li>
-    <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Cek Stok Spare Part</span>
-    </a>
-</li>
-
-<li>
-    <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-upload"></i> <span>List Penjualan Spare Part</span>
-    </a>
 </li>
 
 <li class="header">DATA MASTER</li>
@@ -53,11 +42,16 @@
 <li class="header">Laporan</li>
 <li>
     <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Laporan Spare Part Masuk</span>
+        <i class="fa fa-calendar"></i> <span>Pembelian Spare Part</span>
     </a>
 </li>
 <li>
     <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Laporan Stok Spare Part</span>
+        <i class="fa fa-calendar"></i> <span>Stok Spare Part</span>
+    </a>
+</li>
+<li>
+    <a  href="<?=site_url('master/barang')?>">
+        <i class="fa fa-calendar"></i> <span>Penjualan Spare Part</span>
     </a>
 </li>
