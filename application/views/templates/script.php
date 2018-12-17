@@ -26,6 +26,7 @@
 <!-- DataTables -->
 <script src="<?=base_url('assets/adminlte/')?>bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="<?=base_url('assets/adminlte/')?>bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="<?=base_url('assets/adminlte/')?>bower_components/datatables.net-bs/js/dataTables.buttons.min.js"></script>
 <!-- sweetalert -->
 <script src="<?=base_url('assets/third_party/').'sweetalert/dist/sweetalert2.all.min.js'?>"></script>
 <script src="<?=base_url('assets/third_party/').'sweetalert/dist/sweetalert2.min.js'?>"></script>

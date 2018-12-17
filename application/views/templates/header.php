@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="<?=base_url('assets/adminlte/')?>plugins/iCheck/square/blue.css">
     <!-- DataTables -->
     <link rel="stylesheet" href="<?=base_url('assets/adminlte/')?>bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="<?=base_url('assets/adminlte/')?>bower_components/datatables.net-bs/css/buttons.dataTables.min.css">
     <!-- sweetalert -->
     <link rel="stylesheet" href="<?=base_url('assets/third_party/')?>sweetalert/dist/sweetalert2.css">
     <!--    select 2-->

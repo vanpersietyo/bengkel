@@ -163,8 +163,28 @@ class Admin_model extends CI_Model {
         return 'PBLN'.date('Ymd').$kd;
     }
 
+    function get_no_invoice_pembelian()
+    {
+        $this->db->select_max(" RIGHT(no_invoice_pembayaran,4)", 'kd_max');//select
+        $query = $this->db->get('pembelian');
+        $kd = "";
+        if($query->num_rows()>0)
+        {
+            foreach($query->result() as $k)
+            {
+                $tmp = ((int)$k->kd_max)+1;
+                $kd = sprintf("%04s", $tmp);
+            }
+        }
+        else
+        {
+            $kd = "0001";
+        }
+        return 'INVBL'.date('Ymd').$kd;
+    }
+
     function get_list_pembelian($where){//status = input / belum_lunas / lunas
-        $this->db->select('a.*,b.nama_supplier as nama_supplier');
+        $this->db->select("a.*,b.nama_supplier as nama_supplier,(select sum(qty) as total_qty from pembelian_detail where kode_pembelian=a.kode_pembelian) as total_qty");
         $this->db->from('pembelian a');
         $this->db->join('supplier b', 'a.kode_supplier= b.kode_supplier');
         $this->db->where($where);
@@ -173,11 +193,11 @@ class Admin_model extends CI_Model {
         return $query;
     }
 
-    function get_list_barang_pembelian($kode_pembelian){
+    function get_list_barang_pembelian($where){
         $this->db->select('a.*,b.nama as nama_barang,b.satuan as satuan');
         $this->db->from('pembelian_detail a');
         $this->db->join('barang b', 'a.kode_barang = b.kode');
-        $this->db->where('kode_pembelian',$kode_pembelian);
+        $this->db->where($where);
         $this->db->order_by('id','ASC');
         $query = $this->db->get();
         return $query;
@@ -191,6 +211,26 @@ class Admin_model extends CI_Model {
         $this->db->where('kode_pembelian',$kode_pembelian);
         $this->db->update('pembelian',['total_pembelian'=> $subtotal]);
         return TRUE;
+    }
+
+    function get_no_invoice()
+    {
+        $this->db->select_max(" RIGHT(kode_pembelian,4)", 'kd_max');//select
+        $query = $this->db->get('pembelian');
+        $kd = "";
+        if($query->num_rows()>0)
+        {
+            foreach($query->result() as $k)
+            {
+                $tmp = ((int)$k->kd_max)+1;
+                $kd = sprintf("%04s", $tmp);
+            }
+        }
+        else
+        {
+            $kd = "0001";
+        }
+        return 'PBLN'.date('Ymd').$kd;
     }
 }
 ?>

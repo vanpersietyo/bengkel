@@ -2,15 +2,17 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
+/**
+ * @property Admin_model     $admin_model
+ * @property Conversion      $conversion
+ */
 class Admin extends CI_Controller {
-
 
     public function __construct()
     {
         parent::__construct();
         if ($this->conversion->hak_akses_admin()==FALSE){
-            redirect('');
+            redirect(site_url(''));
         }
     }
 

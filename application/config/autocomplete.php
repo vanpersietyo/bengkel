@@ -95,6 +95,7 @@
  *  $this->People-> will show all the methods in the People model
  *
  * @property People $People
+ * @property Conversion      $conversion
  *
  * @property Products $Products
  *
@@ -171,6 +172,7 @@ class CI_Controller
  * @property People $People
  *
  * @property Products $Products
+ * @property Admin_model     $admin_model
  *
  */
 class CI_Model

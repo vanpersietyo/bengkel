@@ -92,7 +92,11 @@ $route['master/delete_supplier/(:any)'] = 'gudang/delete_supplier/$1';
     $route['add_supplier_pembelian.php']            = 'gudang/proses_tambah_supplier_pembelian';
     $route['add_pembelian_barang/(:any)']           = 'gudang/add_pembelian_barang/$1';
     $route['add_pembelian_barang.do/(:any)']        = 'gudang/proses_add_pembelian_barang/$1';
+
     $route['edit_pembelian_barang/(:any)/(:any)']   = 'gudang/form_edit_pembelian_barang/$1/$2';
+    $route['edit_pembelian_barang.do']              = 'gudang/proses_edit_pembelian_barang';
+
+
     $route['delete_pembelian_barang/(:any)/(:any)'] = 'gudang/delete_pembelian_barang/$1/$2';
     $route['simpan_pembelian_barang/(:any)']        = 'gudang/simpan_pembelian_barang/$1';
     $route['bayar_pembelian_barang/(:any)']         = 'gudang/bayar_pembelian_barang/$1';

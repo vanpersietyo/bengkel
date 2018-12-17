@@ -50,13 +50,38 @@
 
 <div class="result_content"></div>
 <?=$this->session->flashdata('notif');?>
-<script>
+<script type="text/javascript">
+
     //untuk datatable
     $(function () {
-        $('#example2').DataTable({
-            'lengthChange': false,
-            'autoWidth'   : false
-        })
+
+        $.fn.dataTable.ext.buttons.alert = {
+            className: 'buttons-alert',
+            action: function ( e, dt, node, config ) {
+                location.href = '<?=site_url('add_pembelian.php');?>';
+            }
+        };
+
+        $(document).ready(function() {
+            $('#example2').DataTable( {
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend      : 'alert',
+                        text        : 'Tambah Pembelian',
+                    }
+                ]
+            } );
+        } );
+
+
+//        $('#example2').DataTable({
+//            buttons: {text: 'Alert',
+//                action: function ( e, dt, node, config ) {
+//                    alert( 'Activated!' );
+//                    this.disable(); // disable button
+//                }}
+//        })
     });
     //function untuk delete data
     function delete_pembelian($id) {

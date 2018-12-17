@@ -15,10 +15,10 @@
                     <table id="example2" class="table table-bordered table-striped">
                         <thead>
                         <tr>
-                            <th class="text-center" width="5%">No.</th>
+                            <th class="text-center" width="3%">No.</th>
                             <th width="10%">No. Invoice</th>
                             <th width="15%">Tanggal Invoice</th>
-                            <th width="25%">No. Order </th>
+                            <th width="25%">Order Pembelian</th>
                             <th width="15%">Supplier</th>
                             <th width="5%">Aksi</th>
                         </tr>
@@ -28,11 +28,11 @@
                             <tr>
                                 <td class="text-center"><?=$i++?></td>
                                 <td><?=$value->no_invoice_pembayaran;?></td>
-                                <td><?=dateIndo($value->tgl_pembelian,1);?></td>
-                                <td><?=$value->kode_pembelian;?></td>
-                                <td><?=capitalize_each_first($value->keterangan_pembelian);?></td>
+                                <td><?=dateIndo($value->tgl_pembayaran,1);?></td>
+                                <td><?=$value->kode_pembelian.' - '.dateIndo($value->tgl_pembelian,1);?></td>
+                                <td><?=capitalize_each_first($value->nama_supplier);?></td>
                                 <td class="text-center">
-                                    <a title="lihat invoice" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('edit_pembelian/').$value->kode_pembelian?>"><i class="fa fa-edit"></i></a>
+                                    <a title="lihat invoice" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('invoice/').$value->no_invoice_pembayaran?>"><i class="fa fa-file-text-o"></i></a>
                                 </td>
                             </tr>
                         <?php }?>

@@ -19,7 +19,7 @@ class Gudang extends CI_Controller
         parent::__construct();
         date_default_timezone_set("Asia/Bangkok");
         if ($this->conversion->hak_akses_admin() == FALSE) {
-            redirect('');
+            redirect(site_url(''));
         }
     }
 
@@ -223,7 +223,7 @@ class Gudang extends CI_Controller
             'page'              => 'pages/pembelian/daftar_invoice_pembelian',
             'title'             => 'Daftar Invoice Pembelian',
             'subtitle'          => 'Spare Part',
-            'daftar_pembelian'  => $this->admin_model->cek_data(['status_pembelian'=>'lunas'],'pembelian')
+            'daftar_pembelian'  => $this->admin_model->get_list_pembelian("status_pembelian in ('input','lunas')")
         ];
         $this->load->view('templates/layout', $data);
     }
@@ -319,7 +319,7 @@ class Gudang extends CI_Controller
         //detail pembelian = insert barang
         public function add_pembelian_barang($kode_pembelian)
         {
-            $pembelian  = $this->admin_model->cek_data(['kode_pembelian' => $kode_pembelian],'pembelian')->row();
+            $pembelian  =  $this->admin_model->get_list_pembelian("status_pembelian in ('input','belum_lunas') and kode_pembelian='{$kode_pembelian}'")->row();
             $data       = [
                 'page'              => 'pages/pembelian/form_add_pembelian_barang',
                 'title'             => 'Tambah Pembelian',
@@ -328,7 +328,7 @@ class Gudang extends CI_Controller
                 'daftar_barang'     => $this->admin_model->cek_data(['jenis' => 'spare_part'],'barang', 'entry_time', 'ASC'),
                 'pembelian'         => $pembelian,
                 'supplier'          => $this->admin_model->cek_data(['kode_supplier'=>$pembelian->kode_supplier],'supplier')->row(),
-                'pembelian_barang'  => $this->admin_model->get_list_barang_pembelian($kode_pembelian),
+                'pembelian_barang'  => $this->admin_model->get_list_barang_pembelian(['kode_pembelian' => $kode_pembelian]),
             ];
             $this->load->view('templates/layout', $data);
         }
@@ -343,6 +343,7 @@ class Gudang extends CI_Controller
                         $( document ).ready(function() {
                             $('#harga').val({$exist->row()->harga});
                             $('#satuan').val('{$exist->row()->satuan}');
+                            $('#subtotal').val({$exist->row()->harga});  
                             $('#qty').focus();
                         });
                     </script>";
@@ -403,14 +404,58 @@ class Gudang extends CI_Controller
                     </script>";
                 }
             }
-
-
-
         }
 
         public function form_edit_pembelian_barang($kode_pembelian,$kode_barang)
         {
-            echo "edit $kode_pembelian $kode_barang";
+            $pembelian  = $this->admin_model->get_list_pembelian("status_pembelian in ('input','belum_lunas') and kode_pembelian='{$kode_pembelian}'")->row();
+            $data       = [
+                'page'              => 'pages/pembelian/form_edit_pembelian_barang',
+                'title'             => 'Ubah Pembelian',
+                'subtitle'          => 'Spare Part',
+                'kode_pembelian'    => $kode_pembelian,
+                'barang'            => $this->admin_model->get_list_barang_pembelian(['kode_pembelian' => $kode_pembelian,'kode_barang'=>$kode_barang])->row(),
+                'pembelian'         => $pembelian,
+                'supplier'          => $this->admin_model->cek_data(['kode_supplier'=>$pembelian->kode_supplier],'supplier')->row(),
+                'pembelian_barang'  => $this->admin_model->get_list_barang_pembelian(['kode_pembelian' => $kode_pembelian]),
+            ];
+            $this->load->view('templates/layout', $data);
+        }
+
+        public function proses_edit_pembelian_barang()
+        {
+            $kode_pembelian = $this->input->post('kode_pembelian');
+            $qty            = numberFormat($this->input->post('qty'),3);
+            $harga          = numberFormat($this->input->post('harga'),3) ;
+            $item           = [
+                'kode_barang'       => $this->input->post('kode_barang'),
+                'qty'               => $qty,
+                'harga'             => $harga,
+                'subtotal'          => $qty*$harga,
+            ];
+            if ($item['kode_barang']=='' || $qty<=0 || $harga<=0){ //jika belum pilih barang
+                echo "<script type='text/javascript'>
+                        $( document ).ready(function() {
+                            swal({
+                                type    : 'error',
+                                title   : 'Gagal',
+                                html    : '<h5>Silahkan Isi Data Spare Part Dahulu</h5>',
+                                allowOutsideClick: false,
+                                focusConfirm: true,
+                            })
+                        });
+                    </script>";
+            }else{
+                $id = $this->admin_model->cek_data(['kode_pembelian'=>$kode_pembelian,'kode_barang'=>$item['kode_barang']],'pembelian_detail')->row()->id;
+                $this->admin_model->update_data('id',$id,'pembelian_detail',$item);
+                $this->admin_model->sum_total_pembelian_barang($kode_pembelian);
+                echo "<script type='text/javascript'>
+                    $( document ).ready(function() {                  
+                        location.href = '". site_url('add_pembelian_barang/'.$kode_pembelian)."';
+                    });
+                </script>";
+            }
+
         }
 
         public function delete_pembelian_barang($kode_pembelian,$kode_barang)
@@ -428,8 +473,7 @@ class Gudang extends CI_Controller
         //header pembelian = delete transaksi pembelian
         public function simpan_pembelian_barang($kode_pembelian)
         {
-
-            $simpan  = ['status_pemesanan'=>'belum_lunas'];
+            $simpan  = ['status_pembelian'=>'belum_lunas'];
             $this->admin_model->update_data('kode_pembelian',$kode_pembelian,'pembelian',$simpan);
             $notif = "<script type='text/javascript'>
                                 $( document ).ready(function() {
@@ -449,13 +493,47 @@ class Gudang extends CI_Controller
         //header pembelian = delete transaksi pembelian
         public function bayar_pembelian_barang($kode_pembelian)
         {
-            $bayar  = [
-                'status_pembelian'      => 'lunas',
-                'tgl_pembayaran'        => date('Y-m-d H:i:s'),
-                'no_invoice_pembayaran' => 'tes' #TODO - create fungsi generate invoice
-            ];
-            $this->admin_model->update_data('kode_pembelian',$kode_pembelian,'pembelian',$bayar);
-            $notif = "<script type='text/javascript'>
+            $exist = $this->admin_model->cek_data(['kode_pembelian'=>$kode_pembelian],'pembelian');
+
+            if ($exist->num_rows()==0){
+                //pembelian tidak ada
+                $notif = "<script type='text/javascript'>
+                            $( document ).ready(function() {
+                                swal({
+                                    type    : 'error',
+                                    title   : 'Gagal!',
+                                    html    : '<h5>Data Pembelian Tidak Ditemukan!</h5>',
+                                    focusConfirm: true,
+                                })
+                            });
+                        </script>";
+                //set kedalam flash data
+                $this->session->set_flashdata('notif', $notif);
+                redirect(site_url('order_pembelian.php'));
+            } else {
+                if ($exist->row()->total_pembelian <= 0){
+                    //pembelian belum ada isi nya
+                    $notif = "<script type='text/javascript'>
+                            $( document ).ready(function() {
+                                swal({
+                                    type    : 'error',
+                                    title   : 'Gagal!',
+                                    html    : '<h5>Data Pembelian Spare Part Tidak Boleh Kosong!</h5>',
+                                    focusConfirm: true,
+                                })
+                            });
+                        </script>";
+                    //set kedalam flash data
+                    $this->session->set_flashdata('notif', $notif);
+                    redirect(site_url('add_pembelian_barang/'.$kode_pembelian));
+                }else{
+                    $bayar  = [
+                        'status_pembelian'      => 'lunas',
+                        'tgl_pembayaran'        => date('Y-m-d H:i:s'),
+                        'no_invoice_pembayaran' => $this->admin_model->get_no_invoice_pembelian()
+                    ];
+                    $this->admin_model->update_data('kode_pembelian',$kode_pembelian,'pembelian',$bayar);
+                    $notif = "<script type='text/javascript'>
                             $( document ).ready(function() {
                                 swal({
                                     type    : 'success',
@@ -465,9 +543,11 @@ class Gudang extends CI_Controller
                                 })
                             });
                         </script>";
-            //set kedalam flash data
-            $this->session->set_flashdata('notif', $notif);
-            redirect(site_url('order_pembelian.php'));
+                    //set kedalam flash data
+                    $this->session->set_flashdata('notif', $notif);
+                    redirect(site_url('order_pembelian.php'));
+                }
+            }
         }
     //  end of detail
 

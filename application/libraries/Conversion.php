@@ -36,6 +36,7 @@ class Conversion {
         }
 
     }
+
     function get_level($level_id = null)
     {
         if ($level_id == null){
@@ -59,6 +60,17 @@ class Conversion {
         }else{
             return false;
         }
+    }
+
+    function get_status_pembelian($status)
+    {
+       if ($status=='input'){
+           return 'Belum Di Simpan';
+       }elseif($status=='belum_lunas'){
+           return 'Belum Ada Pembayaran';
+       }elseif($status=='lunas'){
+           return 'Lunas';
+       }
     }
 
 }
