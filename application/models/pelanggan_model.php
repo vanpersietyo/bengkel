@@ -96,7 +96,6 @@ class Pelanggan_model extends CI_Model {
             }
         }
         return $kode_kendaraan;
-        #TODO -- buat fungsi generate kode kendaraan acak
     }
 
     function get_list_kendaraan_user($kode_user){

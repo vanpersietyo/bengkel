@@ -213,24 +213,46 @@ class Admin_model extends CI_Model {
         return TRUE;
     }
 
-    function get_no_invoice()
-    {
-        $this->db->select_max(" RIGHT(kode_pembelian,4)", 'kd_max');//select
-        $query = $this->db->get('pembelian');
-        $kd = "";
-        if($query->num_rows()>0)
-        {
-            foreach($query->result() as $k)
-            {
-                $tmp = ((int)$k->kd_max)+1;
-                $kd = sprintf("%04s", $tmp);
+    public function get_no_registrasi_pelanggan(){
+        $x                  = 0;
+        $length             = 10;
+        $characters         = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength   = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        $kode = $randomString;
+
+        while ($x==0){
+            $this->db->where("no_registrasi ='".$kode."' ");
+            $result=$this->db->get('user');
+            if ($result->num_rows()==0){
+                $no_reg = $kode;
+                $x = 1;
+            } else {
+                $randomString = '';
+                for ($i = 0; $i < $length; $i++) {
+                    $randomString .= $characters[rand(0, $charactersLength - 1)];
+                }
+                $kode=$randomString;
+                $no_reg = 0;
             }
         }
-        else
-        {
-            $kd = "0001";
+        return $no_reg;
+
+    }
+
+    public function generate_password(){
+        $x                  = 0;
+        $length             = 8;
+        $characters         = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength   = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
-        return 'PBLN'.date('Ymd').$kd;
+        return $randomString;
     }
 }
 ?>

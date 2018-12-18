@@ -11,7 +11,7 @@
 if ($notif=='login_sukses') {?>
     <script type='text/javascript'>
         swal({
-            title: '<strong>Welcome <?=$this->session->userdata("username");?> </strong>',
+            title: '<strong>Welcome <?=$this->session->userdata("username")?:$this->session->userdata("no_reg");?> </strong>',
             type: 'success',
             html:
             '<h5>Login Berhasil. </h5>',

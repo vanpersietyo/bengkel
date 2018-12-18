@@ -8,17 +8,27 @@
 ?>
 <li>
     <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Register Servis</span>
+        <i class="fa fa-calendar"></i> <span>Antrian Layanan</span>
     </a>
 </li>
 <li>
     <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Transaksi Servis</span>
+        <i class="fa fa-calendar"></i> <span>Registrasi Layanan</span>
     </a>
 </li>
 <li>
     <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Cek Stok Spare Part</span>
+        <i class="fa fa-calendar"></i> <span>Proses Layanan</span>
+    </a>
+</li>
+<li>
+    <a  href="<?=site_url('master/barang')?>">
+        <i class="fa fa-calendar"></i> <span>Outstanding Layanan<span>
+    </a>
+</li>
+<li>
+    <a  href="<?=site_url('master/barang')?>">
+        <i class="fa fa-calendar"></i> <span>Invoice Layanan</span>
     </a>
 </li>
 
@@ -51,17 +61,17 @@
 <li class="header">Laporan</li>
 <li>
     <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Laporan Servis Harian</span>
+        <i class="fa fa-calendar"></i> <span>Transaksi Harian</span>
     </a>
 </li>
 <li>
     <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Laporan Penjualan Spare Part</span>
+        <i class="fa fa-calendar"></i> <span>Penjualan Spare Part</span>
     </a>
 </li>
 <li>
     <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Laporan Stok Spare Part</span>
+        <i class="fa fa-calendar"></i> <span>Stok Spare Part</span>
     </a>
 </li>
 <!--                <li>-->

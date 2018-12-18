@@ -18,6 +18,30 @@ if ( ! function_exists('get_level'))
     }
 }
 
+if ( ! function_exists('get_status_penjualan'))
+{
+    function get_status_penjualan($lvl)
+    {
+//        1 = antrian ;
+//        2 = verifikasi ;
+//        3 = sedang proses servis ;
+//        4 = selesai servis / invoice outstanding / tunggu pembayaran ;
+//        5 = lunas/selesai
+
+        if ($lvl==1){
+            return 'antrian';
+        }elseif($lvl==2){
+            return 'Registrasi';
+        }elseif($lvl==3){
+            return 'Proses';
+        }elseif($lvl==5){
+            return 'Belum Lunas';
+        }elseif($lvl==6){
+            return 'Lunas';
+        }
+    }
+}
+
 if ( ! function_exists('spell')) {
     function spell($value)
     {

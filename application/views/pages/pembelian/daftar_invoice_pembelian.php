@@ -6,6 +6,7 @@
  * Time: 10:00
  */
 ?>
+
 <div class="row">
     <div class="col-md-12">
         <div class="box box-primary">
@@ -20,6 +21,7 @@
                             <th width="15%">Tanggal Invoice</th>
                             <th width="25%">Order Pembelian</th>
                             <th width="15%">Supplier</th>
+                            <th width="15%">Total</th>
                             <th width="5%">Aksi</th>
                         </tr>
                         </thead>
@@ -31,8 +33,9 @@
                                 <td><?=dateIndo($value->tgl_pembayaran,1);?></td>
                                 <td><?=$value->kode_pembelian.' - '.dateIndo($value->tgl_pembelian,1);?></td>
                                 <td><?=capitalize_each_first($value->nama_supplier);?></td>
+                                <td><?=numberFormat($value->total_pembelian);?></td>
                                 <td class="text-center">
-                                    <a title="lihat invoice" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('invoice/').$value->no_invoice_pembayaran?>"><i class="fa fa-file-text-o"></i></a>
+                                    <a title="lihat invoice" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('invoice/'.$value->kode_pembelian)?>"><i class="fa fa-file-text-o"></i></a>
                                 </td>
                             </tr>
                         <?php }?>

@@ -8,11 +8,17 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * @property Admin_model     $admin_model
+ * @property Login_model     $login_model
+ * @property Conversion      $conversion
+ */
 class Login extends CI_Controller {
 
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('admin_model');
     }
 
     public function index(){
@@ -34,6 +40,7 @@ class Login extends CI_Controller {
              'kode_user' => $result->row()->kode_user,
              'email'     => $result->row()->email,
              'level'     => $result->row()->id_level,
+             'no_reg'    => $result->row()->no_registrasi,
              'logged_in' => TRUE
             );
             $this->session->set_userdata($session);
@@ -52,6 +59,7 @@ class Login extends CI_Controller {
 
     public function cek_register(){
         $username           = $this->input->post('username');
+        $nama               = $this->input->post('nama');
         $email              = $this->input->post('email');
         $password           = $this->input->post('password');
         $confirm_password   = $this->input->post('password');
@@ -60,7 +68,7 @@ class Login extends CI_Controller {
         $token              = md5($username.'/'.session_id().'/'.time());
 
         //validasi
-        $this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[user.username]|max_length[15]|min_length[5]');
+        $this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[user.username]|max_length[15]|min_length[5]|alpha_numeric');
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[user.email]');
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]|max_length[15]');
         $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|trim|matches[password]');
@@ -75,7 +83,7 @@ class Login extends CI_Controller {
                 //kirim email kembali
                 $data = array(
                     'to'				=> $email,
-                    'from'				=> 'support@buspariwisatasidoarjo.com',
+                    'from'				=> 'admin@sibengkel.online',
                     'from_nama'			=> 'Aktivasi Pendaftaran Si Bengkel',
                     'subject'			=> 'Pendaftaran Akun Baru Si Bengkel',
                     'header_content'	=> '<h3>Aktivasi Akun</h3>',
@@ -93,11 +101,13 @@ class Login extends CI_Controller {
         }
         else {
             $data=array(
-                'kode_user' => $this->login_model->kode_auto('user','kode_user','USR'),
-                'username'  => $username,
-                'password'  => md5($password),
-                'email'     => $email,
-                'token'     => $token,
+                'kode_user'     => $this->login_model->kode_auto('user','kode_user','USR'),
+                'username'      => $username,
+                'nama'          => $nama,
+                'no_registrasi' => $this->admin_model->get_no_registrasi_pelanggan(),
+                'password'      => md5($password),
+                'email'         => $email,
+                'token'         => $token,
                 'request_token' => 1,
             );
             $this->login_model->insert_data('user',$data);
@@ -135,7 +145,7 @@ class Login extends CI_Controller {
             $data=array(
                 'request_token' => 0,
                 'is_active'     => 1,
-                'token'         => '',
+                'token'         => ''
             );
             $this->login_model->update_data('id_user',$id_user,'user',$data);
             $notif 	= $this->load->view('pages/login/notif_login',array('notif' =>'aktivasi_sukses'), TRUE);
@@ -162,7 +172,7 @@ class Login extends CI_Controller {
 
             $data = array(
                 'to'				=> $password->row()->email,
-                'from'				=> 'support@buspariwisatasidoarjo.com',
+                'from'				=> 'admin@sibengkel.online',
                 'from_nama'			=> 'Admin Si Bengkel',
                 'subject'			=> 'Reset Password Akun Si Bengkel',
                 'header_content'	=> '<h3>Reset Password Akun</h3>',
@@ -246,12 +256,21 @@ class Login extends CI_Controller {
         //load library email
         $this->load->library('Email');
         //SMTP & mail configuration
+//        $config = array(
+//            'protocol'  => 'smtp',
+//            'smtp_host' => 'ssl://rizaltrans.adhityaelenwedding.com',
+//            'smtp_port' =>  465,
+//            'smtp_user' => 'admin@rizaltrans.adhityaelenwedding.com',
+//            'smtp_pass' => 'rizaltrans',
+//            'mailtype'  => 'html',
+//            'charset'   => 'utf-8'
+//        );candra123890
         $config = array(
             'protocol'  => 'smtp',
-            'smtp_host' => 'ssl://rizaltrans.adhityaelenwedding.com',
+            'smtp_host' => 'ssl://sibengkel.online',
             'smtp_port' =>  465,
-            'smtp_user' => 'admin@rizaltrans.adhityaelenwedding.com',
-            'smtp_pass' => 'rizaltrans',
+            'smtp_user' => 'admin@sibengkel.online',
+            'smtp_pass' => 'candra123890',
             'mailtype'  => 'html',
             'charset'   => 'utf-8'
         );

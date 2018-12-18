@@ -57,13 +57,23 @@ $route['master/edit_kendaraan.do']      = 'admin/proses_edit_kendaraan';
     $route['master/tambah_layanan.php']         = 'admin/proses_tambah_barang/layanan';
     $route['master/hapus_layanan/(:any)']       = 'admin/delete_barang/layanan/$1';
 
+    $route['master/edit_layanan/(:any)']        = 'admin/edit_barang/layanan/$1';
+    $route['master/edit_layanan.do']            = 'admin/proses_edit_barang/layanan';
+
+
     //spare part
     $route['master/spare_part.php']             = 'admin/daftar_barang/spare_part';
     $route['master/tambah_spare_part.php']      = 'admin/proses_tambah_barang/spare_part';
     $route['master/hapus_spare_part/(:any)']    = 'admin/delete_barang/spare_part/$1';
+    $route['master/edit_spare_part/(:any)']     = 'admin/edit_barang/spare_part/$1';
+    $route['master/edit_spare_part.do']         = 'admin/proses_edit_barang/spare_part';
 
 //master pelanggan
-$route['master/pelanggan.php']      = 'admin/daftar_pelanggan';
+$route['master/pelanggan.php']                  = 'admin/daftar_pelanggan';
+$route['master/delete_pelanggan.do/(:any)']     = 'admin/delete_pelanggan/$1';
+$route['master/tambah_pelanggan.php']           = 'admin/proses_tambah_pelanggan';
+$route['master/edit_pelanggan/(:any)']          = 'admin/form_edit_pelanggan/$1';
+$route['master/edit_pelanggan.php']             = 'admin/proses_edit_pelanggan';
 
 //master supplier
 $route['master/supplier.php']           = 'gudang/daftar_supplier';
@@ -103,5 +113,7 @@ $route['master/delete_supplier/(:any)'] = 'gudang/delete_supplier/$1';
 
     $route['delete_order_pembelian/(:any)']     = 'gudang/delete_pembelian/order/$1';
     $route['delete_invoice_pembelian/(:any)']   = 'gudang/delete_pembelian/invoice/$1';
+    $route['invoice/(:any)']                    = 'gudang/invoice_pembelian/$1';
+
 
 

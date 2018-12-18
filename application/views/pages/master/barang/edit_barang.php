@@ -6,137 +6,113 @@
  * Time: 11:11
  */
 ?>
-<?php
-/**
- * Created by PhpStorm.
- * User: Candra Dewi
- * Date: 08/12/2018
- * Time: 17:57
- */
-?>
-
-
 <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-4">
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title">Tambah Data Kendaraan</h3>
+                <h3 class="box-title">Ubah Data <?=$subtitle?></h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal" method="post"  action="javascript:void(0)" id="form_edit_kendaraan" onsubmit="edit_kendaraan()">
+            <form class="form-horizontal" method="post"  action="javascript:void(0)" id="form_edit_barang" onsubmit="edit_barang()">
                 <div class="box-body">
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <label >Merk</label>
-                            <input type="text" class="form-control" name="merk" id="merk" required="required" value="<?=capitalize_each_first($kendaraan->merk)?>" >
-                            <input type="hidden" name="id" value="<?=$kendaraan->id?>" >
+                            <label >Kode <?=$subtitle?></label>
+                            <input type="text" readonly="readonly" class="form-control" name="kode" value="<?=$barang->kode;?>">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <label>Jenis <?=$subtitle?></label>
+                            <select data-live-search-placeholder="Cari <?=$jenis?>" class="selectpicker form-control" name="kategori" data-show-subtext="true" data-live-search="true">
+                                <?php
+                                $i = 1;
+                                foreach ($kategori->result() as $key => $value){
+                                    if ($value->kode_kategori==$barang->kode_kategori){?>
+                                        <option selected="selected" value="<?=$value->kode_kategori?>"><?=$value->kode_kategori.' - '.$value->nama_kategori?></option>
+                                    <?php }else{?>
+                                        <option value="<?=$value->kode_kategori?>"><?=$value->kode_kategori.' - '.$value->nama_kategori?></option>
+                                        <?php } ?>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label >Nama <?=$subtitle?></label>
+                            <input type="text" class="form-control" name="nama" id="nama" required="required" value="<?=$barang->nama?>">
+                        </div>
+                    </div>
+                    <?php
+                    if ($jenis=='spare_part'){?>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label >Satuan <?=$subtitle?></label>
+                                <input type="text" class="form-control" name="satuan" required="required" value="<?=$barang->satuan?>">
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label >Harga <?=$subtitle?></label>
+                            <input type="text" onfocus="$(this).select()" id="harga" name="harga" value="<?=$barang->harga?>" class="form-control" required="required" />
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <label >Tipe</label>
-                            <input name="tipe" type="text" class="form-control" required="required" value="<?=capitalize_each_first($kendaraan->tipe)?>">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <label >Keterangan</label>
-                            <input type="text" name="keterangan" class="form-control" value="<?=capitalize_each_first($kendaraan->keterangan)?>">
+                            <label >Keterangan <?=$subtitle?></label>
+                            <input type="text" name="keterangan" class="form-control" value="<?=$barang->keterangan?>">
                         </div>
                     </div>
 
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
-                    <a href="<?= site_url('master/kendaraan.php')?>" type="button" class="btn btn-default">Batal</a>
+                    <a href="<?= site_url('master/'.$jenis.'.php')?>" type="button" class="btn btn-default">Batal</a>
                     <button type="submit" class="btn btn-info pull-right">Ubah</button>
                 </div>
                 <!-- /.box-footer -->
             </form>
         </div>
     </div>
-    <div class="col-md-7">
-        <div class="box box-info">
-            <!-- /.box-header -->
-            <div class="box-body">
-                <table id="example2" class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th class="text-center" width="5%">No.</th>
-                        <th width="28%">Merk</th>
-                        <th width="28%">Tipe</th>
-                        <th width="23%">Keterangan</th>
-                        <th width="15%">Aksi</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php $i=1; foreach ($daftar_kendaraan->result() as $key => $value){?>
-                        <tr>
-                            <td class="text-center"><?=$i++?></td>
-                            <td><?=capitalize_each_first($value->merk);?></td>
-                            <td><?=capitalize_each_first($value->tipe);?></td>
-                            <td><?=capitalize_each_first($value->keterangan);?></td>
-                            <td class="text-center">
-                                <a title="edit data kendaraan" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('master/edit_kendaraan/').$value->id?>"><i class="fa fa-edit"></i></a>
-                                <a title="hapus data kendaraan" class="btn btn-flat btn-danger btn-xs" onclick="delete_kendaraan(<?=$value->id?>)" href="javascript:void(0)"><i class="fa fa-close"></i></a>
-                            </td>
-                        </tr>
-                    <?php }?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="col-md-8">
+        <?php $this->load->view('pages/master/barang/tabel_barang')?>
     </div>
 </div>
 
 <div class="result_content"></div>
 <?php echo $this->session->flashdata('notif');?>
-<script>
-    //untuk datatable
-    $(function () {
-        $('#example2').DataTable({
-            'paging'      : true,
-            'lengthChange': false,
-            'searching'   : true,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : false
-        })
-    });
-    //auto focus kolom merk
+
+<script>//auto focus kolom merk
     $( document ).ready(function() {
-        $("#merk").focus();
+        $("#nama").focus();
+
+        //untuk format input uang
+        $("#harga").inputmask({
+            prefix: "Rp. ",
+            groupSeparator: ".",
+            alias: "numeric",
+            placeholder: "0",
+            autoGroup: !0,
+            digits: 0,
+            digitsOptional: !1,
+            clearMaskOnLostFocus: !1,
+            rightAlign: false });
     });
     //function tambah delete data
-    function edit_kendaraan() {
+    function edit_barang() {
         $.ajax({
-            url : '<?=site_url('master/edit_kendaraan.do')?>',
-            data: $('#form_edit_kendaraan').serialize(),
+            url : "<?=site_url('master/edit_'.$jenis.'.do')?>",
+            data: $('#form_edit_barang').serialize(),
             type: 'POST',
             success: function (data) {
                 $('.result_content').html(data);
             }
         });
-    }
-
-    //function untuk delete data
-    function delete_kendaraan($id) {
-        swal({
-            title: 'Delete Data?',
-            html: '<h5>Yakin akan delete data ini?</h5>',
-            type: 'info',
-            showCancelButton: true,
-            allowOutsideClick: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya'
-        }).then((result) => {
-            if (result.value) {
-                window.location.href = '<?= site_url('master/delete_kendaraan/')?>'+$id;
-            }
-        })
     }
 </script>

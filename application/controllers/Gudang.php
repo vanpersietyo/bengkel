@@ -223,7 +223,7 @@ class Gudang extends CI_Controller
             'page'              => 'pages/pembelian/daftar_invoice_pembelian',
             'title'             => 'Daftar Invoice Pembelian',
             'subtitle'          => 'Spare Part',
-            'daftar_pembelian'  => $this->admin_model->get_list_pembelian("status_pembelian in ('input','lunas')")
+            'daftar_pembelian'  => $this->admin_model->get_list_pembelian("status_pembelian in ('lunas')")
         ];
         $this->load->view('templates/layout', $data);
     }
@@ -545,12 +545,24 @@ class Gudang extends CI_Controller
                         </script>";
                     //set kedalam flash data
                     $this->session->set_flashdata('notif', $notif);
-                    redirect(site_url('order_pembelian.php'));
+                    redirect(site_url('invoice/'.$kode_pembelian));
                 }
             }
         }
     //  end of detail
 
+    public function invoice_pembelian($kode_pembelian){
+        $pembelian  = $this->admin_model->get_list_pembelian(['status_pembelian'=>'lunas','kode_pembelian'=>$kode_pembelian])->row();
+        $data   = [
+            'page'              => 'pages/pembelian/invoice_pembelian',
+            'title'             => 'Invoice Pembelian',
+            'subtitle'          => $kode_pembelian,
+            'pembelian'         => $pembelian,
+            'supplier'          => $this->admin_model->cek_data(['kode_supplier'=>$pembelian->kode_supplier],'supplier')->row(),
+            'detail_pembelian'  => $this->admin_model->get_list_barang_pembelian(['kode_pembelian' => $kode_pembelian])->result(),
+        ];
+        $this->load->view('templates/layout',$data);
+    }
     #TODO - create fungsi edit pembelian barang
 
 // end transaksi

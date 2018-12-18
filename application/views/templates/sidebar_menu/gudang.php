@@ -14,9 +14,9 @@
                 </span>
     </a>
     <ul class="treeview-menu">
-        <li><a href="<?= site_url('add_pembelian.php')?>"><i class="fa fa-circle-o"></i> Tambah Pembelian</a></li>
-        <li><a href="<?= site_url('order_pembelian.php')?>"><i class="fa fa-circle-o"></i>List Order Pembelian</a></li>
-        <li><a href="<?= site_url('invoice_pembelian.php')?>"><i class="fa fa-circle-o"></i>List Invoice Pembelian</a></li>
+        <li><a href="<?= site_url('add_pembelian.php')?>">      <i class="fa fa-circle-o"></i>Tambah Pembelian      </a></li>
+        <li><a href="<?= site_url('order_pembelian.php')?>">    <i class="fa fa-circle-o"></i>List Order Pembelian  </a></li>
+        <li><a href="<?= site_url('invoice_pembelian.php')?>">  <i class="fa fa-circle-o"></i>List Invoice Pembelian</a></li>
     </ul>
 </li>
 

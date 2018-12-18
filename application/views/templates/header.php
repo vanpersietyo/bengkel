@@ -92,7 +92,7 @@
                             <li class="user-header">
                                 <img src="<?=base_url('assets/adminlte/')?>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                                 <p>
-                                    <?=$this->session->userdata('username')?> - <?=$level->nama_level?>
+                                    <?=$this->session->userdata('username') ?: $this->session->userdata('no_reg') ?> - <?=$level->nama_level?>
                                     <?php
 
                                     $member_since = $this->login_model->cek_data(array('kode_user'=>$this->session->userdata('kode_user')),'user')->row()->entry_time;

@@ -3,8 +3,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * @property Admin_model     $admin_model
- * @property Conversion      $conversion
+ * @property Admin_model        $admin_model
+ * @property Conversion         $conversion
+ * @property My_email           $my_email
  */
 class Admin extends CI_Controller {
 
@@ -14,6 +15,7 @@ class Admin extends CI_Controller {
         if ($this->conversion->hak_akses_admin()==FALSE){
             redirect(site_url(''));
         }
+        $this->load->library('my_email');
     }
 
 //  start master kendaraan
@@ -167,7 +169,6 @@ class Admin extends CI_Controller {
     }
 //  end master kendaraan
 
-
 //  start master kategori barang
     public function daftar_kategori_barang($jenis){ // routes from->master/kendaraan.php
         $data=array(
@@ -257,7 +258,6 @@ class Admin extends CI_Controller {
             $data=array(
                 'page'              => 'pages/master/kategori_barang/edit_kategori_barang',
                 'title'             => 'Daftar',
-                'subtitle'          => 'Kendaraan',
                 'subtitle'          => capitalize_each_first( str_replace('_',' ','Jenis '.$jenis) ),
                 'jenis'             => $jenis,
                 'kategori_barang'   => $exist->row(),
@@ -432,17 +432,17 @@ class Admin extends CI_Controller {
     }
 
     public function edit_barang($jenis,$id){
-        $exist = $this->admin_model->cek_data(array('kode_kategori'=>$id,'jenis_kategori'=>$jenis),'kategori_barang');
+        $exist = $this->admin_model->cek_data(['kode'=>$id],'barang');
 
         if ($exist->num_rows()==1){
             $data=array(
-                'page'              => 'pages/master/kategori_barang/edit_kategori_barang',
+                'page'              => 'pages/master/barang/edit_barang',
                 'title'             => 'Daftar',
-                'subtitle'          => 'Kendaraan',
-                'subtitle'          => capitalize_each_first( str_replace('_',' ','Jenis '.$jenis) ),
+                'subtitle'          => capitalize_each_first(str_replace('_',' ',$jenis)),
                 'jenis'             => $jenis,
-                'kategori_barang'   => $exist->row(),
-                'daftar_kategori_barang'=> $this->admin_model->cek_data("jenis_kategori = '{$jenis}' ",'kategori_barang','entry_time','ASC')
+                'barang'            => $exist->row(),
+                'daftar_barang'     => $this->admin_model->get_daftar_barang($jenis),
+                'kategori'          => $this->admin_model->cek_data("jenis_kategori = '{$jenis}'",'kategori_barang','entry_time','ASC')
             );
             $this->load->view('templates/layout',$data);
         } else {
@@ -465,17 +465,37 @@ class Admin extends CI_Controller {
     }
 
     public function proses_edit_barang($jenis){ //TODO -- Tambahkan proses edit barang, ini masih copas edit kategori barang
-        $kode_kategori              = $this->input->post('kode');
+        $kode              = $this->input->post('kode');
         $data = array(
-            'nama_kategori'          => $this->input->post('nama'),
-            'keterangan_kategori'    => $this->input->post('keterangan')
+            'nama'          => $this->input->post('nama'),
+            'harga'         => replace_input_mask($this->input->post('harga')),
+            'keterangan'    => $this->input->post('keterangan'),
+            'jenis'         => $jenis,
+            'kode_kategori' => $this->input->post('kategori'),
+            'satuan'        => ($this->input->post('satuan') ?: 'jasa'),
+            'change_by'     => $this->session->userdata('username')
         );
-        $where      = "nama_kategori = '{$data['nama_kategori']}' and kode_kategori != '{$kode_kategori}'";
-        $exist = $this->admin_model->cek_data($where,'kategori_barang')->num_rows();//cek sudah ada atau belum di database
-        if ($exist==0){
-            $this->admin_model->update_data('kode_kategori',$kode_kategori,'kategori_barang',$data);
-            //echo notif update sukses';
+
+        if($data['harga']<=0){
+            //set notif harga tidak boleh 0
             echo "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            type    : 'error',
+                            title   : 'Gagal',
+                            html    : '<h4>Harga Tidak Boleh 0 atau Minus !</h4>',
+                            allowOutsideClick: false,
+                            focusConfirm: true,
+                        })
+                    });
+                </script>";
+        } else {
+            $where      = "(nama = '{$data['nama']}' and jenis ='{$jenis}' and kode_kategori = '{$data['kode_kategori']}') and kode != '{$kode}'";
+            $exist = $this->admin_model->cek_data($where,'barang')->num_rows();//cek sudah ada atau belum di database
+            if ($exist==0){
+                $this->admin_model->update_data('kode',$kode,'barang',$data);
+                //echo notif update sukses';
+                echo "<script type='text/javascript'>
                     $( document ).ready(function() {
                         swal({
                             title: 'Berhasil',
@@ -492,10 +512,10 @@ class Admin extends CI_Controller {
                         });
                     });
                 </script>";
-        }
-        else {
-            //set notif
-            echo "<script type='text/javascript'>
+            }
+            else {
+                //set notif
+                echo "<script type='text/javascript'>
                     $( document ).ready(function() {
                         swal({
                             type    : 'error',
@@ -506,7 +526,10 @@ class Admin extends CI_Controller {
                         })
                     });
                 </script>";
+            }
         }
+
+
     }
 //  end master barang
 
@@ -517,10 +540,207 @@ class Admin extends CI_Controller {
             'page'              => 'pages/master/pelanggan/daftar_pelanggan',
             'title'             => 'Daftar',
             'subtitle'          => 'Pelanggan',
+            'kode_pelanggan'    => $this->admin_model->get_no_registrasi_pelanggan(),
             'daftar_pelanggan'  => $this->admin_model->cek_data("id_level = '5' ",'user','','ASC')
         );
         $this->load->view('templates/layout',$data);
     }
+
+    public function proses_tambah_pelanggan(){
+        $email      = $this->input->post('email');
+        $token      = md5($email.'/'.session_id().'/'.time());
+        $password   = $this->admin_model->generate_password();
+        $data   = [
+            'kode_user'     => $this->admin_model->kode_auto('user','kode_user','USR'),
+            'no_registrasi' => $this->input->post('kode_registrasi'),
+            'nama'          => $this->input->post('nama'),
+            'email'         => $email,
+            'alamat'        => $this->input->post('alamat'),
+            'telepon'       => $this->input->post('telepon'),
+            'password'      => md5($password),
+            'token'         => $token,
+            'request_token' => 1,
+        ];
+        //kirim email kembali
+        $exist  = $this->admin_model->cek_data(['email'=>$email],'user');
+        if($exist->num_rows()==0){
+            $kirim   = array(
+                'to'				=> $email,
+                'from'				=> 'admin@sibengkel.online',
+                'from_nama'			=> 'Aktivasi Pendaftaran Si Bengkel',
+                'subject'			=> 'Pendaftaran Akun Baru Si Bengkel',
+                'header_content'	=> '<h3>Aktivasi Akun</h3>',
+                'detail_content'	=> "Selamat Datang di SI Bengkel. Akun anda adalah <br> 
+                                        Email : $email <br> Password = $password
+                                        <p>Klik <a href='".site_url('aktivasi/').$token."' target='_blank'>link ini</a> untuk aktivasi akun.</p>"
+            );
+            $result=$this->my_email->send_email($kirim);//kirim email dengan panggil funsi send_email
+            if ($result==true){
+                //echo 'data sukses';
+                echo "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                       loading();
+                    });
+                </script>";
+                $this->admin_model->insert_data('user',$data);
+                //echo 'data sukses';
+                echo "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            title: 'Berhasil',
+                            html: '<h4>Data Berhasil Ditambahkan</h4>',
+                            type: 'success',
+                            showCancelButton: false,
+                            allowOutsideClick: false,
+                            confirmButtonText: 'Oke'
+                        }).then((result) => {
+                            if (result.value) {
+                                location.reload();//refresh halaman
+                            }
+                        });
+                    });
+                </script>";
+            }else{
+                //set notif
+                echo "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            type    : 'error',
+                            title   : 'Gagal',
+                            html    : '<h4>Gagal Mengirim Email, Coba Lagi</h4>',
+                            focusConfirm: true,
+                        })
+                    });
+                </script>";
+            }
+        }else{
+            //set notif
+            echo "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            type    : 'error',
+                            title   : 'Gagal',
+                            html    : '<h4>Email Sudah Terdaftar!</h4>',
+                            focusConfirm: true,
+                        })
+                    });
+                </script>";
+        }
+
+    }
+
+    public function form_edit_pelanggan($no_reg){
+        $exist  = $this->admin_model->cek_data(['no_registrasi'=>$no_reg],'user');
+        if ($exist->num_rows()==0){
+            //set notif
+            $notif  = "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            type    : 'error',
+                            title   : 'Gagal',
+                            html    : '<h4>Data Tidak Ditemukan</h4>',
+                            focusConfirm: true,
+                        })
+                    });
+                </script>";
+            //set kedalam flash data
+            $this->session->set_flashdata('notif', $notif);
+            //redirect ke halaman daftar kendaraan dengan membawa notif
+            redirect(site_url('master/pelanggan.php'));
+        }else{
+            $data=array(
+                'page'              => 'pages/master/pelanggan/form_edit_pelanggan',
+                'title'             => 'Daftar',
+                'subtitle'          => 'Pelanggan',
+                'pelanggan'         => $exist->row(),
+                'daftar_pelanggan'  => $this->admin_model->cek_data("id_level = '5' ",'user','','ASC')
+            );
+            $this->load->view('templates/layout',$data);
+        }
+    }
+
+    public function proses_edit_pelanggan(){
+        $no_reg      = $this->input->post('kode_registrasi');
+        $data   = [
+            'nama'          => $this->input->post('nama'),
+            'alamat'        => $this->input->post('alamat'),
+            'telepon'       => $this->input->post('telepon'),
+        ];
+        //kirim email kembali
+        $exist  = $this->admin_model->cek_data(['no_registrasi'=>$no_reg],'user');
+        if($exist->num_rows()==0){
+            //set notif
+            echo "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            type    : 'error',
+                            title   : 'Gagal',
+                            html    : '<h4>Data User Tidak Ditemukan!</h4>',
+                            focusConfirm: true,
+                        })
+                    });
+                </script>";
+        }else{
+            $this->admin_model->update_data('id_user',$exist->row()->id_user,'user',$data);                //echo 'data sukses';
+            echo "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            title: 'Berhasil',
+                            html: '<h4>Data Berhasil Diubah</h4>',
+                            type: 'success',
+                            showCancelButton: false,
+                            allowOutsideClick: false,
+                            confirmButtonText: 'Oke'
+                        }).then((result) => {
+                            if (result.value) {
+                                location.reload();//refresh halaman
+                            }
+                        });
+                    });
+                </script>";
+        }
+
+    }
+
+    public function delete_pelanggan($noreg){
+        $exist  = $this->admin_model->cek_data(['no_registrasi'=>$noreg],'user');
+        if ($exist->num_rows()==0){
+            $notif = "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            type    : 'error',
+                            title   : 'Gagal!',
+                            html    : '<h5>Data Tidak Ditemukan!</h5>',
+                            focusConfirm: true,
+                        })
+                    });
+                </script>";
+            //set kedalam flash data
+            $this->session->set_flashdata('notif', $notif);
+            //redirect ke halaman daftar kendaraan dengan membawa notif
+            redirect(site_url('master/pelanggan.php'));
+        }else{
+            //delete data dari database
+            $this->admin_model->delete_data('id_user',$exist->row()->id_user,'user');
+            //set isi notif untuk ditampilkan
+            $notif = "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            type    : 'success',
+                            title   : 'Deleted!',
+                            html    : '<h5>Data Sudah Berhasil Dihapus!</h5>',
+                            focusConfirm: true,
+                        })
+                    });
+                </script>";
+            //set kedalam flash data
+            $this->session->set_flashdata('notif', $notif);
+            //redirect ke halaman daftar kendaraan dengan membawa notif
+            redirect(site_url('master/pelanggan.php'));
+        }
+
+    }
+
 
 
 }

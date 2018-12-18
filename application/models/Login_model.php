@@ -29,7 +29,7 @@ class Login_model extends CI_Model {
 
     public function cek_forgot_password($data,$tabel)
     {
-        $where = "(username='".$data["username"]."' OR email='".$data["username"]."') and is_active=1 and request_password=0";
+        $where = "(username='".$data["username"]."' OR email='".$data["username"]."') and is_active=1";
         $this->db->where($where);
         $result=$this->db->get($tabel);
         return $result;

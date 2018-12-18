@@ -86,62 +86,19 @@
         </div>
     </div>
     <div class="col-md-8">
-        <div class="box box-info">
-            <!-- /.box-header -->
-            <div class="box-body">
-                <div class="table-responsive">
-                    <table id="example2" class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th class="text-center" width="5%">No.</th>
-                        <th width="30%"><?=$subtitle?></th>
-                        <th width="20%">Jenis <?=$subtitle?></th>
-                        <th width="15%">Harga</th>
-                        <th width="15%">Keterangan</th>
-                        <th width="15%">Aksi</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php $i=1; foreach ($daftar_barang->result() as $key => $value){?>
-                        <tr>
-                            <td class="text-center"><?=$i++?></td>
-                            <td ><?=$value->kode.' - '.capitalize_each_first($value->nama);?></td>
-                            <td><?=capitalize_each_first($value->nama_kategori);?></td>
-                            <td><?=capitalize_each_first($value->harga);?></td>
-                            <td><?=capitalize_each_first($value->keterangan);?></td>
-                            <td class="text-center">
-                                <a title="edit data kendaraan" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('master/edit_kendaraan/').$value->kode?>"><i class="fa fa-edit"></i></a>
-                                <a title="hapus data kendaraan" class="btn btn-flat btn-danger btn-xs" onclick="delete_barang('<?=$value->kode?>')" href="javascript:void(0)"><i class="fa fa-close"></i></a>
-                            </td>
-                        </tr>
-                    <?php }?>
-                    </tbody>
-                </table>
-                </div>
-
-            </div>
-        </div>
+        <?php $this->load->view('pages/master/barang/tabel_barang')?>
     </div>
 </div>
 
 <div class="result_content"></div>
 <?php echo $this->session->flashdata('notif');?>
+
 <script>
     $(function () {
         //Initialize Select2 Elements
         $('.select2').select2()
     });
-    //untuk datatable
-    $(function () {
-        $('#example2').DataTable({
-            'paging'      : true,
-            'lengthChange': false,
-            'searching'   : true,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : false
-        })
-    });
+
     //auto focus kolom merk
     $( document ).ready(function() {
         $("#nama").focus();
@@ -168,23 +125,5 @@
                 $('.result_content').html(data);
             }
         });
-    }
-    //function untuk delete data
-    function delete_barang($id) {
-        swal({
-            title: 'Delete Data?',
-            html: '<h5>Yakin akan delete data ini?</h5>',
-            type: 'info',
-            showCancelButton: true,
-            allowOutsideClick: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Tidak',
-            confirmButtonText: 'Ya'
-        }).then((result) => {
-            if (result.value) {
-                window.location.href = '<?= site_url('master/hapus_'.$jenis.'/')?>'+$id;
-            }
-        })
     }
 </script>
