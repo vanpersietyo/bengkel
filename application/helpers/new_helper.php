@@ -29,15 +29,15 @@ if ( ! function_exists('get_status_penjualan'))
 //        5 = lunas/selesai
 
         if ($lvl==1){
-            return 'antrian';
+            return 'Belum Verifikasi';
         }elseif($lvl==2){
-            return 'Registrasi';
+            return 'Selesai Verifikasi';
         }elseif($lvl==3){
-            return 'Proses';
+            return 'Proses Pengerjaan';
         }elseif($lvl==5){
-            return 'Belum Lunas';
+            return 'Belum Ada Pembayaran';
         }elseif($lvl==6){
-            return 'Lunas';
+            return 'Selesai / Lunas';
         }
     }
 }

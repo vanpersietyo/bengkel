@@ -41,6 +41,8 @@
     <link rel="stylesheet" href="<?=base_url('assets/third_party/')?>sweetalert/dist/sweetalert2.css">
     <!--    select 2-->
     <link rel="stylesheet"  href="<?=base_url('assets/adminlte/').'bower_components/select2/dist/css/select2.min.css'?>">
+    <!--loading-->
+    <link rel="stylesheet"  href="<?=base_url('assets/third_party/loading.css')?>">
 </head>
 <style>
     .padding_right{padding-right: 5px !important;}

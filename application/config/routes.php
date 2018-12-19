@@ -116,4 +116,20 @@ $route['master/delete_supplier/(:any)'] = 'gudang/delete_supplier/$1';
     $route['invoice/(:any)']                    = 'gudang/invoice_pembelian/$1';
 
 
+//transaksi penjualan
+$route['daftar_antrian.php']        = 'admin/daftar_antrian';
+$route['add_antrian.php']           = 'admin/form_add_header_antrian';
+$route['add_antrian.do']            = 'admin/proses_tambah_antrian';
+$route['delete_detail/(:any)/(:any)']= 'admin/delete_antrian_barang/$1/$2';
+
+$route['add_detail_antrian/(:any)'] = 'admin/form_add_detail_antrian/$1';
+$route['delete_antrian/(:any)']     = 'admin/delete_antrian/$1';
+$route['add_detail_barang/(:any)']  = 'admin/proses_add_detail_barang/$1';
+$route['cari_barang_penjualan.php'] = 'admin/cari_barang_penjualan';
+$route['simpan_antrian/(:any)']     = 'admin/simpan_antrian_barang/$1';
+$route['verifikasi_antrian/(:any)'] = 'admin/verifikasi_antrian_barang/$1';
+$route['proses_antrian/(:any)']     = 'admin/proses_antrian_barang/$1';
+
+$route['proses_antrian.php']        = 'admin/daftar_proses_antrian';
+$route['invoice_antrian.php.php']   = 'admin/daftar_invoice_antrian';
 

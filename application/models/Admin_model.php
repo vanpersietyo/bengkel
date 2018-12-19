@@ -212,6 +212,15 @@ class Admin_model extends CI_Model {
         $this->db->update('pembelian',['total_pembelian'=> $subtotal]);
         return TRUE;
     }
+    function sum_total_penjualan_barang($kode_penjualan){
+        $this->db->select_sum('subtotal');
+        $this->db->where('kode_penjualan',$kode_penjualan);
+        $query      = $this->db->get('penjualan_detail'); // Produces: SELECT SUM(age) as age FROM members
+        $subtotal   = $query->row()->subtotal;
+        $this->db->where('kode_penjualan',$kode_penjualan);
+        $this->db->update('penjualan',['total_penjualan'=> $subtotal]);
+        return TRUE;
+    }
 
     public function get_no_registrasi_pelanggan(){
         $x                  = 0;
@@ -254,5 +263,66 @@ class Admin_model extends CI_Model {
         }
         return $randomString;
     }
+
+    function get_kode_penjualan()
+    {
+        $this->db->select_max(" RIGHT(kode_penjualan,4)", 'kd_max');//select
+        $query = $this->db->get('penjualan');
+        $kd = "";
+        if($query->num_rows()>0)
+        {
+            foreach($query->result() as $k)
+            {
+                $tmp = ((int)$k->kd_max)+1;
+                $kd = sprintf("%04s", $tmp);
+            }
+        }
+        else
+        {
+            $kd = "0001";
+        }
+        return 'PJLN'.date('Ymd').$kd;
+    }
+
+    public function get_antrian_penjualan($date){
+        $this->db->select_max(" antrian", 'max');//select
+        $this->db->where("date(tgl_penjualan) = '{$date}'"); //and status_penjualan in ('1','2','3')
+        $query = $this->db->get('penjualan');
+        $tmp = "";
+        if($query->num_rows()>0)
+        {
+            foreach($query->result() as $k)
+            {
+                $tmp = ((int)$k->max)+1;
+            }
+        }
+        else
+        {
+            $tmp = "1";
+        }
+        return $tmp;
+    }
+
+    function get_list_penjualan($where){//status = input / belum_lunas / lunas
+        $this->db->select("a.*,b.nama as 'nama_pelanggan',c.merk as 'merk', c.tipe as 'tipe' ");
+        $this->db->from('penjualan a');
+        $this->db->join('user b', 'a.no_pelanggan= b.no_registrasi');
+        $this->db->join('kendaraan c', 'a.kode_kendaraan= c.id');
+        $this->db->where($where);
+        $this->db->order_by('antrian','ASC');
+        $query = $this->db->get();
+        return $query;
+    }
+
+    function get_list_barang_penjualan($where){
+        $this->db->select('a.*,b.nama as nama_barang,b.satuan as satuan');
+        $this->db->from('penjualan_detail a');
+        $this->db->join('barang b', 'a.kode_barang = b.kode');
+        $this->db->where($where);
+        $this->db->order_by('id','ASC');
+        $query = $this->db->get();
+        return $query;
+    }
+
 }
 ?>

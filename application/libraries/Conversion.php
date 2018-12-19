@@ -12,6 +12,7 @@ class Conversion {
     public function __construct()
     {
         $this->CI =& get_instance();
+        date_default_timezone_set("Asia/Bangkok");
     }
 
     function hak_akses_admin() // hak akses level 1 = superadmin ; 2=admin ; 3=gudang

@@ -6,28 +6,28 @@
  * Time: 9:37
  */
 ?>
-<li>
-    <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Antrian Layanan</span>
+
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-opencart"></i> <span>Registrasi Antrian Layanan</span>
+        <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
     </a>
+    <ul class="treeview-menu">
+        <li><a href="<?= site_url('add_antrian.php')?>"><i class="fa fa-circle-o"></i> Tambah Antrian Layanan</a></li>
+        <li><a href="<?= site_url('daftar_antrian.php')?>"><i class="fa fa-circle-o"></i> List Antrian Layanan</a></li>
+    </ul>
 </li>
+
 <li>
-    <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Registrasi Layanan</span>
-    </a>
-</li>
-<li>
-    <a  href="<?=site_url('master/barang')?>">
+    <a  href="<?=site_url('proses_antrian.php')?>">
         <i class="fa fa-calendar"></i> <span>Proses Layanan</span>
     </a>
 </li>
+
 <li>
-    <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Outstanding Layanan<span>
-    </a>
-</li>
-<li>
-    <a  href="<?=site_url('master/barang')?>">
+    <a  href="<?=site_url('invoice_antrian.php')?>">
         <i class="fa fa-calendar"></i> <span>Invoice Layanan</span>
     </a>
 </li>
