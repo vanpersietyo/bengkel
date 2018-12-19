@@ -6,31 +6,31 @@
  * Time: 9:37
  */
 ?>
-
-<li class="treeview">
-    <a href="#">
-        <i class="fa fa-opencart"></i> <span>Registrasi Antrian Layanan</span>
-        <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
+<li>
+    <a  href="<?=site_url('add_antrian.php')?>">
+        <i class="fa fa-plus-square"></i> <span>Registrasi Antrian Layanan</span>
     </a>
-    <ul class="treeview-menu">
-        <li><a href="<?= site_url('add_antrian.php')?>"><i class="fa fa-circle-o"></i> Tambah Antrian Layanan</a></li>
-        <li><a href="<?= site_url('daftar_antrian.php')?>"><i class="fa fa-circle-o"></i> List Antrian Layanan</a></li>
-    </ul>
 </li>
 
 <li>
+    <a  href="<?=site_url('daftar_antrian.php')?>">
+        <i class="fa fa-reorder "></i> <span>List Antrian Layanan</span>
+    </a>
+</li>
+
+
+<li>
     <a  href="<?=site_url('proses_antrian.php')?>">
-        <i class="fa fa-calendar"></i> <span>Proses Layanan</span>
+        <i class="fa fa-forward"></i> <span>Proses Layanan</span>
     </a>
 </li>
 
 <li>
     <a  href="<?=site_url('invoice_antrian.php')?>">
-        <i class="fa fa-calendar"></i> <span>Invoice Layanan</span>
+        <i class="fa fa-paypal"></i> <span>Invoice Layanan</span>
     </a>
 </li>
+
 
 <li class="header">DATA MASTER</li>
 <li>
@@ -60,8 +60,8 @@
 
 <li class="header">Laporan</li>
 <li>
-    <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Transaksi Harian</span>
+    <a  href="<?=site_url('laporan_transaksi.php')?>">
+        <i class="fa fa-calendar"></i> <span>Transaksi Penjualan</span>
     </a>
 </li>
 <li>

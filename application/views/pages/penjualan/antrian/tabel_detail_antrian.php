@@ -32,7 +32,7 @@
                             <td><?=numberFormat($value->harga);?></td>
                             <td><?=numberFormat($value->subtotal);?></td>
                             <td class="text-center">
-                                <a title="edit data layanan" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('edit_detail_barang/').$value->kode_penjualan.'/'.$value->kode_barang?>"><i class="fa fa-edit"></i></a>
+                                <a title="edit data layanan" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('edit_detail_antrian/').$value->kode_penjualan.'/'.$value->kode_barang?>"><i class="fa fa-edit"></i></a>
                                 <a title="hapus data layanan" class="btn btn-flat btn-danger btn-xs" onclick="delete_detail_barang('<?=$value->kode_penjualan?>','<?=$value->kode_barang?>')" href="javascript:void(0)"><i class="fa fa-close"></i></a>
                             </td>
                         </tr>
@@ -68,27 +68,48 @@
                             <td><?=numberFormat($value->harga);?></td>
                             <td><?=numberFormat($value->subtotal);?></td>
                             <td class="text-center">
-                                <a title="edit data barang" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('edit_detail_barang/').$value->kode_penjualan.'/'.$value->kode_barang?>"><i class="fa fa-edit"></i></a>
-                                <a title="hapus data barang" class="btn btn-flat btn-danger btn-xs" onclick="delete_detail_barang('<?=$value->kode_penjualan?>','<?=$value->kode_barang?>')" href="javascript:void(0)"><i class="fa fa-close"></i></a>
+                                <a title="edit data" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('edit_detail_antrian/').$value->kode_penjualan.'/'.$value->kode_barang?>"><i class="fa fa-edit"></i></a>
+                                <a title="hapus data" class="btn btn-flat btn-danger btn-xs" onclick="delete_detail_barang('<?=$value->kode_penjualan?>','<?=$value->kode_barang?>')" href="javascript:void(0)"><i class="fa fa-close"></i></a>
                             </td>
                         </tr>
                     <?php }?>
                 </tbody>
+                <tfoot>
+                <tr >
+<!--                    <th colspan="2" class="text-center">Total Jenis Barang : --><?//=sizeof($spare_part->result());?><!-- Jenis</th>-->
+                    <th colspan="5" class="text-right">Total Tagihan </th>
+                    <th > <?=numberFormat($penjualan->total_penjualan)?></th>
+                    <th></th>
+                </tr>
+                </tfoot>
             </table>
         </div>
 
     </div>
     <!-- end box-body -->
     <div class="box-footer text-center">
-        <a type="button" href="<?= site_url('daftar_antrian.php')?>" class="btn btn-warning">Kembali</a>
-        <a type="button" href="javascript:void(0)" onclick="delete_antrian('<?=$penjualan->kode_penjualan?>')" class="btn btn-danger">Hapus</a>
-        <a type="button" href="<?= site_url('simpan_antrian/').$penjualan->kode_penjualan?>" class="btn btn-primary">Simpan</a>
+
         <?php if($penjualan->status_penjualan==1){?>
+            <a type="button" href="<?= site_url('daftar_antrian.php')?>" class="btn btn-warning">Kembali</a>
+            <a type="button" href="javascript:void(0)" onclick="delete_antrian('<?=$penjualan->kode_penjualan?>')" class="btn btn-danger">Hapus</a>
+            <a type="button" href="<?= site_url('simpan_antrian/').$penjualan->kode_penjualan?>" class="btn btn-primary">Simpan</a>
             <a type="button" href="<?= site_url('verifikasi_antrian/').$penjualan->kode_penjualan?>" class="btn btn-info">Simpan & Verifikasi</a>
         <?php }elseif($penjualan->status_penjualan==2){?>
+            <a type="button" href="<?= site_url('daftar_antrian.php')?>" class="btn btn-warning">Kembali</a>
+            <a type="button" href="<?= site_url('simpan_antrian/').$penjualan->kode_penjualan?>" class="btn btn-primary">Simpan</a>
             <a type="button" href="<?= site_url('proses_antrian/').$penjualan->kode_penjualan?>" class="btn btn-info">Proses Sekarang</a>
         <?php }elseif($penjualan->status_penjualan==3){?>
+            <a type="button" href="<?= site_url('proses_antrian.php')?>" class="btn btn-warning">Kembali</a>
+            <a type="button" href="<?= site_url('proses_antrian.php')?>" class="btn btn-primary">Simpan</a>
             <a type="button" href="<?= site_url('selesai_proses/').$penjualan->kode_penjualan?>" class="btn btn-info">Selesai Pengerjaan</a>
+            <a type="button" href="<?= site_url('bayar_invoice/').$penjualan->kode_penjualan?>" class="btn btn-success">Selesai & Bayar</a>
+        <?php }elseif($penjualan->status_penjualan==4){?>
+            <a type="button" href="<?= site_url('invoice_antrian.php')?>" class="btn btn-warning">Kembali</a>
+            <a type="button" href="<?= site_url('invoice_antrian.php')?>" class="btn btn-primary">Simpan</a>
+            <a type="button" href="<?= site_url('bayar_invoice/').$penjualan->kode_penjualan?>" class="btn btn-success">Bayar Invoice</a>
+        <?php }elseif($penjualan->status_penjualan==5){?>
+            <a type="button" href="<?= site_url('invoice_antrian.php')?>" class="btn btn-warning">Kembali</a>
+            <a type="button" href="<?= site_url('cetak_invoice/').$penjualan->kode_penjualan?>" class="btn btn-warning">Cetak Invoice</a>
         <?php }?>
 
     </div>

@@ -183,6 +183,26 @@ class Admin_model extends CI_Model {
         return 'INVBL'.date('Ymd').$kd;
     }
 
+    function get_no_invoice_penjualan()
+    {
+        $this->db->select_max(" RIGHT(no_invoice_pembayaran,4)", 'kd_max');//select
+        $query = $this->db->get('penjualan');
+        $kd = "";
+        if($query->num_rows()>0)
+        {
+            foreach($query->result() as $k)
+            {
+                $tmp = ((int)$k->kd_max)+1;
+                $kd = sprintf("%04s", $tmp);
+            }
+        }
+        else
+        {
+            $kd = "0001";
+        }
+        return 'INVJL'.date('Ymd').$kd;
+    }
+
     function get_list_pembelian($where){//status = input / belum_lunas / lunas
         $this->db->select("a.*,b.nama_supplier as nama_supplier,(select sum(qty) as total_qty from pembelian_detail where kode_pembelian=a.kode_pembelian) as total_qty");
         $this->db->from('pembelian a');
@@ -212,6 +232,7 @@ class Admin_model extends CI_Model {
         $this->db->update('pembelian',['total_pembelian'=> $subtotal]);
         return TRUE;
     }
+
     function sum_total_penjualan_barang($kode_penjualan){
         $this->db->select_sum('subtotal');
         $this->db->where('kode_penjualan',$kode_penjualan);
@@ -303,23 +324,25 @@ class Admin_model extends CI_Model {
         return $tmp;
     }
 
-    function get_list_penjualan($where){//status = input / belum_lunas / lunas
-        $this->db->select("a.*,b.nama as 'nama_pelanggan',c.merk as 'merk', c.tipe as 'tipe' ");
+    function get_list_penjualan($where=null){//status = input / belum_lunas / lunas
+        $this->db->select("a.*,b.nama as 'nama_pelanggan',c.merk as 'merk', c.tipe as 'tipe',b.telepon as telepon,b.alamat as alamat ");
         $this->db->from('penjualan a');
         $this->db->join('user b', 'a.no_pelanggan= b.no_registrasi');
         $this->db->join('kendaraan c', 'a.kode_kendaraan= c.id');
-        $this->db->where($where);
+        if ($where!=null){
+            $this->db->where($where);
+        }
         $this->db->order_by('antrian','ASC');
         $query = $this->db->get();
         return $query;
     }
 
     function get_list_barang_penjualan($where){
-        $this->db->select('a.*,b.nama as nama_barang,b.satuan as satuan');
+        $this->db->select('a.*,b.nama as nama_barang,b.satuan as satuan,b.jenis as jenis');
         $this->db->from('penjualan_detail a');
         $this->db->join('barang b', 'a.kode_barang = b.kode');
         $this->db->where($where);
-        $this->db->order_by('id','ASC');
+        $this->db->order_by('b.jenis','ASC');
         $query = $this->db->get();
         return $query;
     }

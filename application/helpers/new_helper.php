@@ -34,9 +34,9 @@ if ( ! function_exists('get_status_penjualan'))
             return 'Selesai Verifikasi';
         }elseif($lvl==3){
             return 'Proses Pengerjaan';
-        }elseif($lvl==5){
+        }elseif($lvl==4){
             return 'Belum Ada Pembayaran';
-        }elseif($lvl==6){
+        }elseif($lvl==5){
             return 'Selesai / Lunas';
         }
     }

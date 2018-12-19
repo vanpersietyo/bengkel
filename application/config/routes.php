@@ -125,11 +125,21 @@ $route['delete_detail/(:any)/(:any)']= 'admin/delete_antrian_barang/$1/$2';
 $route['add_detail_antrian/(:any)'] = 'admin/form_add_detail_antrian/$1';
 $route['delete_antrian/(:any)']     = 'admin/delete_antrian/$1';
 $route['add_detail_barang/(:any)']  = 'admin/proses_add_detail_barang/$1';
+
+$route['edit_detail_antrian/(:any)/(:any)']     = 'admin/form_edit_detail_antrian/$1/$2';
+$route['edit_detail_antrian.do/(:any)/(:any)']  = 'admin/proses_edit_detail_antrian/$1/$2';
+
 $route['cari_barang_penjualan.php'] = 'admin/cari_barang_penjualan';
 $route['simpan_antrian/(:any)']     = 'admin/simpan_antrian_barang/$1';
 $route['verifikasi_antrian/(:any)'] = 'admin/verifikasi_antrian_barang/$1';
 $route['proses_antrian/(:any)']     = 'admin/proses_antrian_barang/$1';
 
 $route['proses_antrian.php']        = 'admin/daftar_proses_antrian';
-$route['invoice_antrian.php.php']   = 'admin/daftar_invoice_antrian';
+$route['invoice_antrian.php']       = 'admin/daftar_invoice_antrian';
+$route['selesai_proses/(:any)']     = 'admin/selesai_proses_antrian/$1';
+$route['bayar_invoice/(:any)']      = 'admin/bayar_invoice/$1';
+$route['invoice_penjualan/(:any)']  = 'admin/invoice_penjualan/$1';
+$route['laporan_transaksi.php']         = 'admin/laporan_transaksi';
+
+
 

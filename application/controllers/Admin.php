@@ -744,21 +744,46 @@ class Admin extends CI_Controller {
 //end master pelanggan
 
 //start master transaksi
-    public function daftar_antrian(){
-
+    public function daftar_antrian()
+    {
         // routes from->master/pelanggan.php
         $data=array(
             'page'              => 'pages/penjualan/antrian/daftar_antrian',
             'title'             => 'Daftar',
             'subtitle'          => 'Antrian Layanan',
-            'daftar_penjualan'  => $this->admin_model->get_list_penjualan("status_penjualan in ('1','2')"),
+            'antrian'           => $this->admin_model->get_list_penjualan(['status_penjualan'=>'1','date(tgl_penjualan)'=>date('Y-m-d')]),
+            'verifikasi'        => $this->admin_model->get_list_penjualan(['status_penjualan'=>'2','date(tgl_penjualan)'=>date('Y-m-d')]),
         );
         $this->load->view('templates/layout',$data);
     }
 
-    public function form_add_header_antrian(){
+    public function daftar_proses_antrian(){
 
         // routes from->master/pelanggan.php
+        $data=array(
+            'page'              => 'pages/penjualan/proses/daftar_proses_antrian',
+            'title'             => 'Daftar',
+            'subtitle'          => 'Proses Layanan',
+            'daftar_penjualan'  => $this->admin_model->get_list_penjualan(['status_penjualan'=>'3','date(tgl_penjualan)'=>date('Y-m-d')]),
+        );
+        $this->load->view('templates/layout',$data);
+    }
+
+    public function daftar_invoice_antrian()
+    {
+        // routes from->master/pelanggan.php
+        $data=array(
+            'page'              => 'pages/penjualan/invoice/daftar_invoice_antrian',
+            'title'             => 'Daftar',
+            'subtitle'          => 'Invoice Layanan',
+            'belum_lunas'       => $this->admin_model->get_list_penjualan(['status_penjualan'=>'4','date(tgl_penjualan)'=>date('Y-m-d')]),
+            'lunas'             => $this->admin_model->get_list_penjualan(['status_penjualan'=>'5','date(tgl_penjualan)'=>date('Y-m-d')]),
+        );
+        $this->load->view('templates/layout',$data);
+    }
+
+    public function form_add_header_antrian()
+    {
         $data=array(
             'page'              => 'pages/penjualan/antrian/form_add_header_antrian',
             'title'             => 'Daftar',
@@ -780,7 +805,7 @@ class Admin extends CI_Controller {
           'keterangan_penjualan'    => $this->input->post('keterangan_penjualan'),
           'antrian'                 => $this->input->post('antrian'),
           'status_penjualan'        => 1,//1 = antrian
-          'nopol_kendaraan'         => $this->input->post('antrian')
+          'nopol_kendaraan'         => $this->input->post('nopol_kendaraan')
         ];
         $this->admin_model->insert_data('penjualan',$data);
         echo "<script type='text/javascript'>
@@ -802,7 +827,7 @@ class Admin extends CI_Controller {
     }
 
     public function delete_antrian($kode_penjualan){
-        $exist  = $this->admin_model->cek_data(['kode_penjualan'=>$kode_penjualan,'status_penjualan'=>'1'],'penjualan');
+        $exist  = $this->admin_model->cek_data("kode_penjualan='{$kode_penjualan}' and status_penjualan in ('1')",'penjualan');
         if ($exist->num_rows()==0){
             $notif = "<script type='text/javascript'>
                     $( document ).ready(function() {
@@ -837,23 +862,37 @@ class Admin extends CI_Controller {
         redirect(site_url('daftar_antrian.php'));
     }
 
-    public function form_add_detail_antrian($kode_penjualan){
-
-        // routes from->master/pelanggan.php
-        $data=array(
-            'page'              => 'pages/penjualan/antrian/form_add_detail_antrian',
-            'title'             => 'Detail Antrian',
-            'subtitle'          => $kode_penjualan,
-            'kode_penjualan'    => $kode_penjualan,
-            'penjualan'         => $this->admin_model->get_list_penjualan(['kode_penjualan'=>$kode_penjualan])->row(),
-            'barang'            => $this->admin_model->select_data('barang','jenis','ASC'),
-            'spare_part'        => $this->admin_model->get_list_barang_penjualan(['jenis'=>'spare_part']),
-            'layanan'           => $this->admin_model->get_list_barang_penjualan(['jenis'=>'layanan']),
-
-        );
-//        var_dump($data['spare_part']->result());
-//        var_dump($data['layanan']->result());die();
-        $this->load->view('templates/layout',$data);
+    public function form_add_detail_antrian($kode_penjualan)
+    {
+        $exist  = $this->admin_model->cek_data(['kode_penjualan'=>$kode_penjualan],'penjualan');
+        if ($exist->num_rows()==0){
+            //pembelian belum ada isi nya
+            $notif = "<script type='text/javascript'>
+                            $( document ).ready(function() {
+                                swal({
+                                    type    : 'error',
+                                    title   : 'Gagal!',
+                                    html    : '<h5>Data Antrian Tidak Boleh Kosong!</h5>',
+                                    focusConfirm: true,
+                                })
+                            });
+                        </script>";
+            //set kedalam flash data
+            $this->session->set_flashdata('notif', $notif);
+            redirect(site_url('daftar_antrian.php'));
+        }else {
+            $data=array(
+                'page'              => 'pages/penjualan/antrian/form_add_detail_antrian',
+                'title'             => 'Detail Antrian',
+                'subtitle'          => $kode_penjualan,
+                'kode_penjualan'    => $kode_penjualan,
+                'penjualan'         => $this->admin_model->get_list_penjualan(['kode_penjualan'=>$kode_penjualan])->row(),
+                'barang'            => $this->admin_model->select_data('barang','jenis','ASC'),
+                'spare_part'        => $this->admin_model->get_list_barang_penjualan(['jenis'=>'spare_part','kode_penjualan'=>$kode_penjualan]),
+                'layanan'           => $this->admin_model->get_list_barang_penjualan(['jenis'=>'layanan','kode_penjualan'=>$kode_penjualan]),
+            );
+            $this->load->view('templates/layout',$data);
+        }
     }
 
     //detail pembelian = cari barang
@@ -939,6 +978,23 @@ class Admin extends CI_Controller {
         }
     }
 
+    public function form_edit_detail_antrian($kode_penjualan,$kode_barang)
+    {
+        $penjualan  = $this->admin_model->get_list_penjualan("status_penjualan in ('1','2','3','4') and kode_penjualan='{$kode_penjualan}'")->row();
+        $data       = [
+            'page'              => 'pages/penjualan/antrian/form_edit_detail_antrian',
+            'title'             => 'Ubah Antrian',
+            'subtitle'          => $kode_penjualan,
+            'kode_penjualan'    => $kode_penjualan,
+            'barang'            => $this->admin_model->get_list_barang_penjualan(['kode_penjualan' => $kode_penjualan,'kode_barang'=>$kode_barang])->row(),
+            'penjualan'         => $penjualan,
+            'spare_part'        => $this->admin_model->get_list_barang_penjualan(['jenis'=>'spare_part','kode_penjualan'=>$kode_penjualan]),
+            'layanan'           => $this->admin_model->get_list_barang_penjualan(['jenis'=>'layanan','kode_penjualan'=>$kode_penjualan]),
+
+        ];
+        $this->load->view('templates/layout', $data);
+    }
+
     public function delete_antrian_barang($kode_penjualan,$kode_barang)
     {
         $exist  = $this->admin_model->cek_data(['kode_penjualan'=>$kode_penjualan,'kode_barang'=>$kode_barang],'penjualan_detail');
@@ -948,6 +1004,40 @@ class Admin extends CI_Controller {
             $this->admin_model->sum_total_penjualan_barang($kode_penjualan);
             //redirect kembali
             redirect(site_url('add_detail_antrian/'.$kode_penjualan));
+        }
+    }
+
+    public function proses_edit_detail_antrian($kode_penjualan,$kode_barang)
+    {
+        $qty        = numberFormat($this->input->post('qty'),3);
+        $harga      = numberFormat($this->input->post('harga'),3) ;
+        $item       = [
+            'qty'               => $qty,
+            'harga'             => $harga,
+            'subtotal'          => $qty*$harga,
+        ];
+
+        if ($qty<=0 || $harga<=0){ //jika belum pilih barang
+            echo "<script type='text/javascript'>
+                        $( document ).ready(function() {
+                            swal({
+                                type    : 'error',
+                                title   : 'Gagal',
+                                html    : '<h5>Silahkan Isi Data Spare Part Dahulu</h5>',
+                                allowOutsideClick: false,
+                                focusConfirm: true,
+                            })
+                        });
+                    </script>";
+        }else{
+            $detail = $this->admin_model->cek_data(['kode_penjualan'=>$kode_penjualan,'kode_barang'=>$kode_barang],'penjualan_detail');
+            $this->admin_model->update_data('id',$detail->row()->id,'penjualan_detail',$item);
+            $this->admin_model->sum_total_penjualan_barang($kode_penjualan);
+            echo "<script type='text/javascript'>
+                    $( document ).ready(function() {                                
+                        location.reload();//refresh halaman
+                    });
+                </script>";
         }
     }
 
@@ -972,6 +1062,7 @@ class Admin extends CI_Controller {
 
     public function verifikasi_antrian_barang($kode_penjualan)
     {
+        $this->admin_model->sum_total_penjualan_barang($kode_penjualan);
         $exist = $this->admin_model->cek_data(['kode_penjualan'=>$kode_penjualan],'penjualan');
         if ($exist->row()->total_penjualan <= 0){
             //pembelian belum ada isi nya
@@ -1027,10 +1118,15 @@ class Admin extends CI_Controller {
             $this->session->set_flashdata('notif', $notif);
             redirect(site_url('add_detail_antrian/'.$kode_penjualan));
         }else {
-            $this->admin_model->sum_total_penjualan_barang($kode_penjualan);
-            $simpan  = ['status_penjualan'=>'3'];
-            $this->admin_model->update_data('kode_penjualan',$kode_penjualan,'penjualan',$simpan);
-            $notif = "<script type='text/javascript'>
+            $date_now   = date('Y-m-d');
+            //cek apakah ada antrian pada hari itu yang belum masuk ke proses
+            $exist_antrian = $this->admin_model->cek_data("status_penjualan = '2' and date(tgl_penjualan)='{$date_now}' and antrian < '{$exist->row()->antrian}' ",'penjualan');
+//            var_dump($exist_antrian->result());die();
+            if ($exist_antrian->num_rows()==0){
+                $this->admin_model->sum_total_penjualan_barang($kode_penjualan);
+                $simpan  = ['status_penjualan'=>'3'];
+                $this->admin_model->update_data('kode_penjualan',$kode_penjualan,'penjualan',$simpan);
+                $notif = "<script type='text/javascript'>
                     $( document ).ready(function() {
                         swal({
                             type    : 'success',
@@ -1040,34 +1136,125 @@ class Admin extends CI_Controller {
                         })
                     });
                 </script>";
-            //set kedalam flash data
-            $this->session->set_flashdata('notif', $notif);
-            redirect(site_url('daftar_antrian.php'));
+                //set kedalam flash data
+                $this->session->set_flashdata('notif', $notif);
+                redirect(site_url('daftar_antrian.php'));
+            }else {
+                //pembelian belum ada isi nya
+                $notif = "<script type='text/javascript'>
+                            $( document ).ready(function() {
+                                swal({
+                                    type    : 'error',
+                                    title   : 'Gagal!',
+                                    html    : '<h5>Ada Antrian Dengan Nomor Yang Lebih Kecil Belum Di Proses!</h5>',
+                                    focusConfirm: true,
+                                })
+                            });
+                        </script>";
+                //set kedalam flash data
+                $this->session->set_flashdata('notif', $notif);
+                redirect(site_url('daftar_antrian.php'));
+            }
         }
     }
 
-    //daftar proses layanan
-    public function daftar_proses_antrian(){
+    public function selesai_proses_antrian($kode_penjualan)
+    {
+        $this->admin_model->sum_total_penjualan_barang($kode_penjualan);
+        $exist = $this->admin_model->cek_data(['kode_penjualan'=>$kode_penjualan],'penjualan');
+        if ($exist->row()->total_penjualan <= 0){
+            //pembelian belum ada isi nya
+            $notif = "<script type='text/javascript'>
+                            $( document ).ready(function() {
+                                swal({
+                                    type    : 'error',
+                                    title   : 'Gagal!',
+                                    html    : '<h5>Data Antrian Tidak Boleh Kosong!</h5>',
+                                    focusConfirm: true,
+                                })
+                            });
+                        </script>";
+            //set kedalam flash data
+            $this->session->set_flashdata('notif', $notif);
+            redirect(site_url('add_detail_antrian/'.$kode_penjualan));
+        }else {
+            $simpan  = ['status_penjualan'=>'4'];
+            $this->admin_model->update_data('kode_penjualan',$kode_penjualan,'penjualan',$simpan);
+            $notif = "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            type    : 'success',
+                            title   : 'Berhasil!',
+                            html    : '<h5>Transaksi No. {$kode_penjualan} Selesai Di Proses dan Dipindahkan ke Menu Invoice!</h5>',
+                            focusConfirm: true,
+                        })
+                    });
+                </script>";
+            //set kedalam flash data
+            $this->session->set_flashdata('notif', $notif);
+            redirect(site_url('proses_antrian.php'));
+        }
+    }
 
-        // routes from->master/pelanggan.php
+    public function bayar_invoice($kode_penjualan){
+        $simpan  = [
+            'status_penjualan'      =>'5',
+            'tgl_pembayaran'        =>date('Y-m-d H:i:s'),
+            'no_invoice_pembayaran' => $this->admin_model->get_no_invoice_penjualan()
+            ];
+        $this->admin_model->update_data('kode_penjualan',$kode_penjualan,'penjualan',$simpan);
+        $notif = "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            type    : 'success',
+                            title   : 'Berhasil!',
+                            html    : '<h5>Transaksi No. {$kode_penjualan} Selesai Di Bayar!</h5>',
+                            focusConfirm: true,
+                        })
+                    });
+                </script>";
+        //set kedalam flash data
+        $this->session->set_flashdata('notif', $notif);
+        redirect(site_url('invoice_antrian.php'));
+        #TODO - kasih input untuk nominal pembyaran dan redirect ke invoice
+    }
+
+    public function invoice_penjualan($kode_penjualan){
+        $penjualan  = $this->admin_model->get_list_penjualan(['status_penjualan'=>'5','kode_penjualan'=>$kode_penjualan]);
+        if ($penjualan->num_rows()==1){
+            $data   = [
+                'page'              => 'pages/penjualan/invoice/invoice_penjualan',
+                'title'             => 'Invoice Penjualan',
+                'subtitle'          => $kode_penjualan,
+                'penjualan'         => $penjualan->row(),
+                'detail_penjualan'  => $this->admin_model->get_list_barang_penjualan(['kode_penjualan' => $kode_penjualan])->result(),
+            ];
+            $this->load->view('templates/layout',$data);
+        }else{
+            $notif = "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            type    : 'error',
+                            title   : 'Gagal!',
+                            html    : '<h5>Transaksi No. {$kode_penjualan} Belum Selesai / Lunas!</h5>',
+                            focusConfirm: true,
+                        })
+                    });
+                </script>";
+            //set kedalam flash data
+            $this->session->set_flashdata('notif', $notif);
+            redirect(site_url('invoice_antrian.php'));
+        }
+    }
+
+    public function laporan_transaksi(){
         $data=array(
-            'page'              => 'pages/penjualan/proses/daftar_proses_antrian',
-            'title'             => 'Daftar',
-            'subtitle'          => 'Proses Layanan',
-            'daftar_penjualan'  => $this->admin_model->get_list_penjualan("status_penjualan in ('3')"),
+            'page'              => 'pages/penjualan/laporan/laporan_transaksi',
+            'title'             => 'Laporan',
+            'subtitle'          => 'Transaksi',
+            'transaksi'         => $this->admin_model->get_list_penjualan(),
         );
         $this->load->view('templates/layout',$data);
     }
 
-    public function daftar_invoice_antrian(){
-
-        // routes from->master/pelanggan.php
-        $data=array(
-            'page'              => 'pages/penjualan/invoice/daftar_invoice_antrian',
-            'title'             => 'Daftar',
-            'subtitle'          => 'Invoice Antrian',
-            'daftar_penjualan'  => $this->admin_model->get_list_penjualan("status_penjualan in ('4','5')"),
-        );
-        $this->load->view('templates/layout',$data);
-    }
 }

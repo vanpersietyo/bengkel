@@ -1,0 +1,357 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Daftar Proses Layanan</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="https://sibengkel.online/assets/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://sibengkel.online/assets/adminlte/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://sibengkel.online/assets/adminlte/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="https://sibengkel.online/assets/adminlte/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="https://sibengkel.online/assets/adminlte/dist/css/skins/_all-skins.min.css">
+
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <!-- jQuery 3 -->
+    <script src="https://sibengkel.online/assets/adminlte/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- InputMask -->
+    <script src="https://sibengkel.online/assets/adminlte/bower_components/inputmask/dist/jquery.inputmask.bundle.js"></script>
+
+    <!-- additional -->
+
+    <!-- selectpicker -->
+    <link rel="stylesheet" href="https://sibengkel.online/assets/adminlte/bower_components/bootstrap-selectpicker/dist/css/bootstrap-select.min.css">
+    <!-- Pace style -->
+    <link rel="stylesheet" href="https://sibengkel.online/assets/adminlte/plugins/pace/pace.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="https://sibengkel.online/assets/adminlte/plugins/iCheck/square/blue.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="https://sibengkel.online/assets/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="https://sibengkel.online/assets/adminlte/bower_components/datatables.net-bs/css/buttons.dataTables.min.css">
+    <!-- sweetalert -->
+    <link rel="stylesheet" href="https://sibengkel.online/assets/third_party/sweetalert/dist/sweetalert2.css">
+    <!--    select 2-->
+    <link rel="stylesheet"  href="https://sibengkel.online/assets/adminlte/bower_components/select2/dist/css/select2.min.css">
+    <!--loading-->
+    <link rel="stylesheet"  href="https://sibengkel.online/assets/third_party/loading.css">
+</head>
+<style>
+    .padding_right{padding-right: 5px !important;}
+    .padding_left{padding-left: 5px !important;}
+    .padding_top{padding-top: 5px !important;}
+    .padding_bottom{padding-bottom: 5px !important;}
+    .padding_both{padding-right: 5px !important;padding-left: 5px !important;}
+</style>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="https://sibengkel.online/assets/adminlte/index2.html" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>SI</b>BKL</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>SI </b>Bengkel</span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button" id="push-menu">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+
+
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="https://sibengkel.online/assets/adminlte/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                            <span class="hidden-xs">admin</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                <img src="https://sibengkel.online/assets/adminlte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                <p>
+                                    admin - admin                                                                        <small>Member sejak 23 Oktober 2018 </small>
+                                </p>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="https://sibengkel.online/profile" class="btn btn-default btn-flat">Profile</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="https://sibengkel.online/logout.php" class="btn btn-default btn-flat">Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- =============================================== -->
+    <!-- Left side column. contains the sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header">MAIN NAVIGATION</li>
+
+                <li>
+                    <a  href="https://sibengkel.online/dashboard">
+                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a  href="https://sibengkel.online/add_antrian.php">
+                        <i class="fa fa-plus-square"></i> <span>Registrasi Antrian Layanan</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a  href="https://sibengkel.online/daftar_antrian.php">
+                        <i class="fa fa-reorder "></i> <span>List Antrian Layanan</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a  href="https://sibengkel.online/proses_antrian.php">
+                        <i class="fa fa-forward"></i> <span>Proses Layanan</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a  href="https://sibengkel.online/invoice_antrian.php">
+                        <i class="fa fa-paypal"></i> <span>Invoice Layanan</span>
+                    </a>
+                </li>
+
+
+                <li class="header">DATA MASTER</li>
+                <li>
+                    <a  href="https://sibengkel.online/master/pelanggan.php">
+                        <i class="fa fa-calendar"></i> <span>Pelanggan</span>
+                    </a>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-opencart"></i> <span>Layanan</span>
+                        <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="https://sibengkel.online/master/jenis_layanan.php"><i class="fa fa-circle-o"></i> Jenis Layanan</a></li>
+                        <li><a href="https://sibengkel.online/master/layanan.php"><i class="fa fa-circle-o"></i> Daftar Layanan</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a  href="https://sibengkel.online/master/kendaraan.php">
+                        <i class="fa fa-car"></i> <span>Kendaraan</span>
+                    </a>
+                </li>
+
+                <li class="header">Laporan</li>
+                <li>
+                    <a  href="https://sibengkel.online/master/barang">
+                        <i class="fa fa-calendar"></i> <span>Transaksi Harian</span>
+                    </a>
+                </li>
+                <li>
+                    <a  href="https://sibengkel.online/master/barang">
+                        <i class="fa fa-calendar"></i> <span>Penjualan Spare Part</span>
+                    </a>
+                </li>
+                <li>
+                    <a  href="https://sibengkel.online/master/barang">
+                        <i class="fa fa-calendar"></i> <span>Stok Spare Part</span>
+                    </a>
+                </li>
+                <!--                <li>-->
+                <!--                    <a href="#">-->
+                <!--                        <i class="fa fa-calendar"></i> <span>Tabel</span>-->
+                <!--                        <span class="pull-right-container">-->
+                <!--                            <small class="label pull-right bg-red">3</small>-->
+                <!--                            <small class="label pull-right bg-blue">17</small>-->
+                <!--                        </span>-->
+                <!--                    </a>-->
+                <!--                </li>-->
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- =============================================== -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Daftar                <small>Proses Layanan</small>
+            </h1>
+            <!--            <ol class="breadcrumb">-->
+            <!--                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>-->
+            <!--                <li class="active">Dashboard</li>-->
+            <!--            </ol>-->
+        </section>
+        <!-- Main content -->
+        <section class="content">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Calendar -->
+                    <div class="box box-solid bg-green-gradient">
+                        <div class="box-header">
+                            <i class="fa fa-sort-amount-asc"></i>
+                            <h3 class="box-title">List Proses Antrian Layanan Bengkel</h3>
+                        </div>
+                        <!-- /.box-header -->
+
+                        <!-- /.box-body -->
+                        <div class="box-footer text-black">
+                            <div class="table-responsive">
+
+                                <table id="example2" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center" width="5%">Antrian</th>
+                                        <th width="15%">No. Penjualan</th>
+                                        <th width="15%">Tanggal Masuk</th>
+                                        <th width="20%">Nama Pelanggan</th>
+                                        <th width="15%">Kendaraan</th>
+                                        <th width="15%">Status</th>
+                                        <th width="8%">Aksi</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td>PJLN201812190001</td>
+                                        <td>15:51&nbsp;&nbsp;&nbsp;19 Desember 2018</td>
+                                        <td>Ida Nur Aini </td>
+                                        <td>W 1227 Yz Honda - Brio</td>
+                                        <td>Proses Pengerjaan</td>
+                                        <td class="text-center">
+                                            <a title="Selesai Proses Antrian Layanan"   class="btn btn-flat btn-warning btn-xs" href="https://sibengkel.online/selesai_proses/PJLN201812190001"><i class="fa fa-check"></i></a>
+                                            <a title="Lihat Detail Antrian Layanan"     class="btn btn-flat btn-info btn-xs" href="https://sibengkel.online/add_detail_antrian/PJLN201812190001"><i class="fa fa-edit"></i></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box -->
+                </div>
+            </div>
+
+
+            <div class="result_content"></div>
+
+            <script type="text/javascript">
+                //untuk datatable
+                $(document).ready(function() {
+                    $('#example2').DataTable( {
+                        'autoWidth'   : false,
+                        "columnDefs": [
+                            { "orderable": false, "targets": [6] }
+                        ]
+                    });
+                } );
+            </script>
+        </section>
+        <!-- /.content -->
+    </div>
+
+    <footer class="main-footer no-print">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 2.4.0
+        </div>
+        <strong>Copyright &copy; 2018 <a href="https://sibengkel.online/">Si Bengkel</a>.</strong> All rights
+        reserved.
+    </footer>
+
+</div>
+<!-- ./wrapper -->
+
+
+<!-- Bootstrap 3.3.7 -->
+<script src="https://sibengkel.online/assets/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="https://sibengkel.online/assets/adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="https://sibengkel.online/assets/adminlte/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="https://sibengkel.online/assets/adminlte/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="https://sibengkel.online/assets/adminlte/dist/js/demo.js"></script>
+
+<!--additional-->
+
+<!-- PACE -->
+<script src="https://sibengkel.online/assets/adminlte/bower_components/PACE/pace.min.js"></script>
+<!-- icheck -->
+<script src="https://sibengkel.online/assets/adminlte/plugins/iCheck/icheck.min.js"></script>
+<!-- DataTables -->
+<script src="https://sibengkel.online/assets/adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="https://sibengkel.online/assets/adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="https://sibengkel.online/assets/adminlte/bower_components/datatables.net-bs/js/dataTables.buttons.min.js"></script>
+<!-- sweetalert -->
+<script src="https://sibengkel.online/assets/third_party/sweetalert/dist/sweetalert2.all.min.js"></script>
+<script src="https://sibengkel.online/assets/third_party/sweetalert/dist/sweetalert2.min.js"></script>
+<!--select 2 -->
+<script src="https://sibengkel.online/assets/adminlte/bower_components/select2/dist/js/select2.full.min.js"></script>
+<!--selectpicker-->
+<script src="https://sibengkel.online/assets/adminlte/bower_components/bootstrap-selectpicker/dist/js/bootstrap-select.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.sidebar-menu').tree()
+    });
+    function push_menu(){
+        $( "#push-menu" ).click();
+    }
+    function loading() {
+        swal({
+            html: '<div id="fountainG">' +
+            '<div id="fountainG_1" class="fountainG"></div>' +
+            '<div id="fountainG_2" class="fountainG"></div>' +
+            '<div id="fountainG_3" class="fountainG"></div>' +
+            '<div id="fountainG_4" class="fountainG"></div>' +
+            '<div id="fountainG_5" class="fountainG"></div>' +
+            '<div id="fountainG_6" class="fountainG"></div>' +
+            '<div id="fountainG_7" class="fountainG"></div>' +
+            '<div id="fountainG_8" class="fountainG"></div>' +
+            '</div>',
+            showCancelButton: false,
+            showConfirmButton: false,
+            allowOutsideClick: false,
+        });
+    }
+</script>
+</body>
+</html>
