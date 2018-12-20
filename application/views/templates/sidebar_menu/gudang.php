@@ -41,17 +41,12 @@
 </li>
 <li class="header">Laporan</li>
 <li>
-    <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Pembelian Spare Part</span>
-    </a>
-</li>
-<li>
-    <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Stok Spare Part</span>
-    </a>
-</li>
-<li>
-    <a  href="<?=site_url('master/barang')?>">
+    <a  href="<?=site_url('laporan_pembelian_spare_part.php')?>">
         <i class="fa fa-calendar"></i> <span>Penjualan Spare Part</span>
+    </a>
+</li>
+<li>
+    <a  href="<?=site_url('laporan_stok_spare_part.php')?>">
+        <i class="fa fa-calendar"></i> <span>Stok Spare Part</span>
     </a>
 </li>

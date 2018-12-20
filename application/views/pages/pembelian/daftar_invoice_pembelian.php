@@ -35,6 +35,7 @@
                                 <td><?=capitalize_each_first($value->nama_supplier);?></td>
                                 <td><?=numberFormat($value->total_pembelian);?></td>
                                 <td class="text-center">
+                                    <a title="Lihat Detail" class="btn btn-flat btn-success btn-xs" href="<?= site_url('add_pembelian_barang/'.$value->kode_pembelian)?>"><i class="fa fa-edit"></i></a>
                                     <a title="lihat invoice" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('invoice/'.$value->kode_pembelian)?>"><i class="fa fa-file-text-o"></i></a>
                                 </td>
                             </tr>

@@ -76,7 +76,8 @@
                     <div class="col-xs-6 text-right">
                         <address>
                             <strong>Status / Tgl Pembayaran :</strong><br>
-                            LUNAS <br>
+
+                            <span class="label label-success">Lunas</span> <br>
                             <?=dateIndo(formatDate($penjualan->tgl_pembayaran,'d-m-Y'),1,date('N'))?>
                         </address>
                     </div>

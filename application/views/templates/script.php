@@ -8,6 +8,9 @@
 ?>
 <!-- Bootstrap 3.3.7 -->
 <script src="<?=base_url('assets/adminlte/')?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- datepicker-->
+<script src="<?=base_url('assets/adminlte/')?>bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="<?=base_url('assets/adminlte/')?>plugins/timepicker/bootstrap-timepicker.min.js"></script>
 <!-- SlimScroll -->
 <script src="<?=base_url('assets/adminlte/')?>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
@@ -16,7 +19,6 @@
 <script src="<?=base_url('assets/adminlte/')?>dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?=base_url('assets/adminlte/')?>dist/js/demo.js"></script>
-
 <!--additional-->
 
 <!-- PACE -->
@@ -37,8 +39,9 @@
 
 <script>
     $(document).ready(function () {
-        $('.sidebar-menu').tree()
+        $('.sidebar-menu').tree();
     });
+
     function push_menu(){
         $( "#push-menu" ).click();
     }

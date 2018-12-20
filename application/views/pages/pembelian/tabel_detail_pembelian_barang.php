@@ -22,7 +22,9 @@
                             <th width="10%">Satuan</th>
                             <th width="15%">Harga</th>
                             <th width="15%">Subtotal</th>
-                            <th width="10%">Aksi</th>
+                            <?php if($pembelian->status_pembelian!='lunas'){?>
+                                <th width="10%">Aksi</th>
+                            <?php }?>
                         </tr>
                         </thead>
                         <tbody>
@@ -34,10 +36,12 @@
                                 <td><?=$value->satuan;?></td>
                                 <td><?=numberFormat($value->harga);?></td>
                                 <td><?=numberFormat($value->subtotal);?></td>
-                                <td class="text-center">
-                                    <a title="edit data kendaraan" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('edit_pembelian_barang/').$value->kode_pembelian.'/'.$value->kode_barang?>"><i class="fa fa-edit"></i></a>
-                                    <a title="hapus data kendaraan" class="btn btn-flat btn-danger btn-xs" onclick="delete_pembelian_barang('<?=$value->kode_pembelian?>','<?=$value->kode_barang?>')" href="javascript:void(0)"><i class="fa fa-close"></i></a>
-                                </td>
+                                <?php if($pembelian->status_pembelian!='lunas'){?>
+                                    <td class="text-center">
+                                        <a title="edit data kendaraan" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('edit_pembelian_barang/').$value->kode_pembelian.'/'.$value->kode_barang?>"><i class="fa fa-edit"></i></a>
+                                        <a title="hapus data kendaraan" class="btn btn-flat btn-danger btn-xs" onclick="delete_pembelian_barang('<?=$value->kode_pembelian?>','<?=$value->kode_barang?>')" href="javascript:void(0)"><i class="fa fa-close"></i></a>
+                                    </td>
+                                <?php }?>
                             </tr>
                         <?php }?>
                         </tbody>
@@ -49,18 +53,27 @@
                             <th colspan="2" class="text-center">Total Qty : <?=$pembelian->total_qty?></th>
                             <th class="text-right">Total Tagihan </th>
                             <th > <?=numberFormat($pembelian->total_pembelian)?></th>
-                            <th></th>
+                            <?php if($pembelian->status_pembelian!='lunas'){?>
+                                <th></th>
+                            <?php }?>
                         </tr>
                         </tfoot>
                     </table>
         </div>
-
+            <?php if($pembelian->status_pembelian!='lunas'){?>
             <div class="box-footer text-center">
                 <a type="button" href="<?= site_url('order_pembelian.php')?>" class="btn btn-warning">Kembali</a>
                 <a type="button" href="javascript:void(0)" onclick="delete_pembelian('<?=$pembelian->kode_pembelian?>')" class="btn btn-danger">Hapus</a>
                 <a type="button" href="<?= site_url('simpan_pembelian_barang/').$pembelian->kode_pembelian?>" class="btn btn-primary">Simpan</a>
                 <a type="button" href="<?= site_url('bayar_pembelian_barang/').$pembelian->kode_pembelian?>" class="btn btn-info">Simpan & Bayar</a>
             </div>
+            <?php } else {?>
+            <div class="box-footer text-center">
+
+                <a type="button" href="<?= site_url('invoice_pembelian.php')?>" class="btn btn-warning">Kembali</a>
+                <a type="button" href="<?= site_url('invoice/').$pembelian->kode_pembelian?>" class="btn btn-info">Cetak Invoice</a>
+            </div>
+            <?php }?>
 
         </div>
         <!-- end box-body -->

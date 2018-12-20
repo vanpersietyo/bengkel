@@ -8,6 +8,9 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="<?=base_url('assets/adminlte/')?>bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- datepicker -->
+    <link rel="stylesheet" href="<?=base_url('assets/adminlte/')?>bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="<?=base_url('assets/adminlte/')?>plugins/timepicker/bootstrap-timepicker.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?=base_url('assets/adminlte/')?>bower_components/font-awesome/css/font-awesome.min.css">
     <!-- Ionicons -->
@@ -86,13 +89,13 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="<?=base_url('assets/adminlte/')?>dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                            <img src="<?=base_url('assets/adminlte/')?>dist/img/male-circle-512.png" class="user-image" alt="User Image">
                             <span class="hidden-xs"><?=$this->session->userdata("username")?></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="<?=base_url('assets/adminlte/')?>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                <img src="<?=base_url('assets/adminlte/')?>dist/img/male-circle-512.png" class="img-circle" alt="User Image">
                                 <p>
                                     <?=$this->session->userdata('username') ?: $this->session->userdata('no_reg') ?> - <?=$level->nama_level?>
                                     <?php
@@ -106,7 +109,7 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="<?= site_url('profile')?>" class="btn btn-default btn-flat">Profile</a>
+                                    <a href="<?= site_url('profile.php')?>" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="<?=site_url('logout.php')?>" class="btn btn-default btn-flat">Sign out</a>

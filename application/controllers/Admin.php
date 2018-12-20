@@ -808,22 +808,6 @@ class Admin extends CI_Controller {
           'nopol_kendaraan'         => $this->input->post('nopol_kendaraan')
         ];
         $this->admin_model->insert_data('penjualan',$data);
-        echo "<script type='text/javascript'>
-                    $( document ).ready(function() {
-                        swal({
-                            title: 'Berhasil',
-                            html: '<h4>Data Berhasil Ditambahkan</h4>',
-                            type: 'success',
-                            showCancelButton: false,
-                            allowOutsideClick: false,
-                            confirmButtonText: 'Oke'
-                        }).then((result) => {
-                            if (result.value) {
-                                location.href = '".site_url('add_detail_antrian/').$data['kode_penjualan']."';
-                            }
-                        });
-                    });
-                </script>";
     }
 
     public function delete_antrian($kode_penjualan){
@@ -1253,6 +1237,27 @@ class Admin extends CI_Controller {
             'title'             => 'Laporan',
             'subtitle'          => 'Transaksi',
             'transaksi'         => $this->admin_model->get_list_penjualan(),
+        );
+        $this->load->view('templates/layout',$data);
+    }
+
+    public function laporan_penjualan_spare_part(){
+        $data=array(
+            'page'              => 'pages/penjualan/laporan/laporan_penjualan_barang',
+            'title'             => 'Laporan',
+            'subtitle'          => 'Penjualan Spare Part',
+            'transaksi'         => $this->admin_model->laporan_penjualan_barang("status_penjualan in ('4','5') and jenis='spare_part'"),
+            'total'             => $this->admin_model->sum_laporan_penjualan_barang("status_penjualan in ('4','5') and jenis='spare_part'")->row(),
+        );
+        $this->load->view('templates/layout',$data);
+    }
+
+    public function laporan_stok_spare_part(){
+        $data=array(
+            'page'              => 'pages/penjualan/laporan/laporan_stok_spare_part',
+            'title'             => 'Laporan',
+            'subtitle'          => 'Stok Spare Part',
+            'stok'              => $this->admin_model->laporan_stok(),
         );
         $this->load->view('templates/layout',$data);
     }

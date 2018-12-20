@@ -20,7 +20,9 @@
                     <th width="15%">Jumlah</th>
                     <th width="15%">Harga</th>
                     <th width="15%">Subtotal</th>
-                    <th width="12%">Aksi</th>
+                    <?php if($penjualan->status_penjualan!=5){?>
+                        <th width="12%">Aksi</th>
+                    <?php }?>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,10 +33,13 @@
                             <td class="text-center"><?=$value->qty;?></td>
                             <td><?=numberFormat($value->harga);?></td>
                             <td><?=numberFormat($value->subtotal);?></td>
-                            <td class="text-center">
-                                <a title="edit data layanan" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('edit_detail_antrian/').$value->kode_penjualan.'/'.$value->kode_barang?>"><i class="fa fa-edit"></i></a>
-                                <a title="hapus data layanan" class="btn btn-flat btn-danger btn-xs" onclick="delete_detail_barang('<?=$value->kode_penjualan?>','<?=$value->kode_barang?>')" href="javascript:void(0)"><i class="fa fa-close"></i></a>
-                            </td>
+                            <?php if($penjualan->status_penjualan!=5){?>
+                                <td class="text-center">
+                                    <a title="edit data layanan" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('edit_detail_antrian/').$value->kode_penjualan.'/'.$value->kode_barang?>"><i class="fa fa-edit"></i></a>
+                                    <a title="hapus data layanan" class="btn btn-flat btn-danger btn-xs" onclick="delete_detail_barang('<?=$value->kode_penjualan?>','<?=$value->kode_barang?>')" href="javascript:void(0)"><i class="fa fa-close"></i></a>
+                                </td>
+                            <?php }?>
+
                         </tr>
                     <?php }?>
                 </tbody>
@@ -55,7 +60,9 @@
                     <th width="10%">Satuan</th>
                     <th width="15%">Harga</th>
                     <th width="15%">Subtotal</th>
-                    <th width="12%">Aksi</th>
+                    <?php if($penjualan->status_penjualan!=5){?>
+                        <th width="12%">Aksi</th>
+                    <?php }?>
                 </tr>
                 </thead>
                 <tbody>
@@ -67,10 +74,12 @@
                             <td><?=$value->satuan;?></td>
                             <td><?=numberFormat($value->harga);?></td>
                             <td><?=numberFormat($value->subtotal);?></td>
-                            <td class="text-center">
-                                <a title="edit data" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('edit_detail_antrian/').$value->kode_penjualan.'/'.$value->kode_barang?>"><i class="fa fa-edit"></i></a>
-                                <a title="hapus data" class="btn btn-flat btn-danger btn-xs" onclick="delete_detail_barang('<?=$value->kode_penjualan?>','<?=$value->kode_barang?>')" href="javascript:void(0)"><i class="fa fa-close"></i></a>
-                            </td>
+                            <?php if($penjualan->status_penjualan!=5){?>
+                                <td class="text-center">
+                                    <a title="edit data" class="btn btn-flat btn-primary btn-xs" href="<?= site_url('edit_detail_antrian/').$value->kode_penjualan.'/'.$value->kode_barang?>"><i class="fa fa-edit"></i></a>
+                                    <a title="hapus data" class="btn btn-flat btn-danger btn-xs" onclick="delete_detail_barang('<?=$value->kode_penjualan?>','<?=$value->kode_barang?>')" href="javascript:void(0)"><i class="fa fa-close"></i></a>
+                                </td>
+                            <?php }?>
                         </tr>
                     <?php }?>
                 </tbody>
@@ -79,7 +88,9 @@
 <!--                    <th colspan="2" class="text-center">Total Jenis Barang : --><?//=sizeof($spare_part->result());?><!-- Jenis</th>-->
                     <th colspan="5" class="text-right">Total Tagihan </th>
                     <th > <?=numberFormat($penjualan->total_penjualan)?></th>
-                    <th></th>
+                    <?php if($penjualan->status_penjualan!=5){?>
+                        <th></th>
+                    <?php }?>
                 </tr>
                 </tfoot>
             </table>

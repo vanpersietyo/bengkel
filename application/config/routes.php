@@ -18,9 +18,14 @@ $route['reset/(:any)']      = 'login/reset_password/$1';
 $route['reset.do']          = 'login/proses_reset_password';
 
 //User
-$route['dashboard']        = 'user/index';
-$route['profile']          = 'user/profile';
-$route['logout.php']       = 'login/logout';
+$route['dashboard']         = 'user/index';
+$route['profile.php']       = 'user/profile';
+$route['ubah_profile.php']  = 'user/ubah_profile';
+$route['ubah_profile.do']   = 'user/proses_ubah_profile';
+$route['ubah_password.do']  = 'user/proses_ubah_password';
+
+
+$route['logout.php']        = 'login/logout';
 
 //Master
 $route['master/user']           = 'superadmin/user';
@@ -91,6 +96,9 @@ $route['master/delete_supplier/(:any)'] = 'gudang/delete_supplier/$1';
     $route['delete_kendaraan/(:any)'] = 'pelanggan/delete_kendaraan/$1';
     $route['edit_kendaraan/(:any)']   = 'pelanggan/form_edit_kendaraan/$1';
     $route['edit_kendaraan.do/(:any)']= 'pelanggan/proses_edit_kendaraan/$1';
+    $route['history.php']             = 'pelanggan/laporan_transaksi_user';
+    $route['detail_transaksi_pelanggan/(:any)']           = 'pelanggan/detail_transaksi_pelanggan/$1';
+    $route['pesan_layanan.php']       = 'pelanggan/form_pesan_layanan';
 
 //Menu Gudang
     //pembelian
@@ -139,7 +147,10 @@ $route['invoice_antrian.php']       = 'admin/daftar_invoice_antrian';
 $route['selesai_proses/(:any)']     = 'admin/selesai_proses_antrian/$1';
 $route['bayar_invoice/(:any)']      = 'admin/bayar_invoice/$1';
 $route['invoice_penjualan/(:any)']  = 'admin/invoice_penjualan/$1';
-$route['laporan_transaksi.php']         = 'admin/laporan_transaksi';
+$route['laporan_transaksi.php']     = 'admin/laporan_transaksi';
+$route['laporan_penjualan_spare_part.php']      = 'admin/laporan_penjualan_spare_part';
+$route['laporan_pembelian_spare_part.php']      = 'gudang/laporan_pembelian_spare_part';
+$route['laporan_stok_spare_part.php']           = 'admin/laporan_stok_spare_part';
 
 
 

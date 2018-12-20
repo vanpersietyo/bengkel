@@ -15,7 +15,7 @@
             <div class="box-header">
                 <i class="fa fa-sort-amount-asc"></i>
 
-                <h3 class="box-title">List Invoice Belum Lunas</h3>
+                <h3 class="box-title">List Invoice Belum Lunas <?=dateIndo(date('d-m-Y'),1,date('N'))?></h3>
                 <!-- tools box -->
                 <div class="pull-right box-tools">
                     <a href="<?=site_url('add_antrian.php')?>" type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah Antrian</a>
@@ -31,10 +31,11 @@
                         <thead>
                         <tr>
                             <th class="text-center" width="5%">Antrian</th>
-                            <th width="15%">No. Penjualan</th>
+                            <th width="13%">No. Penjualan</th>
                             <th width="17%">Tanggal Masuk</th>
-                            <th width="20%">Nama Pelanggan</th>
+                            <th width="15%">Nama Pelanggan</th>
                             <th width="15%">Kendaraan</th>
+                            <th width="10%">Total</th>
                             <th width="15%">Status</th>
                             <th width="10%">Aksi</th>
                         </tr>
@@ -47,6 +48,7 @@
                                 <td><?=formatDate($value->tgl_penjualan,'H:i').'&nbsp;&nbsp;&nbsp;'.dateIndo($value->tgl_penjualan,1);?></td>
                                 <td><?=capitalize_each_first($value->nama_pelanggan);?></td>
                                 <td><?=capitalize_each_first($value->nopol_kendaraan.' '.$value->merk.' - '.$value->tipe);?></td>
+                                <td><?=numberFormat($value->total_penjualan);?></td>
                                 <td><?=get_status_penjualan($value->status_penjualan);?></td>
                                 <td class="text-center">
                                     <a title="Lihat Detail Invoice"     class="btn btn-flat btn-info    btn-xs" href="<?= site_url('add_detail_antrian/').$value->kode_penjualan?>"><i class="fa fa-edit"></i></a>
@@ -69,7 +71,7 @@
         <div class="box box-solid bg-green-gradient">
             <div class="box-header">
                 <i class="fa fa-sort-amount-asc"></i>
-                <h3 class="box-title">List Invoice Sudah Lunas</h3>
+                <h3 class="box-title">List Invoice Sudah Lunas <?=dateIndo(date('d-m-Y'),1,date('N'))?></h3>
             </div>
             <!-- /.box-header -->
 
@@ -99,6 +101,7 @@
                                 <td><?=capitalize_each_first($value->nopol_kendaraan.' '.$value->merk.' - '.$value->tipe);?></td>
                                 <td><?=get_status_penjualan($value->status_penjualan);?></td>
                                 <td class="text-center">
+                                    <a title="Lihat Detail Invoice"     class="btn btn-flat btn-info    btn-xs" href="<?= site_url('add_detail_antrian/').$value->kode_penjualan?>"><i class="fa fa-edit"></i></a>
                                     <a title="Cetak Invoice"    class="btn btn-flat btn-warning  btn-xs" href="<?= site_url('invoice_penjualan/'.$value->kode_penjualan)?>" ><i class="fa fa-print"></i></a>
                                 </td>
                             </tr>

@@ -226,7 +226,7 @@
 
         <!--            <button onclick="goBack()" style="margin: 10px;"><span class="arrow"></span>Return To Homepage</button>-->
         <a href="javascript:void(0)" onclick="window.history.back()" style="margin: 10px;"><span class=""> < </span>Return To Previous Page</a>
-        <a href="https://busrizaltrans.com/project/bengkel/" style="margin: 10px;">Return To Home<span class=""> > </span></a>
+        <a href="https://sibengkel.online" style="margin: 10px;">Return To Home<span class=""> > </span></a>
     </div>
 </div>
 

@@ -347,5 +347,69 @@ class Admin_model extends CI_Model {
         return $query;
     }
 
+    function laporan_penjualan_barang($where){
+        $this->db->select('a.*,b.nama as nama_barang,b.satuan as satuan,b.jenis as jenis,c.status_penjualan as status_penjualan');
+        $this->db->from('penjualan_detail a');
+        $this->db->join('barang b', 'a.kode_barang = b.kode');
+        $this->db->join('penjualan c', 'a.kode_penjualan = c.kode_penjualan');
+        $this->db->where($where);
+        $this->db->order_by('a.id','ASC');
+        $query = $this->db->get();
+        return $query;
+    }
+
+    function sum_laporan_penjualan_barang($where){
+        $this->db->select('sum(a.qty) as qty, sum(a.subtotal) as total');
+        $this->db->from('penjualan_detail a');
+        $this->db->join('barang b', 'a.kode_barang = b.kode');
+        $this->db->join('penjualan c', 'a.kode_penjualan = c.kode_penjualan');
+        $this->db->where($where);
+        $this->db->order_by('a.id','ASC');
+        $query = $this->db->get();
+        return $query;
+    }
+
+    function laporan_pembelian_barang($where){
+        $this->db->select('a.*,b.nama as nama_barang,b.satuan as satuan,b.jenis as jenis,c.status_pembelian as status_pembelian');
+        $this->db->from('pembelian_detail a');
+        $this->db->join('barang b', 'a.kode_barang = b.kode');
+        $this->db->join('pembelian c', 'a.kode_pembelian = c.kode_pembelian');
+        $this->db->where($where);
+        $this->db->order_by('a.id','ASC');
+        $query = $this->db->get();
+        return $query;
+    }
+
+    function sum_laporan_pembelian_barang($where){
+        $this->db->select('sum(a.qty) as qty, sum(a.subtotal) as total');
+        $this->db->from('pembelian_detail a');
+        $this->db->join('barang b', 'a.kode_barang = b.kode');
+        $this->db->join('pembelian c', 'a.kode_pembelian = c.kode_pembelian');
+        $this->db->where($where);
+        $this->db->order_by('a.id','ASC');
+        $query = $this->db->get();
+        return $query;
+    }
+
+    function laporan_stok($where=null){
+        $this->db->select('a.kode AS kode_barang,a.nama AS nama_barang,a.satuan,IFNULL(SUM(b.qty),0) AS qty_jual, 
+                            IFNULL(SUM(c.qty),0) AS qty_beli, 
+                            (SUM(IFNULL(c.qty,0))-SUM(IFNULL(b.qty,0))) AS stok ');
+        $this->db->from('barang a');
+        $this->db->join('penjualan_detail b', 'a.kode = b.kode_barang','left');
+        $this->db->join('penjualan ab', 'ab.kode_penjualan = b.kode_penjualan','left');
+        $this->db->join('pembelian_detail c', 'a.kode = c.kode_barang','left');
+        $this->db->join('pembelian ac', 'ac.kode_pembelian = c.kode_pembelian','left');
+        $this->db->where("a.jenis = 'spare_part'");
+        if ($where!=null){
+            $this->db->where($where);
+        }
+        $this->db->group_by(array("a.kode"));
+        $this->db->order_by('a.kode','ASC');
+        $query = $this->db->get();
+        return $query;
+    }
+
+
 }
 ?>

@@ -7,8 +7,8 @@
  */
 ?>
 <li>
-    <a  href="<?=site_url('dashboard')?>" >
-        <i class="fa fa-calendar"></i> <span>Servis</span>
+    <a  href="<?=site_url('pesan_layanan.php')?>" >
+        <i class="fa fa-calendar"></i> <span>Pesan Layanan</span>
     </a>
 </li>
 
@@ -19,7 +19,7 @@
     </a>
 </li>
 <li>
-    <a  href="<?=site_url('dashboard')?>" >
-        <i class="fa fa-calendar"></i> <span>History Servis</span>
+    <a  href="<?=site_url('history.php')?>" >
+        <i class="fa fa-calendar"></i> <span>History Transaksi</span>
     </a>
 </li>

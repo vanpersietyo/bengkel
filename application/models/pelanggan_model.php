@@ -115,4 +115,17 @@ class Pelanggan_model extends CI_Model {
         $query = $this->db->get();
         return $query;
     }
+
+    function get_list_penjualan($where=null){//status = input / belum_lunas / lunas
+        $this->db->select("a.*,b.nama as 'nama_pelanggan',c.merk as 'merk', c.tipe as 'tipe',b.telepon as telepon,b.alamat as alamat ");
+        $this->db->from('penjualan a');
+        $this->db->join('user b', 'a.no_pelanggan= b.no_registrasi');
+        $this->db->join('kendaraan c', 'a.kode_kendaraan= c.id');
+        if ($where!=null){
+            $this->db->where($where);
+        }
+        $this->db->order_by('antrian','ASC');
+        $query = $this->db->get();
+        return $query;
+    }
 }

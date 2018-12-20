@@ -14,7 +14,7 @@
             <div class="box-header">
                 <i class="fa fa-sort-amount-asc"></i>
 
-                <h3 class="box-title">List Antrian Belum Verifikasi</h3>
+                <h3 class="box-title">List Antrian Belum Verifikasi <?=dateIndo(date('d-m-Y'),1,date('N'))?></h3>
                 <!-- tools box -->
                 <div class="pull-right box-tools">
                     <a href="<?=site_url('add_antrian.php')?>" type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah Antrian</a>
@@ -69,7 +69,7 @@
         <div class="box box-solid bg-green-gradient">
             <div class="box-header">
                 <i class="fa fa-sort-amount-asc"></i>
-                <h3 class="box-title">List Antrian Yang Sudah Verifikasi</h3>
+                <h3 class="box-title">List Antrian Yang Sudah Verifikasi  <?=dateIndo(date('d-m-Y'),1,date('N'))?></h3>
             </div>
             <!-- /.box-header -->
 

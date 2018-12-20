@@ -13,7 +13,7 @@
         <div class="box box-solid bg-green-gradient">
             <div class="box-header">
                 <i class="fa fa-sort-amount-asc"></i>
-                <h3 class="box-title">List Proses Antrian Layanan Bengkel</h3>
+                <h3 class="box-title">List Proses Antrian Layanan  <?=dateIndo(date('d-m-Y'),1,date('N'))?></h3>
             </div>
             <!-- /.box-header -->
 

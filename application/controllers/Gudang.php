@@ -319,7 +319,7 @@ class Gudang extends CI_Controller
         //detail pembelian = insert barang
         public function add_pembelian_barang($kode_pembelian)
         {
-            $pembelian  =  $this->admin_model->get_list_pembelian("status_pembelian in ('input','belum_lunas') and kode_pembelian='{$kode_pembelian}'")->row();
+            $pembelian  =  $this->admin_model->get_list_pembelian("kode_pembelian='{$kode_pembelian}'")->row();
             $data       = [
                 'page'              => 'pages/pembelian/form_add_pembelian_barang',
                 'title'             => 'Tambah Pembelian',
@@ -564,6 +564,17 @@ class Gudang extends CI_Controller
         $this->load->view('templates/layout',$data);
     }
     #TODO - create fungsi edit pembelian barang
+
+    public function laporan_pembelian_spare_part(){
+        $data=array(
+            'page'              => 'pages/pembelian/laporan/laporan_pembelian_barang',
+            'title'             => 'Laporan',
+            'subtitle'          => 'Pembelian Spare Part',
+            'transaksi'         => $this->admin_model->laporan_pembelian_barang("status_pembelian in ('belum_lunas','lunas') and jenis='spare_part'"),
+            'total'             => $this->admin_model->sum_laporan_pembelian_barang("status_pembelian in ('belum_lunas','lunas') and jenis='spare_part'")->row(),
+        );
+        $this->load->view('templates/layout',$data);
+    }
 
 // end transaksi
 }

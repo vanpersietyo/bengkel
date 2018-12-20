@@ -65,12 +65,12 @@
     </a>
 </li>
 <li>
-    <a  href="<?=site_url('master/barang')?>">
+    <a  href="<?=site_url('laporan_penjualan_spare_part.php')?>">
         <i class="fa fa-calendar"></i> <span>Penjualan Spare Part</span>
     </a>
 </li>
 <li>
-    <a  href="<?=site_url('master/barang')?>">
+    <a  href="<?=site_url('laporan_stok_spare_part.php')?>">
         <i class="fa fa-calendar"></i> <span>Stok Spare Part</span>
     </a>
 </li>

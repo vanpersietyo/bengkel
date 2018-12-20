@@ -72,10 +72,14 @@
                             <!-- end box-body -->
                         </div>
                         <!-- start box-footer -->
-                        <div class="box-footer">
-                            <button type="button" onclick="reset_form()" class="btn btn-danger">Reset</button>
-                            <button type="submit" class="btn btn-info pull-right">Tambah</button>
-                        </div>
+
+                        <?php if($penjualan->status_penjualan!=5){?>
+                            <div class="box-footer">
+                                <button type="button" onclick="reset_form()" class="btn btn-danger">Reset</button>
+                                <button type="submit" class="btn btn-info pull-right">Tambah</button>
+                            </div>
+                        <?php }?>
+
                         <!-- end box-footer -->
                         <!--end box-->
                     </form>

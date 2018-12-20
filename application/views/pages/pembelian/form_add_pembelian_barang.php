@@ -60,10 +60,12 @@
                             <!-- end box-body -->
                         </div>
                         <!-- start box-footer -->
+                        <?php if($pembelian->status_pembelian!='lunas'){?>
                         <div class="box-footer">
                             <button type="button" onclick="reset_form()" class="btn btn-danger">Reset</button>
                             <button type="submit" class="btn btn-info pull-right">Tambah</button>
                         </div>
+                        <?php }?>
                         <!-- end box-footer -->
                         <!--end box-->
                     </form>
