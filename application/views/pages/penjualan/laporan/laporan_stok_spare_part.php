@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: tipk
+ * User: Candra Dewi
  * Date: 20/12/2018
  * Time: 8:43
  */
@@ -33,12 +33,22 @@
                         <tbody>
                         <?php $i=1;  foreach ($stok->result() as $key => $value){?>
                             <tr>
-                                <td class="text-center"><?=$i++?></td>
-                                <td><?=$value->kode_barang.' - '.capitalize_each_first($value->nama_barang)?></td>
-                                <td><?=$value->satuan?></td>
-                                <td class="text-center"><?=$value->qty_beli?></td>
-                                <td class="text-center"><?=$value->qty_jual?></td>
-                                <td class="text-center"><?=$value->stok?></td>
+                                <?php if($value->stok<=5){?>
+                                    <td class="text-center"><p style="color:red"><?=$i++?></p></td>
+                                    <td> <p style="color:red"><?=$value->kode_barang.' - '.capitalize_each_first($value->nama_barang)?></p></td>
+                                    <td> <p style="color:red"><?=$value->satuan?></p></td>
+                                    <td class="text-center"> <p style="color:red"><?=$value->qty_beli?></p></td>
+                                    <td class="text-center"> <p style="color:red"><?=$value->qty_jual?></p></td>
+                                    <td class="text-center"> <p style="color:red"><?=$value->stok?></p></td>
+                                <?php }else {?>
+                                    <td class="text-center"><?=$i++?></td>
+                                    <td><?=$value->kode_barang.' - '.capitalize_each_first($value->nama_barang)?></td>
+                                    <td><?=$value->satuan?></td>
+                                    <td class="text-center"><?=$value->qty_beli?></td>
+                                    <td class="text-center"><?=$value->qty_jual?></td>
+                                    <td class="text-center"><?=$value->stok?></td>
+                                <?php } ?>
+
                             </tr>
                         <?php } ?>
 
@@ -60,9 +70,18 @@
     //untuk datatable
     $(document).ready(function() {
         $('#example2').DataTable( {
+            dom: 'Bfrtip',
             'autoWidth'   : false,
+            "columnDefs": [
+                { "orderable": false, "targets": [5] }
+            ],
+            buttons: [
+                'excel', 'pdf', 'print'
+            ]
         });
-    } );
+
+
+    });
 </script>
 
 

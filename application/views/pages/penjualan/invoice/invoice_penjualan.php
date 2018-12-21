@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: tipk
+ * User: Candra Dewi
  * Date: 19/12/2018
  * Time: 18:44
  */
@@ -9,7 +9,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: tipk
+ * User: Candra Dewi
  * Date: 18/12/2018
  * Time: 8:12
  */
@@ -46,7 +46,7 @@
                     <div class="col-xs-6">
                         <address>
                             <strong>Dari :</strong><br>
-                            Bengkel Mobil Fajar Sakti<br>
+                            Bengkel Mobil ABC <br>
                             Jl. Raya Kemasan No.98, Kec. Krian,<br>
                             Kabupaten Sidoarjo, Jawa Timur 61262<br>
                             Telp : 0812-3037-3137

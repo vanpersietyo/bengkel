@@ -7,23 +7,28 @@
  */
 ?>
 <li class="header">LAPORAN</li>
+<!--<li>-->
+<!--    <a  href="--><?//=site_url('dashboard')?><!--" >-->
+<!--        <i class="fa fa-calendar"></i> <span>Transaksi Harian</span>-->
+<!--    </a>-->
+<!--</li>-->
 <li>
-    <a  href="<?=site_url('dashboard')?>" >
-        <i class="fa fa-calendar"></i> <span>LAPORAN SERVIS</span>
-    </a>
-<li>
-</li>
-<a  href="<?=site_url('dashboard')?>" >
-    <i class="fa fa-calendar"></i> <span>LAPORAN PENJUALAN Spare Part</span>
+<a  href="<?=site_url('laporan_transaksi.php')?>" >
+    <i class="fa fa-calendar"></i> <span>Transaksi Penjualan</span>
 </a>
 </li>
 <li>
-    <a  href="<?=site_url('dashboard')?>" >
-        <i class="fa fa-calendar"></i> <span>LAPORAN PEMBELIAN Spare Part</span>
+    <a  href="<?=site_url('laporan_pembelian_spare_part.php')?>" >
+        <i class="fa fa-calendar"></i> <span>Pembelian Spare Part</span>
     </a>
 </li>
 <li>
-    <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>LAPORAN STOK Spare Part</span>
+    <a  href="<?=site_url('laporan_penjualan_spare_part.php')?>" >
+        <i class="fa fa-calendar"></i> <span>Penjualan Spare Part</span>
+    </a>
+</li>
+<li>
+    <a  href="<?=site_url('laporan_stok_spare_part.php')?>">
+        <i class="fa fa-calendar"></i> <span>Stok Spare Part</span>
     </a>
 </li>

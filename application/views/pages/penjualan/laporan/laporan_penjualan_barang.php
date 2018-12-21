@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: tipk
+ * User: Candra Dewi
  * Date: 20/12/2018
  * Time: 7:58
  */?>
@@ -70,7 +70,11 @@
     //untuk datatable
     $(document).ready(function() {
         $('#example2').DataTable( {
-            'autoWidth'   : false
+            dom: 'Bfrtip',
+            'autoWidth'   : false,
+            buttons: [
+                'excel', 'pdf', 'print'
+            ]
         });
     } );
 </script>

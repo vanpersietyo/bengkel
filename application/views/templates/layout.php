@@ -6,7 +6,14 @@
  * Time: 14:39
  */
 ?>
-
+<!--<style>-->
+<!--    .wrapper {-->
+<!--        height: 100%;-->
+<!--        position: relative ;-->
+<!--        overflow-x: hidden ;-->
+<!--        overflow-y: hidden ;-->
+<!--    }-->
+<!--</style>-->
 <?php $this->load->view('templates/header',true)?>
 
 <?php $this->load->view('templates/sidebar',true)?>

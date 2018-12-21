@@ -13,7 +13,7 @@
         <!-- small box -->
         <div class="small-box bg-aqua">
             <div class="inner">
-                <h3>No. <?=$antrian?></h3>
+                <h3><?=$antrian?></h3>
                 <p>Antrian Saat Ini</p>
             </div>
             <div class="icon">
@@ -27,13 +27,13 @@
         <!-- small box -->
         <div class="small-box bg-green">
             <div class="inner">
-                <h3>No. <?=$proses?></h3>
+                <h3><?=$proses?></h3>
                 <p>Proses Saat Ini</p>
             </div>
             <div class="icon">
                 <i class="ion ion-stats-bars"></i>
             </div>
-            <a href="<?=site_url('pesan_layanan.php')?>" class="small-box-footer">Pesan Layanan <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="<?=site_url('pesanan_saya.php')?>" class="small-box-footer">Lihat Pesanan <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->

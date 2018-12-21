@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: tipk
+ * User: Candra Dewi
  * Date: 20/12/2018
  * Time: 19:24
  */
@@ -13,7 +13,7 @@
         <!--start box-->
         <div class="box">
             <!--start form-->
-            <form class="form-horizontal" method="post"  action="javascript:void(0)" id="form_add_penjualan" onsubmit="tambah_penjualan()">
+            <form class="form-horizontal" method="post"  action="javascript:void(0)" id="form_add_antrian_pelanggan" onsubmit="tambah_antrian_pelanggan()">
                 <!-- start box-body -->
                 <div class="box-header with-border">
                     <h3 class="box-title">Header Pesanan Transaksi</h3>
@@ -26,12 +26,23 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <label >Kode Penjualan</label>
+                                    <label >Kode Antrian</label>
                                     <input readonly="readonly" type="text" name="kode_penjualan" value="<?=$kode_penjualan?>" class="form-control">
                                 </div>
                                 <div class="col-lg-6">
-                                    <label>Antrian</label>
-                                    <input readonly="readonly" type="text" name="antrian" class="form-control" value="<?=$antrian?>">
+                                    <label for="namaPemesan">Pilih Kendaraan</label>
+                                    <div class="input-group">
+                                        <select id="kode_kendaraan" data-live-search-placeholder="Cari Kendaraan" class="selectpicker form-control" name="kode_kendaraan" data-show-subtext="true" data-live-search="true">
+                                            <?php
+                                            $i = 1;
+                                            foreach ($kendaraan->result() as $key => $value){ ?>
+                                                <option value="<?=$value->id_kendaraan.'|'.$value->nopol_kendaraan?>"><?=$value->merk.' - '.$value->tipe.' - '.$value->nopol_kendaraan?></option>
+                                            <?php } ?>
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <a type="button" class="btn btn-primary btn-flat" href="<?= site_url('kendaraan.php')?>" data-original-title="Tambah Kendaraan" data-toggle="tooltip"><i class="fa fa-plus"></i></a>
+                                </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -40,11 +51,11 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label >Tanggal</label>
-                                    <input type="text" name="tgl_penjualan" data-date-format="dd/mm/yyyy" value="<?=date('d/m/Y')?>" class="form-control" id="datepicker">
+                                    <input onchange="cari_antrian()" type="text" name="tanggal" data-date-format="dd-mm-yyyy" value="<?=date('d-m-Y')?>" class="form-control" id="datepicker">
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Waktu</label>
-                                    <input type="text" id="timepicker" name="waktu" class="form-control timepicker" value="<?=date('H:i:s')?>">
+                                    <input type="text" id="timepicker" name="waktu" value="<?=date('H:i')?>" class="form-control timepicker" >
                                 </div>
                             </div>
                         </div>
@@ -56,19 +67,8 @@
                                     <textarea name="keterangan_penjualan" class="form-control" type="text"  rows="4" cols="50" placeholder="Keterangan Penjualan"></textarea>
                                 </div>
                                 <div class="col-lg-6">
-                                    <label for="namaPemesan">Pilih Kendaraan</label>
-                                    <div class="input-group">
-                                        <select id="kode_kendaraan" data-live-search-placeholder="Cari Kendaraan" class="selectpicker form-control" name="kode_kendaraan" data-show-subtext="true" data-live-search="true">
-                                            <?php
-                                            $i = 1;
-                                            foreach ($kendaraan->result() as $key => $value){ ?>
-                                                <option value="<?=$value->id?>"><?=$value->merk.' - '.$value->tipe?></option>
-                                            <?php } ?>
-                                        </select>
-                                        <span class="input-group-btn">
-                                    <a type="button" class="btn btn-primary btn-flat" href="<?= site_url('master/kendaraan.php')?>" title="Tambah Supplier"><i class="fa fa-plus"></i></a>
-                                </span>
-                                    </div>
+                                    <label>Antrian</label>
+                                    <input readonly="readonly" type="text" name="antrian" id="antrian" class="form-control" value="<?=$antrian?>">
                                 </div>
                             </div>
                         </div>
@@ -97,38 +97,32 @@
 
 <script>
     //function tambah data
-    function tambah_penjualan() {
+    function tambah_antrian_pelanggan() {
         loading();
         $.ajax({
-            url : "<?=site_url('add_antrian.do')?>",
-            data: $('#form_add_penjualan').serialize(),
+            url : "<?=site_url('add_antrian_pelanggan.php')?>",
+            data: $('#form_add_antrian_pelanggan').serialize(),
             type: 'POST',
             success: function (data) {
                 $('.result_content').html(data);
+                swal.close();
             }
         });
     }
 
-    $(function () {
-        //data tabel
-        $('#example2').DataTable({
-            'paging'      : false,
-            'lengthChange': false,
-            'searching'   : false,
-            'autoWidth'   : false,
-            'info'        : false,
-            'ordering'    : false
+    //function cari antrian
+    function cari_antrian() {
+        loading();
+        $.ajax({
+            url : "<?=site_url('cari_antrian.php')?>",
+            data: $('#form_add_antrian_pelanggan').serialize(),
+            type: 'POST',
+            success: function (data) {
+                $('.result_content').html(data);
+                swal.close();
+            }
         });
-        //data tabel
-        $('#example').DataTable({
-            'paging'      : false,
-            'lengthChange': false,
-            'searching'   : false,
-            'autoWidth'   : false,
-            'info'        : false,
-            'ordering'    : false
-        });
-    });
+    }
 
     $(function() {
         var date = new Date();
@@ -140,7 +134,7 @@
 
         $('.timepicker').timepicker({
             showInputs: false,
-            timeFormat: 'h:mm:ss p'
+            showMeridian: false,
         });
     });
 

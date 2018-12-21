@@ -18,7 +18,7 @@ class Conversion {
     function hak_akses_admin() // hak akses level 1 = superadmin ; 2=admin ; 3=gudang
     {
         $level = $this->CI->session->userdata('level');
-        if ($level==1 or $level==2 or $level==3){
+        if ($level==1 or $level==2 or $level==3 or $level==6){
             $this->CI->load->model('admin_model');
             return TRUE;
         } else {
@@ -56,7 +56,7 @@ class Conversion {
             return 'montir'; //no use
         }elseif ($level==5){
             return 'pelanggan';
-        }elseif ($level==1){
+        }elseif ($level==6){
             return 'pemilik';
         }else{
             return false;

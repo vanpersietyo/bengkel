@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @property CI_Session         $session
 
  * @property pelanggan_model    $pelanggan_model
+ * @property admin_model        $admin_model
  * @property conversion         $conversion
  * @property CI_Input           $input
  */
@@ -37,8 +38,8 @@ class Pelanggan extends CI_Controller {
             'subtitle'          => 'Pesanan Layanan',
             'kode_penjualan'    => $this->admin_model->get_kode_penjualan(),
             'antrian'           => $this->admin_model->get_antrian_penjualan(date('Y-m-d')),
-            'kendaraan'         => $this->admin_model->select_data('kendaraan','entry','ASC'),
-            'pelanggan'         => $this->admin_model->cek_data(['no_registrasi'=>$this->session->userdata('no_reg')],'user')->row(),
+            'kendaraan'         => $this->pelanggan_model->get_list_kendaraan_user($this->session->userdata('kode_user')),
+            'pelanggan'         => $this->pelanggan_model->cek_data(['no_registrasi'=>$this->session->userdata('no_reg')],'user')->row(),
         );
         $this->load->view('templates/layout',$data);
     }
@@ -232,6 +233,16 @@ class Pelanggan extends CI_Controller {
         redirect(site_url('kendaraan.php'));
     }
 
+    public function pesanan_saya(){
+        $data=array(
+            'page'              => 'pages/menu_pelanggan/pesanan_saya',
+            'title'             => 'Pesanan',
+            'subtitle'          => 'Saya',
+            'transaksi'         => $this->pelanggan_model->get_list_penjualan(['no_pelanggan'=>$this->session->userdata('no_reg'),'status_penjualan <='=>'3']),
+        );
+        $this->load->view('templates/layout',$data);
+    }
+
     public function laporan_transaksi_user(){
         $data=array(
             'page'              => 'pages/menu_pelanggan/laporan_transaksi',
@@ -274,4 +285,66 @@ class Pelanggan extends CI_Controller {
             $this->load->view('templates/layout',$data);
         }
     }
+
+    public function proses_tambah_antrian()
+    {
+        $date       = $this->input->post('tanggal');
+        $tanggal    = formatDate($date.' '.$this->input->post('waktu'),'Y-m-d H:i:s');
+        $kode       = explode('|',$this->input->post('kode_kendaraan'));
+        $data = [
+            'kode_penjualan'          => $this->admin_model->get_kode_penjualan(),
+            'antrian'                 => $this->admin_model->get_antrian_penjualan(formatDate($date,'Y-m-d')),
+            'kode_kendaraan'          => $kode[0],
+            'nopol_kendaraan'         => $kode[1],
+            'no_pelanggan'            => $this->session->userdata('no_reg'),
+            'tgl_penjualan'           => $tanggal,
+            'keterangan_penjualan'    => $this->input->post('keterangan_penjualan'),
+            'status_penjualan'        => 1,//1 = antrian
+        ];
+        $this->admin_model->insert_data('penjualan',$data);
+        echo "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            title   : 'BERHASIL',
+                            html    : '<h5><strong>Kode Pesanan Anda : ".$data['kode_penjualan']."<br> Nomor Antrian Anda : ".$data['antrian']."</strong>.<br>Silahkan Datang Ke Bengkel Pada Tanggal <br><strong>".dateIndo(formatDate($date,'d-m-Y'),1)."</strong><br>Dengan Menunjukkan Kode Diatas.</h5>',
+                            type    : 'success',
+                            showCancelButton: false,
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            if (result.value) {
+                                window.location.href ='".site_url('pesanan_saya.php')."';
+                            }
+                        })
+                    });
+                </script>";
+    }
+
+    public function delete_antrian($kode_penjualan)
+    {
+        $this->admin_model->delete_data('kode_penjualan',$kode_penjualan,'penjualan');
+        $notif = "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            title   : 'BERHASIL',
+                            html    : '<h5> Pesanan Berhasil Di Batalkan </h5>',
+                            type    : 'success',
+                            showCancelButton: false,
+                        })
+                    });
+                </script>";
+    }
+
+    public function cari_antrian()
+    {
+        $date       = $this->input->post('tanggal');
+        $tanggal    = formatDate($date.' '.$this->input->post('waktu'),'Y-m-d');
+        $antrian    = $this->admin_model->get_antrian_penjualan($tanggal);
+        echo "<script type='text/javascript'>
+                        $( document ).ready(function() {
+                            $('#antrian').val($antrian);
+                        });
+                    </script>";
+
+    }
+
 }

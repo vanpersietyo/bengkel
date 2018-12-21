@@ -25,18 +25,35 @@
                         <td>Nama</td>
                         <td>: <?=capitalize_each_first($user->nama)?></td>
                     </tr>
-                    <tr>
-                        <td>No. Registrasi</td>
-                        <td>: <?=$user->no_registrasi?></td>
-                    </tr>
+                    <?php if ($user->id_level!=5){?>
+                        <tr>
+                            <td>Kode User</td>
+                            <td>: <?=$user->kode_user?></td>
+                        </tr>
+                    <?php }else{?>
+                        <tr>
+                            <td>No. Registrasi</td>
+                            <td>: <?=$user->no_registrasi?></td>
+                        </tr>
+                    <?php } ?>
+
                     <tr>
                         <td>Username</td>
                         <td>: <?=$user->username;?></td>
                     </tr>
-                    <tr>
-                        <td>Member Sejak</td>
-                        <td>: <?=formatDate($user->entry_time,'d-m-Y')?></td>
-                    </tr>
+
+
+                    <?php if ($user->id_level!=5){?>
+                        <tr>
+                            <td>Tanggal Terdaftar</td>
+                            <td>: <?=formatDate($user->entry_time,'d-m-Y')?></td>
+                        </tr>
+                    <?php }else{?>
+                        <tr>
+                            <td>Member Sejak</td>
+                            <td>: <?=formatDate($user->entry_time,'d-m-Y')?></td>
+                        </tr>
+                    <?php } ?>
 
                     <tr>
 

@@ -808,6 +808,22 @@ class Admin extends CI_Controller {
           'nopol_kendaraan'         => $this->input->post('nopol_kendaraan')
         ];
         $this->admin_model->insert_data('penjualan',$data);
+        echo "<script type='text/javascript'>
+                    $( document ).ready(function() {
+                        swal({
+                            title   : 'Berhasil',
+                            html    : '<h5>Antrian Berhasil Di Tambahkan. Silahkan Tambah Detail</h5>',
+                            type    : 'success',
+                            showCancelButton: false,
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            if (result.value) {
+                                window.location.href ='".site_url('add_detail_antrian/').$data['kode_penjualan']."';
+                            }
+                        })
+                    });
+                </script>";
+        #TODO - pasang error handling disini
     }
 
     public function delete_antrian($kode_penjualan){

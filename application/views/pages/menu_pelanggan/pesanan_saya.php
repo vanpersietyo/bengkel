@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Candra Dewi
- * Date: 20/12/2018
- * Time: 15:23
+ * User: tipk
+ * Date: 21/12/2018
+ * Time: 10:37
  */
 ?>
 
@@ -13,7 +13,12 @@
         <div class="box box-solid bg-green-gradient">
             <div class="box-header">
                 <i class="fa fa-sort-amount-asc"></i>
-                <h3 class="box-title">History Transaksi</h3>
+                <h3 class="box-title">Pesanan Saya</h3>
+                <!-- tools box -->
+                <div class="pull-right box-tools">
+                    <a href="<?=site_url('pesan_layanan.php')?>" type="button" class="btn btn-primary btn-sm" data-original-title="Tambah Pesanan" data-toggle="tooltip"><i class="fa fa-plus"></i> Tambah Pesanan</a>
+                </div>
+                <!-- /. tools -->
             </div>
             <!-- /.box-header -->
 
@@ -24,13 +29,13 @@
                         <thead>
                         <tr>
                             <th class="text-center" width="5%">No.</th>
-                            <th width="15%">No. Penjualan</th>
-                            <th width="17%">Tanggal Transaksi</th>
-                            <th width="20%">Nama Pelanggan</th>
+                            <th width="15%">No. Pesanan</th>
+                            <th width="17%">Tanggal Pesanan</th>
+                            <th class="text-center" width="12%">No. Antrian</th>
                             <th width="15%">Kendaraan</th>
                             <th width="15%">Total</th>
-                            <th width="15%">Status</th>
-                            <th width="10%">Aksi</th>
+                            <th width="13%">Status</th>
+                            <th width="12%">Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -39,7 +44,7 @@
                                 <td class="text-center"><?=$i++;?></td>
                                 <td><?=$value->kode_penjualan;?></td>
                                 <td><?=formatDate($value->tgl_penjualan,'H:i').'&nbsp;&nbsp;&nbsp;'.dateIndo($value->tgl_penjualan,1);?></td>
-                                <td><?=capitalize_each_first($value->nama_pelanggan);?></td>
+                                <td class="text-center"><?=$value->antrian;?></td>
                                 <td><?=$value->nopol_kendaraan.' '.$value->merk.' - '.$value->tipe;?></td>
                                 <td><?=numberFormat($value->total_penjualan);?></td>
                                 <?php if ($value->status_penjualan==1){?>
@@ -69,7 +74,8 @@
                                 <?php } ?>
 
                                 <td class="text-center">
-                                    <a title="Lihat Detail" class="btn btn-flat btn-success  btn-xs" href="<?= site_url('detail_transaksi_pelanggan/'.$value->kode_penjualan)?>" ><i class="fa fa-arrow-circle-o-up"></i></a>
+                                    <a title="Lihat Detail" class="btn btn-flat btn-success  btn-xs" href="<?= site_url('detail_transaksi_pelanggan/'.$value->kode_penjualan)?>" ><i class="fa fa-arrows-alt"></i></a>
+                                    <a title="Batalkan Pesanan" class="btn btn-flat btn-danger  btn-xs" href="<?= site_url('detail_transaksi_pelanggan/'.$value->kode_penjualan)?>" ><i class="fa fa-times"></i></a>
                                 </td>
                             </tr>
                         <?php }?>
@@ -98,4 +104,5 @@
         });
     } );
 </script>
+
 

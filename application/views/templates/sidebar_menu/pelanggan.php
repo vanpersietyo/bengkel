@@ -7,8 +7,8 @@
  */
 ?>
 <li>
-    <a  href="<?=site_url('pesan_layanan.php')?>" >
-        <i class="fa fa-calendar"></i> <span>Pesan Layanan</span>
+    <a  href="<?=site_url('pesanan_saya.php')?>" >
+        <i class="fa fa-calendar"></i> <span>My Booking</span>
     </a>
 </li>
 

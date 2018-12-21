@@ -40,6 +40,7 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="<?=base_url('assets/adminlte/')?>bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="<?=base_url('assets/adminlte/')?>bower_components/datatables.net-bs/css/buttons.dataTables.min.css">
+<!--    <link rel="stylesheet" href="--><?//=base_url('assets/adminlte/')?><!--bower_components/datatables.net-bs/css/jquery.dataTables.min.css">-->
     <!-- sweetalert -->
     <link rel="stylesheet" href="<?=base_url('assets/third_party/')?>sweetalert/dist/sweetalert2.css">
     <!--    select 2-->
@@ -48,6 +49,7 @@
     <link rel="stylesheet"  href="<?=base_url('assets/third_party/loading.css')?>">
 </head>
 <style>
+    @page { size: auto !important;  margin: 0mm !important; }
     .padding_right{padding-right: 5px !important;}
     .padding_left{padding-left: 5px !important;}
     .padding_top{padding-top: 5px !important;}
@@ -64,7 +66,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>SI</b>BKL</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>SI </b>Bengkel</span>
+            <span class="logo-lg"><b>SI </b>Bengkel <b>ABC</b></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">

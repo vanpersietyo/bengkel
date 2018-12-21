@@ -91,14 +91,17 @@ $route['master/delete_supplier/(:any)'] = 'gudang/delete_supplier/$1';
 
 //Menu Pelanggan
     //Daftar Kendaraan
-    $route['kendaraan.php']           = 'pelanggan/daftar_kendaraan';
-    $route['tambah_kendaraan.php']    = 'pelanggan/proses_tambah_kendaraan';
-    $route['delete_kendaraan/(:any)'] = 'pelanggan/delete_kendaraan/$1';
-    $route['edit_kendaraan/(:any)']   = 'pelanggan/form_edit_kendaraan/$1';
-    $route['edit_kendaraan.do/(:any)']= 'pelanggan/proses_edit_kendaraan/$1';
-    $route['history.php']             = 'pelanggan/laporan_transaksi_user';
+    $route['kendaraan.php']             = 'pelanggan/daftar_kendaraan';
+    $route['tambah_kendaraan.php']      = 'pelanggan/proses_tambah_kendaraan';
+    $route['delete_kendaraan/(:any)']   = 'pelanggan/delete_kendaraan/$1';
+    $route['edit_kendaraan/(:any)']     = 'pelanggan/form_edit_kendaraan/$1';
+    $route['edit_kendaraan.do/(:any)']  = 'pelanggan/proses_edit_kendaraan/$1';
+    $route['history.php']               = 'pelanggan/laporan_transaksi_user';
     $route['detail_transaksi_pelanggan/(:any)']           = 'pelanggan/detail_transaksi_pelanggan/$1';
-    $route['pesan_layanan.php']       = 'pelanggan/form_pesan_layanan';
+    $route['pesan_layanan.php']         = 'pelanggan/form_pesan_layanan';
+    $route['add_antrian_pelanggan.php'] = 'pelanggan/proses_tambah_antrian';
+    $route['cari_antrian.php']          = 'pelanggan/cari_antrian';
+    $route['pesanan_saya.php']          = 'pelanggan/pesanan_saya';
 
 //Menu Gudang
     //pembelian

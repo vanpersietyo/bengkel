@@ -59,6 +59,18 @@ class User extends CI_Controller {
                 'history'   => $this->admin_model->cek_data(['no_pelanggan' => $this->session->userdata('no_reg')],'penjualan')->num_rows()
             );
             $this->load->view('templates/layout',$data);
+        }elseif ($level=='pemilik'){
+            $data=array(
+                'page'      => 'pages/dashboard/pemilik',//untuk set path halaman view yang di load
+                'title'     => 'Dashboard', // untuk set title halaman
+                'subtitle'  => $this->session->userdata('username'), // untuk set  subtitle
+                'barang'    => $this->login_model->cek_data("jenis = 'spare_part'",'barang')->num_rows(),
+                'hari_ini'  => $this->admin_model->get_list_penjualan()->num_rows(),
+                'penjualan' => $this->admin_model->laporan_penjualan_barang("status_penjualan in ('4','5') and jenis='spare_part'")->num_rows(),
+                'pembelian' => $this->admin_model->laporan_pembelian_barang("status_pembelian in ('belum_lunas','lunas') and jenis='spare_part'")->num_rows()
+
+            );
+            $this->load->view('templates/layout',$data);
         }else{
             $data=array(
                 'page'=>'pages/dashboard/'.$level,//untuk set path halaman view yang di load
@@ -96,7 +108,7 @@ class User extends CI_Controller {
             'alamat'    => $this->input->post('alamat'),
             'telepon'   => $this->input->post('telepon')
         ];
-        $exist = $this->admin_model->cek_data(['no_registrasi'=>$this->session->userdata('no_reg')],'user');
+        $exist = $this->admin_model->cek_data(['kode_user'=>$this->session->userdata('kode_user')],'user');
         if($exist->num_rows()==0){
             echo "<script type='text/javascript'>
                     $( document ).ready(function() {
@@ -137,7 +149,7 @@ class User extends CI_Controller {
         $current_password   = md5($this->input->post('current_password'));
         $new_password       = $this->input->post('new_password');
         $confirm_password   = $this->input->post('confirm_password');
-        $exist              = $this->admin_model->cek_data(['no_registrasi'=>$this->session->userdata('no_reg')],'user')->row();
+        $exist              = $this->admin_model->cek_data(['kode_user'=>$this->session->userdata('kode_user')],'user')->row();
         $password           = $exist->password;
         if($current_password != $password){
             echo "<script type='text/javascript'>
