@@ -29,9 +29,9 @@ class Superadmin extends CI_Controller {
     public function user()
     {
         $data   = array(
-            'title'     =>'Dashboard',
-            'subtitle'  =>'Superadmin',
-            'page'      =>'pages/master/user/user');
+            'title'     =>'List user',
+            'subtitle'  =>'',
+            'page'      =>'pages/master/user/daftar_user');
         $this->load->view('templates/layout',$data);
     }
 

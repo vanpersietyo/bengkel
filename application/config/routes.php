@@ -39,6 +39,7 @@ $route['master/tambah_kendaraan.do']    = 'admin/proses_add_kendaraan';
 $route['master/delete_kendaraan/(:any)']= 'admin/delete_kendaraan/$1';
 $route['master/edit_kendaraan/(:any)']  = 'admin/edit_kendaraan/$1';
 $route['master/edit_kendaraan.do']      = 'admin/proses_edit_kendaraan';
+$route['master/cari_kendaraan']         = 'admin/cari_kendaraan';
 
 //master kategori barang/
     //layanan

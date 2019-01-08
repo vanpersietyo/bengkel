@@ -79,8 +79,6 @@
                 'excel', 'pdf', 'print'
             ]
         });
-
-
     });
 </script>
 

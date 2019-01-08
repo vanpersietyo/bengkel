@@ -16,21 +16,37 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal" method="post"  action="javascript:void(0)" id="form_add_kendaraan" onsubmit="tambah_kendaraan()">
+            <form class="form-horizontal" method="post" action="javascript:void(0)" id="form_add_kendaraan" onsubmit="tambah_kendaraan()">
                 <div class="box-body">
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <label >Merk</label>
-                            <input type="text" class="form-control" name="merk" id="merk" required="required" placeholder="Merk Kendaraan : Honda, Toyota, Suzuki, dll.">
+
+                            <label>Minimal</label>
+                            <select onchange="cari_kendaraan()" id="merk" data-live-search-placeholder="Cari Merk Mobil" autofocus="autofocus" class="form-control" name="merk" data-show-subtext="true" data-live-search="true">
+                                <?php
+                                /** @var CI_Model $this*/
+                                $merk_kendaraan = $this->admin_model->select_data('merk_kendaraan');
+                                foreach ($merk_kendaraan->result() as $item => $value){?>
+                                    <option value="<?=$value->merk?>"><?=strtoupper($value->merk);?></option>
+                                <?php }
+                                ?>
+                            </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <label >Tipe</label>
-                            <input name="tipe" type="text" class="form-control" required="required" placeholder="Tipe Kendaraan : Brio, Calya, Avanza dll.">
+
+
+                    <div class="result_kendaraan">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label >Tipe</label>
+                                <select data-live-search-placeholder="Cari Tipe Mobil" autofocus="autofocus" class="selectpicker form-control" name="tipe" data-show-subtext="true" data-live-search="true">
+                                <option value=""> Data Kosong </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <div class="col-sm-12">
                             <label >Keterangan</label>
@@ -99,6 +115,7 @@
     //auto focus kolom merk
     $( document ).ready(function() {
         $("#merk").focus();
+        cari_kendaraan();
     });
     //function tambah delete data
     function tambah_kendaraan() {
@@ -128,5 +145,17 @@
                 window.location.href = '<?= site_url('master/delete_kendaraan/')?>'+$id;
             }
         })
+    }
+
+    //function tambah delete data
+    function cari_kendaraan() {
+        $.ajax({
+            url : '<?=site_url('master/cari_kendaraan')?>',
+            data: $('#form_add_kendaraan').serialize(),
+            type: 'POST',
+            success: function (data) {
+                $('.result_kendaraan').html(data);
+            }
+        });
     }
 </script>

@@ -71,6 +71,8 @@ class User extends CI_Controller {
 
             );
             $this->load->view('templates/layout',$data);
+        }elseif ($level=='superadmin'){
+            redirect(site_url('superadmin'));
         }else{
             $data=array(
                 'page'=>'pages/dashboard/'.$level,//untuk set path halaman view yang di load

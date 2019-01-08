@@ -10,8 +10,8 @@
 
 <li class="treeview">
 <li>
-    <a  href="<?=site_url('master/barang')?>">
-        <i class="fa fa-calendar"></i> <span>Register Servis</span>
+    <a  href="<?=site_url('master/user')?>">
+        <i class="fa fa-user"></i> <span>List User</span>
     </a>
 </li>
 

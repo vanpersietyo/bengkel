@@ -18,6 +18,22 @@
             <!-- form start -->
             <form class="form-horizontal" method="post"  action="javascript:void(0)" id="form_add_kendaraan" onsubmit="tambah_kendaraan()">
                 <div class="box-body">
+
+                    <div class="form-group">
+                        <div class="col-sm-12">
+
+                            <label>Minimal</label>
+                            <select onchange="cari_barang()" id="kode_barang" data-live-search-placeholder="Cari Layanan / Spare Part" autofocus="autofocus" class="selectpicker form-control" name="kode_barang" data-show-subtext="true" data-live-search="true">
+                                <option value="">Alabama</option>
+                                <option>Alaska</option>
+                                <option>California</option>
+                                <option>Delaware</option>
+                                <option>Tennessee</option>
+                                <option>Texas</option>
+                                <option>Washington</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Merk</label>
                         <div class="col-sm-10">

@@ -1278,4 +1278,17 @@ class Admin extends CI_Controller {
         $this->load->view('templates/layout',$data);
     }
 
+    /**
+     *
+     */
+    public function cari_kendaraan(){
+        $merk   = $this->input->post('merk');
+        $jenis  = $this->admin_model->cek_data(['merk'=>$merk],'jenis_kendaraan');
+        $data   = [
+            'jenis' => $jenis
+        ];
+        $this->load->view('pages/master/kendaraan/hasil_cari_kendaraan',$data);
+
+    }
+
 }
